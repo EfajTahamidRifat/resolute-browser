@@ -25,11 +25,21 @@ runs:
       run: |
         # Stop building ~65 min before the 355-min job limit, leaving time to save state.
         echo "RES_DEADLINE=$(( $(date +%s) + 290 * 60 ))" >> "$GITHUB_ENV"
-        sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup \
-          /opt/hostedtoolcache/CodeQL /usr/local/share/boost /usr/share/swift \
-          /usr/local/share/powershell /usr/local/julia* /opt/microsoft || true
+        df -h /
+        # Chromium needs nearly the whole disk. Remove every preinstalled toolchain
+        # it doesn't use (Chromium brings its own compiler, JDK and Android SDK).
         sudo docker image prune --all --force > /dev/null 2>&1 || true
-        # /mnt is the largest disk on GitHub's Linux runners.
+        sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup \
+          /opt/hostedtoolcache /usr/local/share/boost /usr/share/swift \
+          /usr/local/share/powershell /usr/local/julia* /opt/microsoft /opt/az \
+          /usr/share/miniconda /usr/local/lib/node_modules /usr/lib/jvm /opt/pipx \
+          /usr/local/share/chromium /opt/google /usr/lib/firefox /usr/lib/mono \
+          /usr/local/aws-cli /usr/local/aws-sam-cli /usr/lib/google-cloud-sdk \
+          /usr/share/az_* /usr/local/share/vcpkg /usr/local/bin/{minikube,kind,helm,pulumi*,terraform,packer,bicep,oc,kubectl,azcopy*} \
+          /etc/skel/.rustup /home/runner/.rustup /home/runner/.cargo /usr/local/n \
+          /usr/share/gradle* /usr/share/apache-maven* /usr/share/kotlinc /usr/share/sbt || true
+        sudo apt-get clean
+        # Chromium's work folder; on current runners /mnt shares the root disk.
         sudo mkdir -p /mnt/res && sudo chown "$USER" /mnt/res
         echo "RES_ROOT=/mnt/res" >> "$GITHUB_ENV"
         echo "RES_WORK=/mnt/res/work" >> "$GITHUB_ENV"

@@ -22,7 +22,9 @@ from this repository and every Web3 service is called directly from the phone.
 ## Build
 
 Every push to `main` builds a debug APK in GitHub Actions. Download it from the
-**Actions** tab, open the latest run, then the `resolute-debug-apk` artifact.
+**Actions** tab, open the latest run, then the `resolute-arm64-v8a` artifact (fits almost every
+modern phone; use `resolute-armeabi-v7a` only for old 32-bit phones). Unzip it and
+install the APK.
 
 Local build: open the project in Android Studio, or run `./gradlew assembleDebug`.
 

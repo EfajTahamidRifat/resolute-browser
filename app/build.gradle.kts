@@ -41,6 +41,17 @@ android {
         }
     }
 
+    // One APK per phone CPU type instead of one huge APK with all of them.
+    // arm64-v8a fits almost every phone sold in the last several years.
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("arm64-v8a", "armeabi-v7a")
+            isUniversalApk = false
+        }
+    }
+
     buildFeatures {
         buildConfig = true
         viewBinding = true

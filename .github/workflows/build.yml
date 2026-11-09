@@ -34,8 +34,16 @@ jobs:
         if: always()
         run: ./gradlew :app:dependencies --configuration debugRuntimeClasspath | grep -m1 geckoview || true
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload APK (most phones)
+        uses: actions/upload-artifact@v4
         with:
-          name: resolute-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          name: resolute-arm64-v8a
+          path: app/build/outputs/apk/debug/*arm64-v8a*.apk
+          retention-days: 14
+
+      - name: Upload APK (older 32-bit phones)
+        uses: actions/upload-artifact@v4
+        with:
+          name: resolute-armeabi-v7a
+          path: app/build/outputs/apk/debug/*armeabi-v7a*.apk
           retention-days: 14

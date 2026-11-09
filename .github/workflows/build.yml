@@ -3,6 +3,10 @@ name: Build APK
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "chromium/**"
+      - ".github/actions/chromium-stage/**"
+      - ".github/workflows/chromium.yml"
   pull_request:
   workflow_dispatch:
 

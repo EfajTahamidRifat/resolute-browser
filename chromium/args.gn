@@ -1,0 +1,24 @@
+# Resolute (Chromium) build arguments. scripts/build.sh appends target_cpu.
+
+target_os = "android"
+is_debug = false
+is_component_build = false
+
+# No debug symbols: much smaller build output, which matters on CI runners.
+symbol_level = 0
+blink_symbol_level = 0
+v8_symbol_level = 0
+
+# Chromium builds its extension system for Android in the "desktop Android"
+# configuration. This is what enables Chrome Web Store extensions.
+is_desktop_android = true
+
+# Media codecs (H.264, AAC, ...) like Chrome.
+proprietary_codecs = true
+ffmpeg_branding = "Chrome"
+
+# Use features' default states, not Google's field-trial experiments.
+disable_fieldtrial_testing_config = true
+
+# Resolute's Android package name.
+chrome_public_manifest_package = "com.resolute.browser"

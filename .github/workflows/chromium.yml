@@ -1,0 +1,147 @@
+# Builds Resolute on Chromium (with Chrome Web Store extension support) on free
+# GitHub runners. A full build takes longer than one job may run (6 h), so it runs
+# as up to 8 chained stages; each saves its progress for the next.
+#
+# Starts when files in chromium/ change, or manually from the Actions tab.
+name: Build Chromium APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "chromium/**"
+      - ".github/actions/chromium-stage/**"
+      - ".github/workflows/chromium.yml"
+
+concurrency:
+  group: chromium-build
+  cancel-in-progress: true
+
+jobs:
+  stage1:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    outputs:
+      done: ${{ steps.stage.outputs.done }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: stage
+        uses: ./.github/actions/chromium-stage
+        with:
+          cpu: arm64
+          resume: "false"
+
+  stage2:
+    needs: stage1
+    if: ${{ !cancelled() && needs.stage1.outputs.done == 'false' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    outputs:
+      done: ${{ steps.stage.outputs.done }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: stage
+        uses: ./.github/actions/chromium-stage
+        with:
+          cpu: arm64
+          resume: "true"
+
+  stage3:
+    needs: stage2
+    if: ${{ !cancelled() && needs.stage2.outputs.done == 'false' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    outputs:
+      done: ${{ steps.stage.outputs.done }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: stage
+        uses: ./.github/actions/chromium-stage
+        with:
+          cpu: arm64
+          resume: "true"
+
+  stage4:
+    needs: stage3
+    if: ${{ !cancelled() && needs.stage3.outputs.done == 'false' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    outputs:
+      done: ${{ steps.stage.outputs.done }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: stage
+        uses: ./.github/actions/chromium-stage
+        with:
+          cpu: arm64
+          resume: "true"
+
+  stage5:
+    needs: stage4
+    if: ${{ !cancelled() && needs.stage4.outputs.done == 'false' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    outputs:
+      done: ${{ steps.stage.outputs.done }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: stage
+        uses: ./.github/actions/chromium-stage
+        with:
+          cpu: arm64
+          resume: "true"
+
+  stage6:
+    needs: stage5
+    if: ${{ !cancelled() && needs.stage5.outputs.done == 'false' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    outputs:
+      done: ${{ steps.stage.outputs.done }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: stage
+        uses: ./.github/actions/chromium-stage
+        with:
+          cpu: arm64
+          resume: "true"
+
+  stage7:
+    needs: stage6
+    if: ${{ !cancelled() && needs.stage6.outputs.done == 'false' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    outputs:
+      done: ${{ steps.stage.outputs.done }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: stage
+        uses: ./.github/actions/chromium-stage
+        with:
+          cpu: arm64
+          resume: "true"
+
+  stage8:
+    needs: stage7
+    if: ${{ !cancelled() && needs.stage7.outputs.done == 'false' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    outputs:
+      done: ${{ steps.stage.outputs.done }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: stage
+        uses: ./.github/actions/chromium-stage
+        with:
+          cpu: arm64
+          resume: "true"
+
+  not-finished:
+    needs: stage8
+    if: ${{ !cancelled() && needs.stage8.outputs.done == 'false' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "::error::Build did not finish in 8 stages."
+          exit 1

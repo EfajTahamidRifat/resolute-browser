@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "version": 1,
+  "updated": "2026-11-10",
+  "notice": {
+    "enabled": true,
+    "title": "The Resolute team will never DM you first",
+    "body": "Official accounts: X @et_rifat. Never share your seed phrase or private key with anyone, including people claiming to be Resolute support.",
+    "show_on": ["explore", "settings"]
+  },
+  "disclosure": "Partner links. Resolute may earn a commission at no extra cost to you.",
+  "groups": [
+    { "id": "trade", "title": "Trade", "risk_warning": "Trading memecoins, perps and leveraged products is high-risk. Only use money you can afford to lose." },
+    { "id": "cards", "title": "Cards & Payments", "risk_warning": null },
+    { "id": "tools", "title": "Tools", "risk_warning": null }
+  ],
+  "partners": [
+    {
+      "id": "gmgn",
+      "name": "GMGN",
+      "group": "trade",
+      "description": "Solana memecoin trading terminal",
+      "url": "https://gmgn.ai/r/Resolute",
+      "risk": "high",
+      "newtab_tile": true,
+      "enabled": true
+    },
+    {
+      "id": "asterdex",
+      "name": "Aster",
+      "group": "trade",
+      "description": "Perpetuals DEX",
+      "url": "https://www.asterdex.com/en/referral/f4970f",
+      "risk": "high",
+      "newtab_tile": true,
+      "enabled": true
+    },
+    {
+      "id": "universalx",
+      "name": "UniversalX",
+      "group": "trade",
+      "description": "Cross-chain trading app",
+      "url": "https://universalx.app?inviteCode=X77ZQX",
+      "risk": "high",
+      "newtab_tile": false,
+      "enabled": true
+    },
+    {
+      "id": "arcus",
+      "name": "Arcus",
+      "group": "trade",
+      "description": "Spot and futures exchange",
+      "url": "https://app.arcus.xyz/ref/RESOLUTE",
+      "risk": "high",
+      "newtab_tile": false,
+      "enabled": true
+    },
+    {
+      "id": "binance",
+      "name": "Binance",
+      "group": "trade",
+      "description": "Centralized exchange (KYC required, not available in all countries)",
+      "url": "https://account.binance.com/register?ref=887005809&registerChannel=user_center",
+      "risk": "medium",
+      "newtab_tile": true,
+      "enabled": true
+    },
+    {
+      "id": "longbow",
+      "name": "Longbow",
+      "group": "tools",
+      "description": "DeFi app",
+      "url": "https://longbow.finance?ref=ZZGXH4P",
+      "risk": "medium",
+      "newtab_tile": false,
+      "enabled": true
+    },
+    {
+      "id": "ezmanager",
+      "name": "EZ Manager",
+      "group": "tools",
+      "description": "DeFi portfolio manager",
+      "url": "https://ezmanager.finance/r/0x0357515b07b9581e04d0d890126f44bd2cf4970f",
+      "risk": "medium",
+      "newtab_tile": false,
+      "enabled": true
+    },
+    {
+      "id": "redotpay",
+      "name": "RedotPay",
+      "group": "cards",
+      "description": "Spend crypto with a card (KYC required)",
+      "url": "https://url.hk/i/en/z9rfj",
+      "risk": "low",
+      "newtab_tile": true,
+      "enabled": true
+    },
+    {
+      "id": "nsave",
+      "name": "nsave",
+      "group": "cards",
+      "description": "USD account abroad, international payments (KYC required)",
+      "url": "https://web.nsave.com/invite/rashed_dewan5",
+      "risk": "low",
+      "newtab_tile": false,
+      "enabled": true
+    },
+    {
+      "id": "hostinger",
+      "name": "Hostinger",
+      "group": "tools",
+      "description": "VPS hosting for running nodes (testnets, airdrop nodes, validators)",
+      "url": "https://www.hostinger.com?REFERRALCODE=IOGEFAJTAFIJ",
+      "risk": "low",
+      "newtab_tile": false,
+      "enabled": true
+    }
+  ],
+  "signature": "SIGN_BEFORE_PUBLISHING"
+}

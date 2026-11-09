@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="surface">#0D0D0F</color>
+    <color name="surface_raised">#1A1A1F</color>
+    <color name="on_surface">#F2F2F4</color>
+    <color name="on_surface_muted">#9A9AA3</color>
+
+    <style name="Theme.Resolute" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/resolute_red</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="android:colorBackground">@color/surface</item>
+        <item name="android:statusBarColor">@color/surface</item>
+        <item name="android:navigationBarColor">@color/surface</item>
+    </style>
+</resources>

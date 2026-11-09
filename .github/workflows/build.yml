@@ -1,0 +1,41 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build debug APK
+        env:
+          HELIUS_RPC_URL: ${{ secrets.HELIUS_RPC_URL }}
+          ALCHEMY_RPC_URL: ${{ secrets.ALCHEMY_RPC_URL }}
+          LIFI_API_KEY: ${{ secrets.LIFI_API_KEY }}
+          REOWN_PROJECT_ID: ${{ secrets.REOWN_PROJECT_ID }}
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --stacktrace
+
+      - name: Show resolved GeckoView version
+        if: always()
+        run: ./gradlew :app:dependencies --configuration debugRuntimeClasspath | grep -m1 geckoview || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: resolute-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          retention-days: 14

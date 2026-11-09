@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Resolute</string>
+    <string name="url_hint">Search or enter address</string>
+    <string name="back">Back</string>
+    <string name="forward">Forward</string>
+    <string name="reload">Reload</string>
+    <string name="menu">Menu</string>
+    <string name="menu_install_extension">Install extension</string>
+    <string name="menu_extensions">Extensions</string>
+    <string name="menu_get_addons">Browse Firefox add-ons</string>
+    <string name="install_extension_hint">Firefox add-on page or .xpi link</string>
+    <string name="install">Install</string>
+    <string name="cancel">Cancel</string>
+    <string name="remove">Remove</string>
+    <string name="close">Close</string>
+    <string name="no_extensions">No extensions installed yet.</string>
+    <string name="installed_x">Installed %1$s</string>
+    <string name="install_failed">Could not install: %1$s</string>
+    <string name="removed_x">Removed %1$s</string>
+    <string name="install_prompt_title">Add %1$s?</string>
+    <string name="install_prompt_body">It requests these permissions:\n%1$s</string>
+    <string name="install_prompt_no_perms">It requests no special permissions.</string>
+    <string name="add">Add</string>
+</resources>

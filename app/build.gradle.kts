@@ -2,7 +2,6 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
 }
 
 // Keys come from environment variables (GitHub Actions secrets) or, for local
@@ -16,7 +15,7 @@ fun secret(name: String): String =
 
 android {
     namespace = "com.resolute.browser"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.resolute.browser"
@@ -53,13 +52,10 @@ android {
     }
 }
 
-kotlin {
-    jvmToolchain(17)
-}
 
 dependencies {
-    // Latest GeckoView release. Pin to the exact version once the first build resolves it.
-    implementation("org.mozilla.geckoview:geckoview:[146.0,)")
+    // GeckoView (Firefox engine). Update this version regularly for security fixes.
+    implementation("org.mozilla.geckoview:geckoview:159.0.20261102144711")
 
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")

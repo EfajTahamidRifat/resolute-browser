@@ -258,7 +258,10 @@ Roadmap after the first working APK:
 6. Workspaces and new tab switcher
 7. Desktop mode polish (tab strip, split view, shortcuts)
 8. Faster rebuilds (compiler cache), release signing, automated emulator tests
-9. Explore page, LI.FI + Jupiter swap with visible fees, signed config
+9. Partners: a "Partners" row on every new tab (tiles with `newtab_tile: true`
+   in `config/partners.json`, "See all" opens Explore) + full Explore page
+   (groups, risk labels, disclosure, official accounts, Hire us); LI.FI +
+   Jupiter swap with visible fees; signed config
 10. Encrypted sync through the user's own storage (no server)
 
 Business model: swap/perps integrator fees, partner links (disclosed),

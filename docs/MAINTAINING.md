@@ -211,9 +211,9 @@ Before the first public release:
      (Resolute collects nothing), content rating, store listing and screenshots.
    - Crypto features: check Play's current crypto exchange / wallet policy
      before shipping swap. Play v1 ships without swap.
-   - Node Mode in v1 is Play-safe (runs while the app is open + "Node Dock"
-     screen-on mode while charging). Always-on background Node Mode (foreground
-     service with clear disclosure) comes in a later update.
+   - Background features limited to the Play-accepted list in the roadmap
+     (media playback, PiP, downloads, scheduled list refresh, notifications).
+     Node Mode is postponed.
 
 ---
 
@@ -294,13 +294,19 @@ Roadmap after the first working APK:
    (groups, risk labels, disclosure, official accounts, Hire us); LI.FI +
    Jupiter swap with visible fees; signed config
 10. Encrypted sync through the user's own storage (no server)
-11. **Node Mode** for extension-based nodes (DePIN / airdrop node extensions):
-    v1 Play-safe (runs while open + Node Dock while charging), later always-on
-    background running with a persistent notification, node
-    dashboard (status, uptime, data, battery), Wi-Fi-only / data cap /
-    battery and heat limits, auto-recovery, run-while-charging. A "Nodes"
-    group in Resolute Picks (vetted projects only). No multi-account farming
-    features.
+11. **Background features Play accepts** (each uses a standard, declared
+    Android mechanism):
+    - Background audio/video playback with screen off + media notification
+      (foreground service type `mediaPlayback`)
+    - Picture-in-picture video
+    - Downloads that continue in the background (Chromium download service,
+      `dataSync`), pause/resume, Wi-Fi-only option
+    - Daily background refresh of scam/phishing lists, filter lists and
+      `config/*.json` via WorkManager (no server, battery-friendly)
+    - Local notifications: download done, reminders
+    - Web push notifications from sites (needs a free Firebase project; later)
+    Declare every foreground service type in the Play Console declaration form.
+12. Node Mode (always-on extension nodes): **postponed** (2026-11-10).
 
 Business model: swap/perps integrator fees, partner links (disclosed),
 Resolute Pro (one-time), grants, white-label builds. No injected ads.
@@ -319,8 +325,10 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 
 - 2026-11-10: Decided one build only, **Google Play first**. Play v1: browser,
   Chrome Web Store extensions, Resolute UI, Resolute Picks, trust/scam
-  protection, Node Dock. Later: X-ray, workspaces, swap (after policy check),
-  always-on Node Mode.
+  protection. Later: X-ray, workspaces, swap (after policy check).
+- 2026-11-10: Node Mode postponed. Added Play-accepted background features
+  (background media + PiP, background downloads, daily list refresh,
+  notifications) to the roadmap.
 
 Add a line here after every build or release.
 

@@ -317,6 +317,18 @@ Roadmap after the first working APK:
     but they don't appear in the app drawer list or as share targets.
     A Resolute WebAPK service would need a server: not planned.
 13. Node Mode (always-on extension nodes): **postponed** (2026-11-10).
+14. **Windows version (phase 2, after Android v1 launches).** Same Chromium
+    version and config; desktop Chromium supports Chrome Web Store extensions
+    natively. Needs: a separate chained build on GitHub's free Windows runners
+    (first build roughly 2-3 days), Resolute's desktop UI patches (C++ Views /
+    WebUI, same design), an updater (GitHub Releases check, or Microsoft Store),
+    and code signing (SignPath Foundation for open source, or Microsoft Store).
+    Node Mode returns here as the headline desktop feature.
+
+**Rule from now on:** build Resolute features (new tab, Resolute Picks, Explore,
+Transaction X-ray, trust/scam protection, swap) as **web pages or a built-in
+extension**, not Android-only Java, wherever possible, so Android and Windows
+share the same code.
 
 Business model: swap/perps integrator fees, partner links (disclosed),
 Resolute Pro (one-time), grants, white-label builds. No injected ads.
@@ -340,6 +352,8 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
   (background media + PiP, background downloads, daily list refresh,
   notifications) to the roadmap.
 - 2026-11-10: PWA install (standalone home-screen web apps) added to the roadmap.
+- 2026-11-10: Windows version planned as phase 2; features to be built as
+  shared web code.
 
 Add a line here after every build or release.
 

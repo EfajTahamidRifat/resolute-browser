@@ -8,6 +8,7 @@ on:
       - ".github/actions/chromium-stage/**"
       - ".github/workflows/chromium.yml"
       - "docs/**"
+      - "config/**"
       - "**/*.md"
   pull_request:
   workflow_dispatch:

@@ -1,0 +1,43 @@
+# Captures each Resolute Pick's website icon into config/icons/ (no server).
+name: Update Pick icons
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * 1"   # weekly, Monday 03:17 UTC
+  push:
+    branches: [main]
+    paths:
+      - "config/partners.json"
+      - "config/scripts/fetch_icons.py"
+      - ".github/workflows/pick-icons.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pick-icons
+  cancel-in-progress: true
+
+jobs:
+  icons:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests pillow
+      - run: python config/scripts/fetch_icons.py
+      - name: Commit changed icons
+        run: |
+          git config user.name "resolute-bot"
+          git config user.email "resolute-bot@users.noreply.github.com"
+          git add config/icons config/partners.json
+          if git diff --cached --quiet; then
+            echo "Icons unchanged"
+          else
+            git commit -m "Update Pick icons"
+            git push
+          fi

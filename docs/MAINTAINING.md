@@ -241,7 +241,13 @@ partner portal, Reown (WalletConnect). Later: Google Play Console, F-Droid.
   commission. **Off for every partner by default**: read that partner's
   affiliate terms (some ban browser/software prompts), then set
   `terms_checked: true` and `enabled: true`. Fill `user_benefit` if the referral
-  gives the user something (e.g. a fee discount). Edit, (sign), push: users get it
+  gives the user something (e.g. a fee discount).
+- Pick icons: `.github/workflows/pick-icons.yml` runs
+  `config/scripts/fetch_icons.py` (on partners.json changes, weekly, or by
+  hand). It visits each partner site, keeps its best icon as a 128 px PNG in
+  `config/icons/<id>.png` and sets the partner's `icon` field. Sites that block
+  it keep their previous icon; the app falls back to a letter tile. To use an
+  official brand-kit icon instead, replace the PNG by hand (same file name). Edit, (sign), push: users get it
   without an app update.
 - `config/revenue.json`: swap fee settings.
 - **To do:** sign both files with an Ed25519 key kept only on the owner's

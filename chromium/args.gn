@@ -21,6 +21,11 @@ ffmpeg_branding = "Chrome"
 android_static_analysis = "off"
 treat_warnings_as_errors = false
 
+# Build with Ninja, not Siso. Our CI resumes a half-finished build in the next
+# stage from the saved out/ folder; Ninja trusts file timestamps for that, while
+# local Siso rebuilt everything from zero in each stage.
+use_siso = false
+
 # Use features' default states, not Google's field-trial experiments.
 disable_fieldtrial_testing_config = true
 

@@ -6,18 +6,59 @@
     "enabled": true,
     "title": "The Resolute team will never DM you first",
     "body": "Official accounts: X @et_rifat, Facebook /dewanefajtahamid. Never share your seed phrase or private key with anyone, including people claiming to be Resolute support.",
-    "show_on": ["explore", "settings"]
+    "show_on": [
+      "explore",
+      "settings"
+    ]
   },
   "official": {
     "built_by": "Efaj Tahamid Rifat",
-    "show_on": ["about", "newtab_footer", "explore_footer"],
-    "hire": { "label": "Hire us: custom browsers, Web3 apps & bots", "url": "https://efajtahamid.monster", "enabled": true },
+    "show_on": [
+      "about",
+      "newtab_footer",
+      "explore_footer"
+    ],
+    "hire": {
+      "label": "Hire us: custom browsers, Web3 apps & bots",
+      "url": "https://efajtahamid.monster",
+      "enabled": true
+    },
     "links": [
-      { "id": "x", "name": "X", "handle": "@et_rifat", "url": "https://x.com/et_rifat", "enabled": true },
-      { "id": "github", "name": "GitHub", "handle": "EfajTahamidRifat", "url": "https://github.com/EfajTahamidRifat/resolute-browser", "enabled": true },
-      { "id": "website", "name": "Website", "handle": "efajtahamid.monster", "url": "https://efajtahamid.monster", "enabled": true },
-      { "id": "facebook", "name": "Facebook", "handle": "dewanefajtahamid", "url": "https://www.facebook.com/dewanefajtahamid", "enabled": true },
-      { "id": "telegram", "name": "Telegram", "handle": "SET_ME", "url": "SET_TELEGRAM_URL", "enabled": false }
+      {
+        "id": "x",
+        "name": "X",
+        "handle": "@et_rifat",
+        "url": "https://x.com/et_rifat",
+        "enabled": true
+      },
+      {
+        "id": "github",
+        "name": "GitHub",
+        "handle": "EfajTahamidRifat",
+        "url": "https://github.com/EfajTahamidRifat/resolute-browser",
+        "enabled": true
+      },
+      {
+        "id": "website",
+        "name": "Website",
+        "handle": "efajtahamid.monster",
+        "url": "https://efajtahamid.monster",
+        "enabled": true
+      },
+      {
+        "id": "facebook",
+        "name": "Facebook",
+        "handle": "dewanefajtahamid",
+        "url": "https://www.facebook.com/dewanefajtahamid",
+        "enabled": true
+      },
+      {
+        "id": "telegram",
+        "name": "Telegram",
+        "handle": "SET_ME",
+        "url": "SET_TELEGRAM_URL",
+        "enabled": false
+      }
     ]
   },
   "labels": {
@@ -25,11 +66,23 @@
     "see_all": "See all",
     "badge": "Pick"
   },
-  "disclosure":"Partner links. Resolute may earn a commission at no extra cost to you.",
+  "disclosure": "Partner links. Resolute may earn a commission at no extra cost to you.",
   "groups": [
-    { "id": "trade", "title": "Trade", "risk_warning": "Trading memecoins, perps and leveraged products is high-risk. Only use money you can afford to lose." },
-    { "id": "cards", "title": "Cards & Payments", "risk_warning": null },
-    { "id": "tools", "title": "Tools", "risk_warning": null }
+    {
+      "id": "trade",
+      "title": "Trade",
+      "risk_warning": "Trading memecoins, perps and leveraged products is high-risk. Only use money you can afford to lose."
+    },
+    {
+      "id": "cards",
+      "title": "Cards & Payments",
+      "risk_warning": null
+    },
+    {
+      "id": "tools",
+      "title": "Tools",
+      "risk_warning": null
+    }
   ],
   "partners": [
     {
@@ -40,7 +93,24 @@
       "url": "https://gmgn.ai/r/Resolute",
       "risk": "high",
       "newtab_tile": true,
-      "enabled": true
+      "enabled": true,
+      "referral_prompt": {
+        "enabled": false,
+        "terms_checked": false,
+        "user_benefit": null,
+        "domains": [
+          "gmgn.ai"
+        ],
+        "signup_paths": [
+          "/signup",
+          "/register",
+          "/login"
+        ],
+        "ref_params": [
+          "ref",
+          "r"
+        ]
+      }
     },
     {
       "id": "asterdex",
@@ -50,7 +120,23 @@
       "url": "https://www.asterdex.com/en/referral/f4970f",
       "risk": "high",
       "newtab_tile": true,
-      "enabled": true
+      "enabled": true,
+      "referral_prompt": {
+        "enabled": false,
+        "terms_checked": false,
+        "user_benefit": null,
+        "domains": [
+          "asterdex.com"
+        ],
+        "signup_paths": [
+          "/register",
+          "/signup"
+        ],
+        "ref_params": [
+          "ref",
+          "referral"
+        ]
+      }
     },
     {
       "id": "universalx",
@@ -60,7 +146,22 @@
       "url": "https://universalx.app?inviteCode=X77ZQX",
       "risk": "high",
       "newtab_tile": false,
-      "enabled": true
+      "enabled": true,
+      "referral_prompt": {
+        "enabled": false,
+        "terms_checked": false,
+        "user_benefit": null,
+        "domains": [
+          "universalx.app"
+        ],
+        "signup_paths": [
+          "/",
+          "/signup"
+        ],
+        "ref_params": [
+          "inviteCode"
+        ]
+      }
     },
     {
       "id": "arcus",
@@ -70,7 +171,22 @@
       "url": "https://app.arcus.xyz/ref/RESOLUTE",
       "risk": "high",
       "newtab_tile": false,
-      "enabled": true
+      "enabled": true,
+      "referral_prompt": {
+        "enabled": false,
+        "terms_checked": false,
+        "user_benefit": null,
+        "domains": [
+          "arcus.xyz"
+        ],
+        "signup_paths": [
+          "/signup",
+          "/register"
+        ],
+        "ref_params": [
+          "ref"
+        ]
+      }
     },
     {
       "id": "binance",
@@ -80,7 +196,22 @@
       "url": "https://account.binance.com/register?ref=887005809&registerChannel=user_center",
       "risk": "medium",
       "newtab_tile": true,
-      "enabled": true
+      "enabled": true,
+      "referral_prompt": {
+        "enabled": false,
+        "terms_checked": false,
+        "user_benefit": null,
+        "domains": [
+          "binance.com"
+        ],
+        "signup_paths": [
+          "/register",
+          "/en/register"
+        ],
+        "ref_params": [
+          "ref"
+        ]
+      }
     },
     {
       "id": "longbow",
@@ -90,7 +221,21 @@
       "url": "https://longbow.finance?ref=ZZGXH4P",
       "risk": "medium",
       "newtab_tile": false,
-      "enabled": true
+      "enabled": true,
+      "referral_prompt": {
+        "enabled": false,
+        "terms_checked": false,
+        "user_benefit": null,
+        "domains": [
+          "longbow.finance"
+        ],
+        "signup_paths": [
+          "/"
+        ],
+        "ref_params": [
+          "ref"
+        ]
+      }
     },
     {
       "id": "ezmanager",
@@ -100,7 +245,22 @@
       "url": "https://ezmanager.finance/r/0x0357515b07b9581e04d0d890126f44bd2cf4970f",
       "risk": "medium",
       "newtab_tile": false,
-      "enabled": true
+      "enabled": true,
+      "referral_prompt": {
+        "enabled": false,
+        "terms_checked": false,
+        "user_benefit": null,
+        "domains": [
+          "ezmanager.finance"
+        ],
+        "signup_paths": [
+          "/"
+        ],
+        "ref_params": [
+          "r",
+          "ref"
+        ]
+      }
     },
     {
       "id": "redotpay",
@@ -110,7 +270,23 @@
       "url": "https://url.hk/i/en/z9rfj",
       "risk": "low",
       "newtab_tile": true,
-      "enabled": true
+      "enabled": true,
+      "referral_prompt": {
+        "enabled": false,
+        "terms_checked": false,
+        "user_benefit": null,
+        "domains": [
+          "redotpay.com"
+        ],
+        "signup_paths": [
+          "/register",
+          "/signup"
+        ],
+        "ref_params": [
+          "referralCode",
+          "ref"
+        ]
+      }
     },
     {
       "id": "nsave",
@@ -120,7 +296,23 @@
       "url": "https://web.nsave.com/invite/rashed_dewan5",
       "risk": "low",
       "newtab_tile": false,
-      "enabled": true
+      "enabled": true,
+      "referral_prompt": {
+        "enabled": false,
+        "terms_checked": false,
+        "user_benefit": null,
+        "domains": [
+          "nsave.com"
+        ],
+        "signup_paths": [
+          "/signup",
+          "/invite"
+        ],
+        "ref_params": [
+          "invite",
+          "ref"
+        ]
+      }
     },
     {
       "id": "hostinger",
@@ -130,8 +322,35 @@
       "url": "https://www.hostinger.com?REFERRALCODE=IOGEFAJTAFIJ",
       "risk": "low",
       "newtab_tile": false,
-      "enabled": true
+      "enabled": true,
+      "referral_prompt": {
+        "enabled": false,
+        "terms_checked": false,
+        "user_benefit": null,
+        "domains": [
+          "hostinger.com"
+        ],
+        "signup_paths": [
+          "/register",
+          "/cart"
+        ],
+        "ref_params": [
+          "REFERRALCODE"
+        ]
+      }
     }
   ],
-  "signature": "SIGN_BEFORE_PUBLISHING"
+  "signature": "SIGN_BEFORE_PUBLISHING",
+  "referral_prompt": {
+    "enabled": true,
+    "only_on_signup_pages": true,
+    "never_override_existing_referral": true,
+    "max_prompts_per_site": 1,
+    "user_can_disable_in_settings": true,
+    "title": "Signing up for {name}?",
+    "body": "Use Resolute's referral link to support Resolute. Resolute earns a commission; you pay nothing extra.",
+    "accept": "Use Resolute link",
+    "decline": "No thanks",
+    "never_ask": "Don't ask again for any site"
+  }
 }

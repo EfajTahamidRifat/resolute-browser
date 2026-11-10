@@ -233,7 +233,15 @@ partner portal, Reown (WalletConnect). Later: Google Play Console, F-Droid.
   accounts and "Hire us" link shown in About, new-tab footer and Explore footer;
   Telegram is a placeholder, set the URL and `enabled: true`). `labels` sets
   the words shown (section title, "See all", badge); the `disclosure` line must
-  always stay visible because Resolute earns commission from these links. Edit, (sign), push: users get it
+  always stay visible because Resolute earns commission from these links.
+- Referral prompt (`referral_prompt` in `partners.json`): when a user opens a
+  Pick's **sign-up page** on their own, Resolute may offer once: "Use Resolute
+  link / No thanks". Never shown if the page already carries someone's referral
+  code, max once per site, global off switch in Settings, always discloses the
+  commission. **Off for every partner by default**: read that partner's
+  affiliate terms (some ban browser/software prompts), then set
+  `terms_checked: true` and `enabled: true`. Fill `user_benefit` if the referral
+  gives the user something (e.g. a fee discount). Edit, (sign), push: users get it
   without an app update.
 - `config/revenue.json`: swap fee settings.
 - **To do:** sign both files with an Ed25519 key kept only on the owner's

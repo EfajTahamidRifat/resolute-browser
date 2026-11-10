@@ -110,7 +110,8 @@
           "ref",
           "r"
         ]
-      }
+      },
+      "icon": "icons/gmgn.png"
     },
     {
       "id": "asterdex",
@@ -136,7 +137,8 @@
           "ref",
           "referral"
         ]
-      }
+      },
+      "icon": "icons/asterdex.png"
     },
     {
       "id": "universalx",
@@ -161,7 +163,8 @@
         "ref_params": [
           "inviteCode"
         ]
-      }
+      },
+      "icon": "icons/universalx.png"
     },
     {
       "id": "arcus",
@@ -186,7 +189,8 @@
         "ref_params": [
           "ref"
         ]
-      }
+      },
+      "icon": "icons/arcus.png"
     },
     {
       "id": "binance",
@@ -211,7 +215,8 @@
         "ref_params": [
           "ref"
         ]
-      }
+      },
+      "icon": null
     },
     {
       "id": "longbow",
@@ -235,7 +240,8 @@
         "ref_params": [
           "ref"
         ]
-      }
+      },
+      "icon": "icons/longbow.png"
     },
     {
       "id": "ezmanager",
@@ -260,7 +266,8 @@
           "r",
           "ref"
         ]
-      }
+      },
+      "icon": "icons/ezmanager.png"
     },
     {
       "id": "redotpay",
@@ -286,7 +293,8 @@
           "referralCode",
           "ref"
         ]
-      }
+      },
+      "icon": "icons/redotpay.png"
     },
     {
       "id": "nsave",
@@ -312,7 +320,8 @@
           "invite",
           "ref"
         ]
-      }
+      },
+      "icon": "icons/nsave.png"
     },
     {
       "id": "hostinger",
@@ -337,7 +346,8 @@
         "ref_params": [
           "REFERRALCODE"
         ]
-      }
+      },
+      "icon": "icons/hostinger.png"
     }
   ],
   "signature": "SIGN_BEFORE_PUBLISHING",

@@ -20,7 +20,12 @@
       { "id": "telegram", "name": "Telegram", "handle": "SET_ME", "url": "SET_TELEGRAM_URL", "enabled": false }
     ]
   },
-  "disclosure": "Partner links. Resolute may earn a commission at no extra cost to you.",
+  "labels": {
+    "section_title": "Partners",
+    "see_all": "See all",
+    "badge": "Partner"
+  },
+  "disclosure":"Partner links. Resolute may earn a commission at no extra cost to you.",
   "groups": [
     { "id": "trade", "title": "Trade", "risk_warning": "Trading memecoins, perps and leveraged products is high-risk. Only use money you can afford to lose." },
     { "id": "cards", "title": "Cards & Payments", "risk_warning": null },

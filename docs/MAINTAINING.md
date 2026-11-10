@@ -231,7 +231,9 @@ partner portal, Reown (WalletConnect). Later: Google Play Console, F-Droid.
 - `config/partners.json`: Explore page partner links, groups, on/off per
   partner, the "never DM you first" notice, and `official` (owner's social
   accounts and "Hire us" link shown in About, new-tab footer and Explore footer;
-  Telegram is a placeholder, set the URL and `enabled: true`). Edit, (sign), push: users get it
+  Telegram is a placeholder, set the URL and `enabled: true`). `labels` sets
+  the words shown (section title, "See all", badge); the `disclosure` line must
+  always stay visible because Resolute earns commission from these links. Edit, (sign), push: users get it
   without an app update.
 - `config/revenue.json`: swap fee settings.
 - **To do:** sign both files with an Ed25519 key kept only on the owner's

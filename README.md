@@ -1,5 +1,8 @@
 # Resolute Browser
 
+> **Maintainers:** start with [docs/MAINTAINING.md](docs/MAINTAINING.md): how to
+> build, update Chromium every month, add features and release.
+
 The safe browser for Web3. Free, open-source, no injected ads, no tracking.
 
 Resolute is an Android browser built on **GeckoView** (Firefox's engine) with extension

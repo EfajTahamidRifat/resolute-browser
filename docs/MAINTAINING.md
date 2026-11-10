@@ -199,7 +199,12 @@ Before the first public release:
    `android_keystore_*` GN args into the workflow (to do).
 4. App ID is `com.resolute.browser` (`chromium/args.gn`). It becomes permanent
    once published on Google Play.
-5. Publish APK on GitHub Releases; later Google Play ($25 account) and F-Droid.
+5. **Distribution decision (2026-11-10): one build only, published on GitHub
+   Releases + the website**, with all features including always-on Node Mode,
+   so releases never wait on Google Play review. Add an in-app "update
+   available" check against GitHub Releases (no server). Tell users to download
+   only from GitHub / the official site. A separate Play Store build may come
+   later (Node Mode limited to while-the-app-is-open, different app ID).
 
 ---
 
@@ -280,6 +285,12 @@ Roadmap after the first working APK:
    (groups, risk labels, disclosure, official accounts, Hire us); LI.FI +
    Jupiter swap with visible fees; signed config
 10. Encrypted sync through the user's own storage (no server)
+11. **Node Mode** for extension-based nodes (DePIN / airdrop node extensions):
+    always-on background running with a persistent notification, node
+    dashboard (status, uptime, data, battery), Wi-Fi-only / data cap /
+    battery and heat limits, auto-recovery, run-while-charging. A "Nodes"
+    group in Resolute Picks (vetted projects only). No multi-account farming
+    features.
 
 Business model: swap/perps integrator fees, partner links (disclosed),
 Resolute Pro (one-time), grants, white-label builds. No injected ads.
@@ -295,6 +306,9 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 
 - 2026-11-10: Market research added (`docs/MARKET.md`). Positioning: power-user
   browser with the best Web3 safety, not "only a crypto browser". MV3 first.
+
+- 2026-11-10: Decided one build only, distributed via GitHub Releases (no Play
+  Store for now). Node Mode added to the roadmap.
 
 Add a line here after every build or release.
 

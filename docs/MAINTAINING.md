@@ -202,7 +202,12 @@ Before the first public release:
 5. **Distribution decision (2026-11-10, final): one build, published on
    Google Play first.** Everything must pass Play review. Updates go through
    Play (no self-updater). Use Play App Signing; keep the upload key backed up.
-6. Google Play checklist:
+6. **Publisher (2026-11-10): The Code Bros' Google Play Console.** The app can
+   be moved later with Play's app transfer (users, reviews, installs, app ID
+   and Play App Signing key all move; both accounts must be in good standing).
+   If The Code Bros' account is an organization account, the 12-testers /
+   14-days closed-test rule does not apply.
+7. Google Play checklist:
    - Developer account: $25 one-time, needs a card (dual-currency debit card or
      a virtual card works); identity and address verification.
    - New personal accounts must run a **closed test with at least 12 testers

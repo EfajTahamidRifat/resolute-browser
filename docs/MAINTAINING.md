@@ -306,7 +306,17 @@ Roadmap after the first working APK:
     - Local notifications: download done, reminders
     - Web push notifications from sites (needs a free Firebase project; later)
     Declare every foreground service type in the Play Console declaration form.
-12. Node Mode (always-on extension nodes): **postponed** (2026-11-10).
+12. **PWA / web apps**: "Install app" for sites with a web app manifest
+    (address-bar install button + menu item). Installed apps open standalone
+    (no browser UI), with the site's icon, name, theme colour and splash
+    screen, and work offline through service workers. Also an "Apps" section
+    on the new tab and in Settings to manage them.
+    Limitation: Chrome installs PWAs as real apps ("WebAPKs") using Google's
+    WebAPK server, which other Chromium browsers can't use. Resolute installs
+    them as home-screen shortcuts that open standalone: same look and feel,
+    but they don't appear in the app drawer list or as share targets.
+    A Resolute WebAPK service would need a server: not planned.
+13. Node Mode (always-on extension nodes): **postponed** (2026-11-10).
 
 Business model: swap/perps integrator fees, partner links (disclosed),
 Resolute Pro (one-time), grants, white-label builds. No injected ads.
@@ -329,6 +339,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-10: Node Mode postponed. Added Play-accepted background features
   (background media + PiP, background downloads, daily list refresh,
   notifications) to the roadmap.
+- 2026-11-10: PWA install (standalone home-screen web apps) added to the roadmap.
 
 Add a line here after every build or release.
 

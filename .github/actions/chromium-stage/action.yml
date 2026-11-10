@@ -37,7 +37,9 @@ runs:
           /usr/local/aws-cli /usr/local/aws-sam-cli /usr/lib/google-cloud-sdk \
           /usr/share/az_* /usr/local/share/vcpkg /usr/local/bin/{minikube,kind,helm,pulumi*,terraform,packer,bicep,oc,kubectl,azcopy*} \
           /etc/skel/.rustup /home/runner/.rustup /home/runner/.cargo /usr/local/n \
-          /usr/share/gradle* /usr/share/apache-maven* /usr/share/kotlinc /usr/share/sbt || true
+          /usr/share/gradle* /usr/share/apache-maven* /usr/share/kotlinc /usr/share/sbt \
+          /usr/lib/llvm-* /usr/lib/postgresql /usr/lib/heroku /usr/share/doc /usr/share/man \
+          /var/lib/docker || true
         sudo apt-get clean
         # Chromium's work folder; on current runners /mnt shares the root disk.
         sudo mkdir -p /mnt/res && sudo chown "$USER" /mnt/res

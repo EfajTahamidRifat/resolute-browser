@@ -17,7 +17,7 @@ solutions = [{
   "managed": False,
   "custom_deps": {
     # Test-only (Java unit tests); several GB.
-    "src/third_party/robolectric": None,
+    "src/third_party/robolectric/cipd": None,
     "src/third_party/espresso": None,
     "src/third_party/junit/src": None,
     "src/third_party/google-truth/src": None,
@@ -52,6 +52,7 @@ echo "::endgroup::"
 
 # Remove parts of the checkout the APK build never reads.
 rm -rf "$work"/.cipd/pkgs \
+  "$work"/src/third_party/robolectric/cipd \
   "$work"/src/third_party/android_sdk/public/emulator \
   "$work"/src/third_party/android_sdk/public/system-images 2>/dev/null || true
 

@@ -17,6 +17,10 @@ is_desktop_android = true
 proprietary_codecs = true
 ffmpeg_branding = "Chrome"
 
+# Skip Java static analysis (lint, Error Prone): saves hours and disk on CI.
+android_static_analysis = "off"
+treat_warnings_as_errors = false
+
 # Use features' default states, not Google's field-trial experiments.
 disable_fieldtrial_testing_config = true
 

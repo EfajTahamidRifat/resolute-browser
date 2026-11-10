@@ -53,6 +53,7 @@ config/partners.json          Partner links on the Explore page (to be signed)
 config/revenue.json           Swap fee settings (public wallet addresses only)
 branding/                     Icons: helmet logo, Play Store icon, Android icon set
 docs/MAINTAINING.md           This file
+docs/MARKET.md                Competitors, market lessons, open decisions (e.g. MV2)
 CLAUDE.md                     Short brief for AI assistants working in this repo
 ```
 
@@ -269,6 +270,9 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
   Switched to Chromium for Chrome Web Store support. First Chromium build
   (Chromium 156, run 42754882920): stage 1 reached 29 % (26,603 / 91,334
   steps), stage 2 running. Expected APK in stage 4.
+
+- 2026-11-10: Market research added (`docs/MARKET.md`). Positioning: power-user
+  browser with the best Web3 safety, not "only a crypto browser". MV3 first.
 
 Add a line here after every build or release.
 

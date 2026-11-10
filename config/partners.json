@@ -5,7 +5,7 @@
   "notice": {
     "enabled": true,
     "title": "The Resolute team will never DM you first",
-    "body": "Official accounts: X @et_rifat. Never share your seed phrase or private key with anyone, including people claiming to be Resolute support.",
+    "body": "Official accounts: X @et_rifat, Facebook /dewanefajtahamid. Never share your seed phrase or private key with anyone, including people claiming to be Resolute support.",
     "show_on": ["explore", "settings"]
   },
   "official": {
@@ -16,7 +16,7 @@
       { "id": "x", "name": "X", "handle": "@et_rifat", "url": "https://x.com/et_rifat", "enabled": true },
       { "id": "github", "name": "GitHub", "handle": "EfajTahamidRifat", "url": "https://github.com/EfajTahamidRifat/resolute-browser", "enabled": true },
       { "id": "website", "name": "Website", "handle": "efajtahamid.monster", "url": "https://efajtahamid.monster", "enabled": true },
-      { "id": "facebook", "name": "Facebook", "handle": "SET_ME", "url": "SET_FACEBOOK_URL", "enabled": false },
+      { "id": "facebook", "name": "Facebook", "handle": "dewanefajtahamid", "url": "https://www.facebook.com/dewanefajtahamid", "enabled": true },
       { "id": "telegram", "name": "Telegram", "handle": "SET_ME", "url": "SET_TELEGRAM_URL", "enabled": false }
     ]
   },

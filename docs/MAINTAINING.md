@@ -217,6 +217,37 @@ Before the first public release:
 
 ---
 
+### After launch (checklist)
+
+First week:
+- Play Console daily: Android vitals (crashes, ANRs; fix the top one first),
+  ratings and reviews (reply to every review).
+- Test on several real phones (Samsung, Xiaomi, budget models).
+- Launch posts with a short demo video: X, Facebook (Bangla + English), Reddit
+  (r/Android, r/androidapps, r/kiwibrowser), Product Hunt, Show HN.
+- Open the Telegram community and enable its link in `config/partners.json`.
+
+First month:
+- Bug-fix update (1.0.1) before new features.
+- Store listing: better screenshots, video, keywords ("extensions browser",
+  "Kiwi alternative", "Web3 browser"), translations (Bangla, Hindi, Spanish,
+  Indonesian).
+- First routine monthly Chromium update (section 4).
+- Weekly numbers in Play Console: installs, uninstalls, daily users,
+  day-7 / day-30 retention.
+- Confirm Resolute Picks referrals register in partner dashboards; enable
+  referral prompts only for partners whose terms allow it.
+
+Months 2-6:
+- Roadmap in order, guided by user requests (X-ray, workspaces, swap after the
+  Play policy check, background media).
+- Grants: Gitcoin, Solana Foundation, Optimism and similar.
+- Case study on portfolio / agency site; white-label offers to crypto projects.
+- Find a second maintainer as soon as revenue or grants allow.
+
+Always: monthly security updates + emergency fixes within days; report fake
+"Resolute" apps to Google; keep this handbook updated.
+
 ## 8. Secrets, keys and accounts
 
 **Never commit secrets.** Keys live in GitHub: repo **Settings, Secrets and

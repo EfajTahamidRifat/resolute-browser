@@ -229,7 +229,9 @@ partner portal, Reown (WalletConnect). Later: Google Play Console, F-Droid.
 ## 9. Config files (no server)
 
 - `config/partners.json`: Explore page partner links, groups, on/off per
-  partner, the "never DM you first" notice. Edit, (sign), push: users get it
+  partner, the "never DM you first" notice, and `official` (owner's social
+  accounts and "Hire us" link shown in About, new-tab footer and Explore footer;
+  Facebook and Telegram are placeholders, set the URL and `enabled: true`). Edit, (sign), push: users get it
   without an app update.
 - `config/revenue.json`: swap fee settings.
 - **To do:** sign both files with an Ed25519 key kept only on the owner's

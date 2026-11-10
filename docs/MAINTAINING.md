@@ -246,7 +246,8 @@ partner portal, Reown (WalletConnect). Later: Google Play Console, F-Droid.
   `config/scripts/fetch_icons.py` (on partners.json changes, weekly, or by
   hand). It visits each partner site, keeps its best icon as a 128 px PNG in
   `config/icons/<id>.png` and sets the partner's `icon` field. Sites that block
-  it keep their previous icon; the app falls back to a letter tile. To use an
+  it keep their previous icon; the app falls back to a letter tile. Optional
+  `icon_site` on a partner sets which site the icon is taken from. To use an
   official brand-kit icon instead, replace the PNG by hand (same file name). Edit, (sign), push: users get it
   without an app update.
 - `config/revenue.json`: swap fee settings.

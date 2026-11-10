@@ -31,12 +31,16 @@ class IconLinks(HTMLParser):
     def __init__(self):
         super().__init__()
         self.found = []  # (declared_size, href)
+        self.manifest = None
 
     def handle_starttag(self, tag, attrs):
         if tag != "link":
             return
         a = {k.lower(): (v or "") for k, v in attrs}
         rel = a.get("rel", "").lower()
+        if rel == "manifest" and a.get("href"):
+            self.manifest = a["href"]
+            return
         if "icon" not in rel or not a.get("href"):
             return
         size = 0
@@ -62,6 +66,20 @@ def candidates(session, site):
         page = get(session, site)
         parser = IconLinks()
         parser.feed(page.text[:500_000])
+        if parser.manifest:
+            try:
+                murl = urljoin(page.url, parser.manifest)
+                icons = get(session, murl).json().get("icons", [])
+                def msize(i):
+                    try:
+                        return max(int(x.split("x")[0]) for x in i.get("sizes", "0x0").split())
+                    except ValueError:
+                        return 0
+                for i in sorted(icons, key=msize, reverse=True):
+                    if i.get("src"):
+                        urls.append(urljoin(murl, i["src"]))
+            except Exception as e:
+                print(f"  manifest failed: {e}")
         for _, href in sorted(parser.found, reverse=True):
             urls.append(urljoin(page.url, href))
         base = page.url
@@ -112,7 +130,9 @@ def main():
     failed = []
     for p in cfg["partners"]:
         print(f"{p['id']}: {p['url']}")
-        site = "{0.scheme}://{0.netloc}/".format(urlparse(p["url"]))
+        # "icon_site" overrides where the icon is taken from (e.g. when the
+        # referral link is on a sign-up subdomain that blocks bots).
+        site = p.get("icon_site") or "{0.scheme}://{0.netloc}/".format(urlparse(p["url"]))
         img = best_image(session, candidates(session, site))
         target = ICONS / f"{p['id']}.png"
         if img is None:

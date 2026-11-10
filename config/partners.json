@@ -164,7 +164,8 @@
           "inviteCode"
         ]
       },
-      "icon": "icons/universalx.png"
+      "icon": "icons/universalx.png",
+      "icon_site": "https://universalx.app/"
     },
     {
       "id": "arcus",
@@ -216,7 +217,8 @@
           "ref"
         ]
       },
-      "icon": null
+      "icon": null,
+      "icon_site": "https://www.binance.com/"
     },
     {
       "id": "longbow",

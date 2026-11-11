@@ -391,6 +391,9 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
   correctly at [1/39170] (resume works) but only reached 6,054 steps (V8 and
   Blink are slow). Added `resume_run_id` so an unfinished run can be continued
   by a new run.
+- 2026-11-11: Run 42831322427 stage 3 resumed at [1/33116], reached 5,168
+  (Blink is slow, ~1,200 steps/hour). ~28,000 steps left: likely needs a
+  follow-up run with `resume_run_id=42831322427` after stage 8.
 - 2026-11-10: Market research added (`docs/MARKET.md`). Positioning: power-user
   browser with the best Web3 safety, not "only a crypto browser". MV3 first.
 

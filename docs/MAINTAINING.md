@@ -122,6 +122,7 @@ With the GitHub CLI: `gh run list --workflow chromium.yml`,
 | A patch fails to apply (`git apply` error) | Chromium changed that file. Update the patch (section 5). |
 | Compile error in a Resolute file | Fix the patch. The log line starting with `FAILED:` names the file. |
 | Build too slow / more than 8 stages | Add stages, or reduce work in `args.gn`. |
+| `Unable to locate package ...:i386` in "Install build dependencies" | Ubuntu mirror hiccup. The stage now enables i386, refreshes package lists and retries 3 times. Re-run with `resume_run_id` to continue. |
 | A resumed stage starts from zero (progress total close to a full build, e.g. `[25086/92350]` in stage 2) | The saved progress was ignored. Builds must use Ninja: keep `use_siso = false` in `chromium/args.gn`. |
 
 ---
@@ -400,6 +401,9 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
   runners. History was scanned: no keys were ever committed.
 - 2026-11-11: Stage 4 resumed at [1/27948], reached 8,706 (faster, ~2,000
   steps/hour). ~19,200 steps left; expected to finish in stage 6 or 7.
+- 2026-11-11: Stage 5 reached [9726/19242] (~9,500 steps left). Stage 6 failed
+  in setup (apt could not find i386 packages). Added i386 + apt retry; continued
+  with run 43040211122 (`resume_run_id=42831322427`).
 - 2026-11-10: Market research added (`docs/MARKET.md`). Positioning: power-user
   browser with the best Web3 safety, not "only a crypto browser". MV3 first.
 

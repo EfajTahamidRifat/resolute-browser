@@ -11,6 +11,9 @@ inputs:
   resume:
     description: "'true' to continue from the previous stage's saved output"
     required: true
+  resume_run_id:
+    description: "Earlier workflow run to take the saved output from (empty = this run)"
+    default: ""
 
 outputs:
   done:
@@ -76,6 +79,8 @@ runs:
       with:
         name: chromium-state-${{ inputs.cpu }}
         path: /mnt/res/state
+        run-id: ${{ inputs.resume_run_id || github.run_id }}
+        github-token: ${{ github.token }}
 
     - name: Restore previous stage output
       if: inputs.resume == 'true'

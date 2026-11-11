@@ -72,8 +72,13 @@ the workflow runs as **chained stages**:
    stage's `out/`, and **continues compiling where it stopped**.
 3. **Final stage:** finishes, produces the APK and uploads the artifact
    **`resolute-chromium-arm64`**. Remaining stages are skipped automatically.
-4. If 8 stages are not enough, the `not-finished` job fails. Add more stages in
-   `.github/workflows/chromium.yml` (copy a stage block, chain `needs`).
+4. If 8 stages are not enough, the `not-finished` job fails. **Continue it
+   instead of starting over:** Actions tab, Build Chromium APK, Run workflow,
+   and enter the unfinished run's ID (the number in its URL) as
+   `resume_run_id`. The new run picks up that run's saved progress (kept for
+   2 days). You can also add more stages in `.github/workflows/chromium.yml`.
+   Note: the workflow file a run uses is fixed when it starts, so edits to it
+   only affect later runs.
 
 Numbers from the first build (Chromium 156, arm64):
 
@@ -382,6 +387,10 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-10: Run 42754882920 stages 1-2 each compiled ~27% but stage 2 started
   from zero: Chromium's default Siso builder ignored the restored progress.
   Fixed with `use_siso = false` (Ninja); build restarted.
+- 2026-11-11: Run 42831322427 (Ninja): stage 1 [23939/63109]; stage 2 resumed
+  correctly at [1/39170] (resume works) but only reached 6,054 steps (V8 and
+  Blink are slow). Added `resume_run_id` so an unfinished run can be continued
+  by a new run.
 - 2026-11-10: Market research added (`docs/MARKET.md`). Positioning: power-user
   browser with the best Web3 safety, not "only a crypto browser". MV3 first.
 

@@ -7,12 +7,21 @@ name: Build Chromium APK
 
 on:
   workflow_dispatch:
+    inputs:
+      resume_run_id:
+        description: "Continue from the saved progress of this earlier run ID (leave empty to start fresh)"
+        required: false
+        default: ""
   push:
     branches: [main]
     paths:
       - "chromium/**"
       - ".github/actions/chromium-stage/**"
       - ".github/workflows/chromium.yml"
+
+permissions:
+  contents: read
+  actions: read
 
 concurrency:
   group: chromium-build
@@ -30,7 +39,8 @@ jobs:
         uses: ./.github/actions/chromium-stage
         with:
           cpu: arm64
-          resume: "false"
+          resume: ${{ inputs.resume_run_id != '' && 'true' || 'false' }}
+          resume_run_id: ${{ inputs.resume_run_id }}
 
   stage2:
     needs: stage1

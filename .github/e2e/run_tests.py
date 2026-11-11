@@ -116,9 +116,11 @@ def open_url(url):
 
 def crashed_since(mark):
     log = adb("logcat", "-d", "-v", "time", "-T", mark) if mark else adb("logcat", "-d")
-    bad = [l for l in log.splitlines()
-           if ("FATAL EXCEPTION" in l or "Fatal signal" in l or "ANR in " + PKG in l)
-           and (PKG in l or "Fatal signal" in l)]
+    signals = ("FATAL EXCEPTION", "Fatal signal", "ANR in " + PKG,
+               "Process " + PKG + " has crashed", "Failed to load native library")
+    # Native crashes are logged under the process name, which Android may
+    # shorten (e.g. "esolute.browser"), so match on the signal text.
+    bad = [l for l in log.splitlines() if any(s in l for s in signals)]
     return bad[:20]
 
 

@@ -196,6 +196,12 @@ Chrome Web Store, check they appear in chrome://extensions, and fail on any
 crash in logcat. Report, screenshots, UI dumps and logcat go to the job
 summary, an artifact, and the `e2e-results` branch (`runs/<run id>/`).
 
+**Known limitation (2026-11-12):** the arm64 APK crashes at start on the
+x86_64 emulator (native library load fails under Android's ARM translation,
+then SIGSEGV). This is the emulator, not the app. For full emulator tests the
+pipeline needs an x86_64 build (`target_cpu = "x64"`) built in parallel with
+arm64. Until then, real-phone testing is the reference.
+
 Manual checks on a real phone:
 
 - [ ] App installs and opens; no crash on start
@@ -429,6 +435,9 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
   APK 552 MB (non-official build, no size optimisation yet). Plain Chromium UI;
   next: install test (Chrome Web Store, MetaMask, Phantom), then save build
   output for fast incremental builds, branding, size reduction.
+- 2026-11-12: E2E emulator workflow added and run (43111818432): install OK,
+  arm64 APK crashes under the emulator's ARM translation. Plan: x86_64 test
+  build in parallel; real-phone test now.
 - 2026-11-10: Market research added (`docs/MARKET.md`). Positioning: power-user
   browser with the best Web3 safety, not "only a crypto browser". MV3 first.
 

@@ -66,8 +66,21 @@ runs:
         curl -fsSL --retry 5 --retry-all-errors \
           "https://chromium.googlesource.com/chromium/src/+/refs/tags/${v}/build/install-build-deps.py?format=TEXT" \
           | base64 -d > "$RUNNER_TEMP/install-build-deps.py"
-        sudo python3 "$RUNNER_TEMP/install-build-deps.py" --no-prompt --no-chromeos-fonts \
-          --no-arm --no-nacl --android
+        # The Android deps include 32-bit (i386) libraries. Make sure that
+        # architecture is enabled and the package lists are fresh, and retry:
+        # Ubuntu's mirrors sometimes return incomplete lists (stage 6 of run
+        # 42831322427 failed with "Unable to locate package ...:i386").
+        sudo dpkg --add-architecture i386
+        for attempt in 1 2 3; do
+          if sudo apt-get update -o Acquire::Retries=5 \
+             && sudo python3 "$RUNNER_TEMP/install-build-deps.py" --no-prompt \
+                  --no-chromeos-fonts --no-arm --no-nacl --android; then
+            exit 0
+          fi
+          echo "install-build-deps attempt $attempt failed; retrying in 60 s"
+          sleep 60
+        done
+        exit 1
 
     - name: Sync Chromium
       shell: bash

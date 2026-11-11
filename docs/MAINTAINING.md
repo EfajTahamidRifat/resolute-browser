@@ -187,6 +187,17 @@ Rules:
 
 ## 6. Testing checklist (every release)
 
+**Automated E2E test:** Actions tab, **E2E test**, Run workflow with the APK's
+direct URL (e.g. from **Publish test APK**). It boots an Android 14 emulator
+(x86_64; the arm64 APK runs through Android's built-in ARM translation, so it
+is slow), installs the APK and runs `.github/e2e/run_tests.py`: launch, load
+example.com and wikipedia.org, install uBlock Origin Lite and MetaMask from the
+Chrome Web Store, check they appear in chrome://extensions, and fail on any
+crash in logcat. Report, screenshots, UI dumps and logcat go to the job
+summary, an artifact, and the `e2e-results` branch (`runs/<run id>/`).
+
+Manual checks on a real phone:
+
 - [ ] App installs and opens; no crash on start
 - [ ] Browse 10 popular sites (news, X, YouTube, a DEX, a block explorer)
 - [ ] Chrome Web Store opens; "Add to Chrome" installs uBlock Origin Lite

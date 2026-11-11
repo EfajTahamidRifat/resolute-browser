@@ -1,0 +1,93 @@
+# End-to-end test of a Resolute APK on an Android emulator (GitHub-hosted).
+# The emulator is x86_64; Android 11+ images translate arm64 apps, so the arm64
+# APK runs (slowly). Results (report, screenshots, UI dumps, logcat) go to the
+# job summary, an artifact, and the "e2e-results" branch.
+name: E2E test
+
+on:
+  workflow_dispatch:
+    inputs:
+      apk_url:
+        description: "Direct download URL of the APK (e.g. a test release asset)"
+        required: true
+        default: "https://github.com/EfajTahamidRifat/resolute-browser/releases/download/test-2026-11-12/resolute-chromium-arm64.apk"
+      api_level:
+        description: "Android API level of the emulator"
+        required: false
+        default: "34"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: e2e-test
+  cancel-in-progress: false
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enable KVM (hardware acceleration for the emulator)
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Download APK
+        run: |
+          curl -fL --retry 5 -o "$RUNNER_TEMP/resolute.apk" "${{ inputs.apk_url }}"
+          ls -lh "$RUNNER_TEMP/resolute.apk"
+
+      - name: Run tests on emulator
+        id: tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ inputs.api_level }}
+          target: google_apis
+          arch: x86_64
+          ram-size: 4096M
+          disk-size: 8G
+          emulator-boot-timeout: 900
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: python3 .github/e2e/run_tests.py "$RUNNER_TEMP/resolute.apk" "$GITHUB_WORKSPACE/e2e-out" || echo "some tests failed" > "$GITHUB_WORKSPACE/e2e-out/FAILED"
+
+      - name: Job summary
+        if: always()
+        run: cat e2e-out/report.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || echo "No report produced" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload results artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-results-${{ github.run_id }}
+          path: e2e-out
+          retention-days: 30
+
+      - name: Save results to the e2e-results branch
+        if: always()
+        run: |
+          set -e
+          [ -d e2e-out ] || exit 0
+          dest="$RUNNER_TEMP/results-branch"
+          git config --global user.name "resolute-bot"
+          git config --global user.email "resolute-bot@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin e2e-results >/dev/null 2>&1; then
+            git clone -q --depth 1 --branch e2e-results "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" "$dest"
+          else
+            mkdir -p "$dest" && cd "$dest" && git init -q -b e2e-results \
+              && git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" && cd -
+          fi
+          mkdir -p "$dest/runs/${{ github.run_id }}"
+          cp -r e2e-out/* "$dest/runs/${{ github.run_id }}/"
+          cd "$dest"
+          git add -A
+          git commit -q -m "E2E results for run ${{ github.run_id }}"
+          git push -q origin e2e-results
+
+      - name: Fail if tests failed
+        if: always()
+        run: test ! -f e2e-out/FAILED

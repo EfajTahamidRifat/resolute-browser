@@ -66,11 +66,21 @@ runs:
         curl -fsSL --retry 5 --retry-all-errors \
           "https://chromium.googlesource.com/chromium/src/+/refs/tags/${v}/build/install-build-deps.py?format=TEXT" \
           | base64 -d > "$RUNNER_TEMP/install-build-deps.py"
-        # The Android deps include 32-bit (i386) libraries. Make sure that
-        # architecture is enabled and the package lists are fresh, and retry:
-        # Ubuntu's mirrors sometimes return incomplete lists (stage 6 of run
-        # 42831322427 failed with "Unable to locate package ...:i386").
+        # The Android deps include 32-bit (i386) libraries: enable i386.
         sudo dpkg --add-architecture i386
+        # Don't depend on one Ubuntu mirror. Runs of 2026-11-11 failed because
+        # the runner could not resolve azure.archive.ubuntu.com or
+        # security.ubuntu.com. apt's "mirror+file" method tries these in order.
+        printf '%s\n' \
+          http://azure.archive.ubuntu.com/ubuntu/ \
+          http://archive.ubuntu.com/ubuntu/ \
+          https://mirrors.edge.kernel.org/ubuntu/ \
+          http://mirror.math.princeton.edu/pub/ubuntu/ \
+          | sudo tee /etc/apt/apt-mirrors.txt > /dev/null
+        if [ -f /etc/apt/sources.list.d/ubuntu.sources ]; then
+          sudo sed -i -E 's#https?://security\.ubuntu\.com/ubuntu/?#mirror+file:/etc/apt/apt-mirrors.txt#' \
+            /etc/apt/sources.list.d/ubuntu.sources
+        fi
         for attempt in 1 2 3; do
           if sudo apt-get update -o Acquire::Retries=5 \
              && sudo python3 "$RUNNER_TEMP/install-build-deps.py" --no-prompt \
@@ -80,6 +90,13 @@ runs:
           echo "install-build-deps attempt $attempt failed; retrying in 60 s"
           sleep 60
         done
+        # A resumed stage has already been through this on earlier machines and
+        # mostly needs Chromium's bundled toolchain, so carry on and let the
+        # build show if anything is really missing. A fresh build must stop.
+        if [ "${{ inputs.resume }}" = "true" ]; then
+          echo "::warning::Build dependencies could not be installed; continuing because this stage resumes an earlier build."
+          exit 0
+        fi
         exit 1
 
     - name: Sync Chromium

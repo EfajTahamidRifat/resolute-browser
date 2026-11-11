@@ -101,6 +101,12 @@ Actions tab, the finished run, artifact **`resolute-chromium-arm64`**. Unzip,
 install on an arm64 phone. If an older Resolute with a different signing key is
 installed, uninstall it first.
 
+### Sharing a test APK
+
+Actions tab, **Publish test APK**, Run workflow: enter the build's run ID and a
+tag (e.g. `test-2026-11-12`). It creates a GitHub pre-release with the APK
+attached: a direct download link that works on a phone without logging in.
+
 ### Reading logs
 
 Logs of a job are only visible after that job finishes. Useful lines:

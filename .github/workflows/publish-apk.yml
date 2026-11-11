@@ -1,0 +1,38 @@
+# Publishes a finished Chromium build's APK as a GitHub pre-release, so testers
+# can download it directly on their phone (no login, no zip).
+name: Publish test APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "Build Chromium APK run ID that produced the APK"
+        required: true
+      tag:
+        description: "Release tag, e.g. test-2026-11-12"
+        required: true
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Download APK from the build run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download "${{ inputs.run_id }}" -R "${{ github.repository }}" \
+            -n resolute-chromium-arm64 -D apk
+          ls -l apk
+      - name: Create pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ inputs.tag }}" apk/*.apk \
+            -R "${{ github.repository }}" --prerelease \
+            --title "Resolute test build ${{ inputs.tag }}" \
+            --notes "Test build (plain Chromium engine, Resolute branding not added yet). arm64 phones. Uninstall the older Resolute test app first. Built by run ${{ inputs.run_id }}."

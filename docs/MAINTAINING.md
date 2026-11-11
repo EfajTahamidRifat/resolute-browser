@@ -343,7 +343,9 @@ The UI design is a canvas in the owner's Claude account ("Resolute Browser UI"):
 new tab, browsing with trust badge, Transaction X-ray, tabs and workspaces,
 command menu, extensions, connect-wallet flow, desktop mode. Colours: background
 `#0D0D0F`, surfaces `#17171B`, red `#E10600`; fonts Space Grotesk (headings) and
-Inter. Share or export it if working from another account.
+Inter. Share or export it if working from another account. Screen 10 is the
+Quick menu. `docs/UX_BENCHMARK.md` compares Kiwi's and Mises' UI with Resolute
+and sets the UI rules (two-tap switches, bottom-first, no ads, small patches).
 
 Roadmap after the first working APK:
 
@@ -450,6 +452,8 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-10: PWA install (standalone home-screen web apps) added to the roadmap.
 - 2026-11-10: Windows version planned as phase 2; features to be built as
   shared web code.
+- 2026-11-12: UI benchmark of Kiwi and Mises written (`docs/UX_BENCHMARK.md`,
+  study only, no code copied). Added screen 10 "Quick menu" to the design canvas.
 
 Add a line here after every build or release.
 

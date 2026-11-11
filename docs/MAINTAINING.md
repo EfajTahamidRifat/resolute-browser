@@ -407,6 +407,11 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-11: Resume run 43040211122 failed in setup too: the runner could not
   resolve Ubuntu's mirrors (DNS). Added fallback mirrors and made the deps step
   non-fatal for resumed stages; re-dispatched with `resume_run_id=42831322427`.
+- 2026-11-12: **First Chromium APK built** (run 43070434004, resumed from run
+  42831322427): last 9,516 steps in ~2 h. Artifact `resolute-chromium-arm64`,
+  APK 552 MB (non-official build, no size optimisation yet). Plain Chromium UI;
+  next: install test (Chrome Web Store, MetaMask, Phantom), then save build
+  output for fast incremental builds, branding, size reduction.
 - 2026-11-10: Market research added (`docs/MARKET.md`). Positioning: power-user
   browser with the best Web3 safety, not "only a crypto browser". MV3 first.
 

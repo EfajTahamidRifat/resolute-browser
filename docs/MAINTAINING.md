@@ -394,6 +394,10 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-11: Run 42831322427 stage 3 resumed at [1/33116], reached 5,168
   (Blink is slow, ~1,200 steps/hour). ~28,000 steps left: likely needs a
   follow-up run with `resume_run_id=42831322427` after stage 8.
+- 2026-11-11: Repo made **public** (Apache-2.0 LICENSE + NOTICE). Private repos
+  only get 2,000 free Actions minutes/month and 500 MB artifact storage; the
+  Chromium build used them up. Public repos get free unlimited standard
+  runners. History was scanned: no keys were ever committed.
 - 2026-11-10: Market research added (`docs/MARKET.md`). Positioning: power-user
   browser with the best Web3 safety, not "only a crypto browser". MV3 first.
 

@@ -602,6 +602,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-12: Gap review: 16 missing items added to the roadmap (items 15-30). Owner has no D-U-N-S number yet. Background play restricted to non-YouTube media (Play policy).
 - 2026-11-12: Run 43177558602 stage 1 OK: patch 0001 applied, `gn gen` passed with the official-build args, 52,962 of 93,169 steps in one stage (the first build managed 23,939). Saved state 1.3 GB.
 - 2026-11-12: Owner decision: no sale for at least 5 years; build Resolute as a lasting Android + Windows browser.
+- 2026-11-12: Stage 2 OK, 13,218 more steps (66,180 of 93,169), no errors. Official builds also compile Blink a second time for the host (`clang_x64_v8_arm64`, about 4,500 files): that is the V8 context snapshot generator, which makes new pages start faster. One-time cost per build; could be turned off with `use_v8_context_snapshot = false` if builds are ever too slow.
 
 Add a line here after every build or release.
 

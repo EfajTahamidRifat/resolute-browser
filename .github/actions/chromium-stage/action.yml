@@ -136,8 +136,22 @@ runs:
           *) exit "$rc" ;;
         esac
 
+    - name: Upload APK
+      if: steps.build.outputs.done == 'true'
+      uses: actions/upload-artifact@v7
+      with:
+        name: resolute-chromium-${{ inputs.cpu }}
+        path: |
+          /mnt/res/packages/*.apk
+          /mnt/res/packages/*.aab
+        compression-level: 0
+        retention-days: 30
+
+    # Also saved when the build finishes, so a later run with small changes
+    # (patches, branding) can start from it with resume_run_id and only
+    # rebuild what changed.
     - name: Save progress for next stage
-      if: steps.build.outputs.done == 'false'
+      if: steps.build.outputs.done == 'false' || steps.build.outputs.done == 'true'
       shell: bash
       run: |
         mkdir -p /mnt/res/state
@@ -145,20 +159,11 @@ runs:
         ls -lh /mnt/res/state
 
     - name: Upload progress
-      if: steps.build.outputs.done == 'false'
+      if: steps.build.outputs.done == 'false' || steps.build.outputs.done == 'true'
       uses: actions/upload-artifact@v7
       with:
         name: chromium-state-${{ inputs.cpu }}
         path: /mnt/res/state/state.tar.zst
         compression-level: 0
-        retention-days: 2
+        retention-days: ${{ steps.build.outputs.done == 'true' && 14 || 2 }}
         overwrite: true
-
-    - name: Upload APK
-      if: steps.build.outputs.done == 'true'
-      uses: actions/upload-artifact@v7
-      with:
-        name: resolute-chromium-${{ inputs.cpu }}
-        path: /mnt/res/packages/*.apk
-        compression-level: 0
-        retention-days: 30

@@ -71,8 +71,10 @@ the workflow runs as **chained stages**:
    artifact `chromium-state-arm64`.
 2. **Stages 2 to 8:** each downloads Chromium again, restores the previous
    stage's `out/`, and **continues compiling where it stopped**.
-3. **Final stage:** finishes, produces the APK and uploads the artifact
-   **`resolute-chromium-arm64`**. Remaining stages are skipped automatically.
+3. **Final stage:** finishes, produces the APK **and the Play bundle (.aab)**
+   and uploads them as the artifact **`resolute-chromium-arm64`**. It also
+   saves the finished `out/` as `chromium-state-arm64` (kept 14 days).
+   Remaining stages are skipped automatically.
 4. If 8 stages are not enough, the `not-finished` job fails. **Continue it
    instead of starting over:** Actions tab, Build Chromium APK, Run workflow,
    and enter the unfinished run's ID (the number in its URL) as
@@ -95,6 +97,30 @@ Numbers from the first build (Chromium 156, arm64):
 - Or: GitHub, **Actions** tab, **Build Chromium APK**, **Run workflow**.
 - **A new build cancels the one already running** (`cancel-in-progress`). Do not
   push to `chromium/` while a build you care about is running.
+
+### Fast rebuilds for small changes
+
+After a finished build, a change to patches or branding doesn't need a day:
+Actions tab, Build Chromium APK, Run workflow, and enter the **finished** run's
+ID as `resume_run_id` (within 14 days). Ninja only rebuilds what the patches
+touch (`build.sh` marks patched files as new). This does **not** help after a
+Chromium version change or an `args.gn` change: those rebuild nearly everything.
+
+### App size
+
+The first APK (2026-11-12) was 552 MB: `libchrome.so` 407 MB (317 MB of it code),
+all 55 MB of languages, 35 MB of resources. Cause: a developer build (DCHECK
+self-checks on, no release optimisations). Fixes in `args.gn`:
+`is_official_build = true` (link-time optimisation, identical-code folding, no
+DCHECKs), `chrome_pgo_phase = 0`, VR/AR/XR off. And the Play bundle: Google Play
+sends each phone only its own language and screen density, and compresses the
+download. The APK on GitHub stays bigger than the Play download because it
+holds every language. Check a new APK's breakdown before release.
+
+Official builds end with one big **ThinLTO link** of `libchrome.so` that can run
+for hours on 4 cores. It keeps finished pieces in `out/android-arm64/thinlto-cache`,
+which is saved with the stage, so a link cut off at a stage deadline continues
+in the next stage instead of starting over.
 
 ### Getting the APK
 
@@ -130,6 +156,7 @@ With the GitHub CLI: `gh run list --workflow chromium.yml`,
 | Compile error in a Resolute file | Fix the patch. The log line starting with `FAILED:` names the file. |
 | Build too slow / more than 8 stages | Add stages, or reduce work in `args.gn`. |
 | `Unable to locate package ...:i386` / `Temporary failure resolving 'azure.archive.ubuntu.com'` in "Install build dependencies" | The runner could not reach Ubuntu's package servers. The stage now enables i386, tries four Ubuntu mirrors, retries 3 times, and in resumed stages continues with a warning if it still fails. Re-run with `resume_run_id` to continue. |
+| The final link (`libchrome.so`) runs into every stage deadline and never finishes | ThinLTO is too slow for the runner. Check `thinlto-cache` is growing between stages. If not, set `use_thin_lto = false` in `args.gn` (bigger app, but builds). |
 | A resumed stage starts from zero (progress total close to a full build, e.g. `[25086/92350]` in stage 2) | The saved progress was ignored. Builds must use Ninja: keep `use_siso = false` in `chromium/args.gn`. |
 
 ---
@@ -469,6 +496,10 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
   study only, no code copied). Added screen 10 "Quick menu" to the design canvas.
 - 2026-11-12: Added daily Chromium auto-update workflow (`chromium-update.yml`).
 - 2026-11-12: Auto-update: Chromium 156.0.8078.47 -> 158.0.8127.22 (chromium-update workflow). Build started.
+- 2026-11-12: App size work. Measured the first APK (552 MB; libchrome.so 407 MB).
+  args.gn: official build, no DCHECKs, no PGO, VR/AR/XR off. Build now also
+  makes the Play bundle (.aab) and saves the finished build for fast rebuilds.
+  This restarted the Chromium 158 build (it had run about 45 min).
 
 Add a line here after every build or release.
 

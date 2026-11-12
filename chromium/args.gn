@@ -4,6 +4,23 @@ target_os = "android"
 is_debug = false
 is_component_build = false
 
+# App size and speed (2026-11-12). The first APK was 526 MB because it was a
+# developer build: its main code file (libchrome.so) was 407 MB, full of
+# developer self-checks (DCHECKs) and without the size optimisations Chrome
+# ships with. "Official" turns on the release optimisations Chrome uses
+# (link-time optimisation, identical-code folding, no DCHECKs).
+is_official_build = true
+dcheck_always_on = false
+# Chrome uses Google's profile data (PGO) for official builds; we don't have it.
+chrome_pgo_phase = 0
+
+# No VR / AR / Cardboard / Android XR: large libraries almost nobody uses in a
+# browser (the XR library alone was 19 MB).
+enable_vr = false
+enable_arcore = false
+enable_cardboard = false
+enable_openxr = false
+
 # No debug symbols: much smaller build output, which matters on CI runners.
 symbol_level = 0
 blink_symbol_level = 0

@@ -30,6 +30,9 @@ done
 if [ -n "${RES_DEADLINE:-}" ]; then
   find . -path ./out -prune -o -newermt "2001-01-02" -print0 \
     | xargs -0 -r touch -h -d "2001-01-01"
+  # Files our patches change must look new, so a saved build from an earlier
+  # run rebuilds them (this is what makes small-change rebuilds fast).
+  git diff --name-only -z | xargs -0 -r touch -h
 fi
 
 mkdir -p "$out"
@@ -43,16 +46,21 @@ if [ -n "${RES_DEADLINE:-}" ]; then
   left=$(( RES_DEADLINE - $(date +%s) ))
   if [ "$left" -le 0 ]; then echo "no time left"; exit 124; fi
   rc=0
-  timeout --signal=INT --kill-after=5m "$left" autoninja -C "$out" chrome_public_apk || rc=$?
+  timeout --signal=INT --kill-after=5m "$left" autoninja -C "$out" chrome_public_apk chrome_public_bundle || rc=$?
   if [ "$rc" -eq 124 ] || [ "$rc" -eq 130 ]; then
     echo "stopped at deadline $(date -Iseconds); next stage resumes"
     exit 124
   fi
   [ "$rc" -eq 0 ] || exit "$rc"
 else
-  autoninja -C "$out" chrome_public_apk
+  autoninja -C "$out" chrome_public_apk chrome_public_bundle
 fi
 echo "build done $(date -Iseconds)"
 
 cp "$out/apks/ChromePublic.apk" "$packages/resolute-chromium-${cpu}.apk"
+# The Android App Bundle (.aab) is what Google Play takes. Play then sends each
+# phone only the parts it needs (its language, screen density), so downloads
+# are much smaller than the APK. Not yet signed with the upload key.
+aab=$(find "$out/apks" -maxdepth 1 -name '*.aab' | head -1)
+[ -n "$aab" ] && cp "$aab" "$packages/resolute-chromium-${cpu}.aab"
 ls -l "$packages"

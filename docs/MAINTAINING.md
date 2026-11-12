@@ -345,6 +345,8 @@ variables, Actions**. Required names:
 | `ALCHEMY_RPC_URL` | EVM RPC URL incl. key (alchemy.com dashboard) |
 | `LIFI_API_KEY` | LI.FI partner portal (portal.li.fi) |
 | `REOWN_PROJECT_ID` | WalletConnect / Reown dashboard |
+| `GOOGLE_SERVICES_JSON` | Firebase project "Resolute Browser", Android app `com.resolute.browser`: the whole `google-services.json` file (for web push). Not committed because the repo is public. |
+| `FIREBASE_SERVICE_ACCOUNT` | JSON key of service account `github-test-lab` in the same project (runs Firebase Test Lab from Actions) |
 
 Public values (safe in the repo): EVM fee wallet in `config/revenue.json`.
 Still needed: LI.FI **integrator string** (portal.li.fi), Solana fee address.
@@ -353,7 +355,8 @@ Never put in the repo or in the app: seed phrases, wallet private keys, the
 config-signing private key, the release keystore or its passwords.
 
 Accounts used: GitHub (code, builds, config hosting), Helius, Alchemy, LI.FI
-partner portal, Reown (WalletConnect). Later: Google Play Console, F-Droid.
+partner portal, Reown (WalletConnect), Firebase (free Spark plan, no card;
+Google Analytics off: web push + Test Lab only, no tracking SDK). Later: Google Play Console, F-Droid.
 
 ---
 

@@ -45,6 +45,7 @@ chromium/                     THE MAIN BROWSER (Chromium-based)
   scripts/build.sh            Applies patches, builds chrome_public_apk, resumable
 .github/actions/chromium-stage/action.yml   One build stage (sync, restore, build, save)
 .github/workflows/chromium.yml              Up to 8 chained stages -> APK
+.github/workflows/chromium-update.yml       Daily check for new Chromium; bumps VERSION, starts the build
 
 app/                          OLD GeckoView prototype (v0.0.1). Kept for reference only.
 .github/workflows/build.yml   Builds the GeckoView prototype (minutes, not Chromium).
@@ -139,6 +140,18 @@ A browser that falls behind Chromium becomes unsafe within weeks: Chrome fixes
 dozens of security holes every month, some already used by attackers. This is
 what killed Kiwi. **Update at least once a month, and immediately for urgent
 security releases.**
+
+**This is automatic now.** `.github/workflows/chromium-update.yml` checks every
+day (03:17 Bangladesh time) for a newer Stable Chromium for Android (Google's
+version feed, Chromium Dash as fallback). If there is one and its source tag
+exists, it writes it to `chromium/VERSION`, adds a status-log line here, commits
+as `resolute-bot`, and starts "Build Chromium APK". If a build is already
+running it does nothing and tries again the next day, so it never cancels a
+build. Run it by hand from the Actions tab ("Chromium auto-update"); the
+optional `version` box forces an exact version. It does **not** publish to Play:
+you still test the APK and upload the update (step 5).
+
+Doing it by hand instead:
 
 1. Find the latest **Stable** Chromium version for Android:
    <https://chromiumdash.appspot.com/releases?platform=Android>
@@ -454,6 +467,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
   shared web code.
 - 2026-11-12: UI benchmark of Kiwi and Mises written (`docs/UX_BENCHMARK.md`,
   study only, no code copied). Added screen 10 "Quick menu" to the design canvas.
+- 2026-11-12: Added daily Chromium auto-update workflow (`chromium-update.yml`).
 
 Add a line here after every build or release.
 

@@ -1,0 +1,105 @@
+# Checks every day for a newer stable Chromium for Android. When there is one,
+# it updates chromium/VERSION, adds a line to the handbook status log, and starts
+# "Build Chromium APK". If a build is already running it waits for the next day,
+# so it never cancels a build.
+name: Chromium auto-update
+
+on:
+  schedule:
+    - cron: "17 21 * * *" # daily, 03:17 Bangladesh time
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Use this exact Chromium version instead of the latest stable (optional)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: chromium-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find latest stable Chromium for Android
+        id: latest
+        run: |
+          set -euo pipefail
+          v="${{ inputs.version }}"
+          if [ -z "$v" ]; then
+            # Google's official version feed; Chromium Dash as a fallback.
+            v=$(curl -fsSL --retry 3 \
+                "https://versionhistory.googleapis.com/v1/chrome/platforms/android/channels/stable/versions" \
+                | jq -r '.versions[0].version' 2>/dev/null || true)
+          fi
+          if [ -z "$v" ] || [ "$v" = "null" ]; then
+            v=$(curl -fsSL --retry 3 \
+                "https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Android&num=1" \
+                | jq -r '.[0].version')
+          fi
+          cur=$(tr -d '[:space:]' < chromium/VERSION)
+          echo "Current: $cur  Latest stable: $v"
+          newer=false
+          if [ "$v" != "$cur" ] && [ "$(printf '%s\n%s\n' "$cur" "$v" | sort -V | tail -1)" = "$v" ]; then
+            # The build needs this version's tag in the Chromium source.
+            if git ls-remote --exit-code https://chromium.googlesource.com/chromium/src "refs/tags/$v" > /dev/null; then
+              newer=true
+            else
+              echo "::warning::Tag $v is not in the Chromium source yet; trying again tomorrow."
+            fi
+          fi
+          echo "current=$cur" >> "$GITHUB_OUTPUT"
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+          echo "newer=$newer" >> "$GITHUB_OUTPUT"
+          echo "Current Chromium $cur, latest stable $v, update: $newer" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Skip if a build is running
+        id: busy
+        if: steps.latest.outputs.newer == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=$(gh run list -R "${{ github.repository }}" --workflow chromium.yml --limit 20 \
+                --json status --jq '[.[] | select(.status != "completed")] | length')
+          if [ "$n" != "0" ]; then
+            echo "busy=true" >> "$GITHUB_OUTPUT"
+            echo "A Chromium build is running; update postponed to the next check." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "busy=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Update version, log it, start the build
+        if: steps.latest.outputs.newer == 'true' && steps.busy.outputs.busy == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CUR: ${{ steps.latest.outputs.current }}
+          NEW: ${{ steps.latest.outputs.version }}
+        run: |
+          set -euo pipefail
+          echo "$NEW" > chromium/VERSION
+          today=$(date -u +%F)
+          line="- $today: Auto-update: Chromium $CUR -> $NEW (chromium-update workflow). Build started."
+          python3 - "$line" <<'PY'
+          import sys
+          p = "docs/MAINTAINING.md"
+          s = open(p).read()
+          mark = "\nAdd a line here after every build or release."
+          s = s.replace(mark, sys.argv[1] + "\n" + mark, 1) if mark in s else s + "\n" + sys.argv[1] + "\n"
+          open(p, "w").write(s)
+          PY
+          git config user.name "resolute-bot"
+          git config user.email "resolute-bot@users.noreply.github.com"
+          git add chromium/VERSION docs/MAINTAINING.md
+          git commit -m "Update Chromium to $NEW"
+          git push
+          # Pushes made by this workflow don't start other workflows, so start it.
+          gh workflow run chromium.yml -R "${{ github.repository }}" --ref main
+          echo "Updated to $NEW and started **Build Chromium APK**." >> "$GITHUB_STEP_SUMMARY"

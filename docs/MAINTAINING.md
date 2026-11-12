@@ -283,6 +283,11 @@ Before the first public release:
    and Play App Signing key all move; both accounts must be in good standing).
    If The Code Bros' account is an organization account, the 12-testers /
    14-days closed-test rule does not apply.
+   **No D-U-N-S number yet (2026-11-12).** New organization accounts need one,
+   so unless The Code Bros' console already exists as an organization account,
+   plan for a personal account and its 12-testers / 14-days closed test. Get a
+   free D-U-N-S number later (through Dun & Bradstreet's free request page)
+   when registering the company.
 7. Google Play checklist:
    - Developer account: $25 one-time, needs a card (dual-currency debit card or
      a virtual card works); identity and address verification.
@@ -422,7 +427,9 @@ Roadmap after the first working APK:
 11. **Background features Play accepts** (each uses a standard, declared
     Android mechanism):
     - Background audio/video playback with screen off + media notification
-      (foreground service type `mediaPlayback`)
+      (foreground service type `mediaPlayback`). **Not for YouTube**: Play
+      rejects apps that let YouTube play in the background (YouTube's terms).
+      Disable it on youtube.com / m.youtube.com and say so in the toggle.
     - Picture-in-picture video
     - Downloads that continue in the background (Chromium download service,
       `dataSync`), pause/resume, Wi-Fi-only option
@@ -449,6 +456,57 @@ Roadmap after the first working APK:
     WebUI, same design), an updater (GitHub Releases check, or Microsoft Store),
     and code signing (SignPath Foundation for open source, or Microsoft Store).
     Node Mode returns here as the headline desktop feature.
+
+### Gaps found 2026-11-12 (all accepted by the owner)
+
+Must fix before the Play launch:
+
+15. **Google service keys.** Third-party Chromium builds have no Google API
+    keys, so Google Safe Browsing, Translate, the spell-check service and web
+    push don't work. Plan: (a) Safe Browsing replacement: on-phone scam and
+    phishing lists (roadmap 4) plus a commercial-use lookup (Google Web Risk
+    or a free list service); check prices and terms first. (b) Web push: own
+    free Firebase project (Spark plan, no card). (c) Translate: use a
+    translation extension or an open service; check terms. Secrets go in
+    GitHub secrets only.
+16. **Release signing**: see section 7 (upload keystore, Play App Signing).
+17. **Legal pages**: privacy policy and terms on efajtahamid.monster, Play
+    Data Safety form ("collects nothing"), keep chrome://credits (open-source
+    licences), "not financial advice" note on crypto screens, check that any
+    "Chrome Web Store" wording follows Google's brand rules.
+18. **Readable crash reports**: build with `symbol_level = 1` for the
+    release, keep the unstripped `libchrome.so` symbols as an artifact and
+    upload them to Play ("native debug symbols") with each release.
+19. **Signed config**: Ed25519 signatures on `config/*.json` (section 9).
+20. **Real-device testing**: Firebase Test Lab free plan (a few physical and
+    virtual device tests a day, no card) run from GitHub Actions on every
+    build, next to the emulator test.
+
+Should have by launch:
+
+21. **Passwords and passkeys**: Chromium's password manager, Android autofill
+    providers (Google Password Manager, Bitwarden), passkeys.
+22. **Import and backup**: import bookmarks/passwords from Chrome and Kiwi
+    (HTML / CSV), export bookmarks, settings and passwords to a file.
+23. **Default browser polish**: Custom Tabs provider (links opened from other
+    apps), search and quick-action home-screen widgets, launcher shortcuts.
+24. **Privacy extras**: HTTPS-only mode, secure DNS choice, fingerprinting
+    protection, cookie-banner auto-dismiss.
+25. **Update prompts**: Play in-app update prompt; GitHub APK builds check
+    GitHub Releases and offer the update.
+26. **Store listing**: screenshots, short video, feature graphic, description
+    and keywords (ASO).
+
+Later:
+
+27. **Sync without a server** (same as item 10): end-to-end encrypted, through
+    the user's own Google Drive or WebDAV.
+28. **Search revenue**: a search engine partnership once there are users
+    (this was Kiwi's main income). Never change the user's chosen engine.
+29. **Support**: help site / FAQ, Telegram community, in-app "Report a
+    problem" (pre-filled GitHub issue).
+30. **Company**: register The Code Bros, get a free D-U-N-S number, then an
+    organization Play account (needed for some grants and features).
 
 **Rule from now on:** build Resolute features (new tab, Resolute Picks, Explore,
 Transaction X-ray, trust/scam protection, swap) as **web pages or a built-in
@@ -531,6 +589,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-12: Full UI plan written (Claude Doc, linked in section 10).
 - 2026-11-12: Added Neptuv and The Code Bros to Picks (group "From the Resolute team"); Hire link now thecodebros.xyz.
 - 2026-11-12: UX plan added as the second tab of the UI plan doc.
+- 2026-11-12: Gap review: 16 missing items added to the roadmap (items 15-30). Owner has no D-U-N-S number yet. Background play restricted to non-YouTube media (Play policy).
 
 Add a line here after every build or release.
 

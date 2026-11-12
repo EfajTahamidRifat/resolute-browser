@@ -392,6 +392,10 @@ command menu, extensions, connect-wallet flow, desktop mode. Colours: background
 Inter. Share or export it if working from another account. Screen 10 is the
 Quick menu. `docs/UX_BENCHMARK.md` compares Kiwi's and Mises' UI with Resolute
 and sets the UI rules (two-tap switches, bottom-first, no ads, small patches).
+The full UI plan (18 screens, design tokens, Web3 safety UI, 5 build phases,
+quality targets) is the Claude Doc "Resolute Browser: UI plan" in the owner's
+account: https://claude.ai/artifact/66CRSmaYDQZg3kxjUvBXNT (export it to keep a
+copy). Phases 1-3 (brand, core shell, safety/Web3) come before the Play launch.
 
 Roadmap after the first working APK:
 
@@ -517,6 +521,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
   0001 (normal Android graphics setup). Also seen: the 410 MB libchrome.so was
   too big for Android's shared-memory reservation (208 MB); the official build
   should fix that. Restarted the Chromium 158 build with the patch.
+- 2026-11-12: Full UI plan written (Claude Doc, linked in section 10).
 
 Add a line here after every build or release.
 

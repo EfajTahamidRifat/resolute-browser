@@ -360,6 +360,11 @@ partner portal, Reown (WalletConnect). Later: Google Play Console, F-Droid.
   Telegram is a placeholder, set the URL and `enabled: true`). `labels` sets
   the words shown (section title, "See all", badge); the `disclosure` line must
   always stay visible because Resolute earns commission from these links.
+- Own products: the group `ours` ("From the Resolute team") holds the
+  founder's own projects, Neptuv (neptuv.xyz) and The Code Bros
+  (thecodebros.xyz). Their entries have `"own": true`: the app labels them
+  "Made by Resolute's founder" instead of the commission disclosure, and they
+  never get a referral prompt. "Hire us" now points to The Code Bros.
 - Referral prompt (`referral_prompt` in `partners.json`): when a user opens a
   Pick's **sign-up page** on their own, Resolute may offer once: "Use Resolute
   link / No thanks". Never shown if the page already carries someone's referral
@@ -522,6 +527,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
   too big for Android's shared-memory reservation (208 MB); the official build
   should fix that. Restarted the Chromium 158 build with the patch.
 - 2026-11-12: Full UI plan written (Claude Doc, linked in section 10).
+- 2026-11-12: Added Neptuv and The Code Bros to Picks (group "From the Resolute team"); Hire link now thecodebros.xyz.
 
 Add a line here after every build or release.
 

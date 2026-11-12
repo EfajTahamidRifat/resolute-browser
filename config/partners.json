@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 1,
-  "updated": "2026-11-10",
+  "version": 2,
+  "updated": "2026-11-12",
   "notice": {
     "enabled": true,
     "title": "The Resolute team will never DM you first",
@@ -19,8 +19,8 @@
       "explore_footer"
     ],
     "hire": {
-      "label": "Hire us: custom browsers, Web3 apps & bots",
-      "url": "https://efajtahamid.monster",
+      "label": "Hire The Code Bros: custom browsers, Web3 apps & bots",
+      "url": "https://thecodebros.xyz",
       "enabled": true
     },
     "links": [
@@ -43,6 +43,13 @@
         "name": "Website",
         "handle": "efajtahamid.monster",
         "url": "https://efajtahamid.monster",
+        "enabled": true
+      },
+      {
+        "id": "agency",
+        "name": "The Code Bros",
+        "handle": "thecodebros.xyz",
+        "url": "https://thecodebros.xyz",
         "enabled": true
       },
       {
@@ -69,6 +76,12 @@
   "disclosure": "Partner links. Resolute may earn a commission at no extra cost to you.",
   "groups": [
     {
+      "id": "ours",
+      "title": "From the Resolute team",
+      "risk_warning": null,
+      "disclosure": "Made by Resolute's founder. No referral commission; shown because we built them."
+    },
+    {
       "id": "trade",
       "title": "Trade",
       "risk_warning": "Trading memecoins, perps and leveraged products is high-risk. Only use money you can afford to lose."
@@ -85,6 +98,47 @@
     }
   ],
   "partners": [
+    {
+      "id": "neptuv",
+      "name": "Neptuv",
+      "group": "ours",
+      "description": "Trust scores for AI agents (ERC-8004): check an agent before you pay it or share data",
+      "url": "https://neptuv.xyz",
+      "newtab_tile": true,
+      "socials": {
+        "x": "https://x.com/Neptuv_xyz"
+      },
+      "risk": "low",
+      "enabled": true,
+      "own": true,
+      "referral_prompt": {
+        "enabled": false,
+        "terms_checked": true,
+        "user_benefit": null,
+        "domains": [],
+        "signup_paths": [],
+        "ref_params": []
+      }
+    },
+    {
+      "id": "thecodebros",
+      "name": "The Code Bros",
+      "group": "ours",
+      "description": "Software, AI and automation agency: custom browsers, Web3 apps, bots",
+      "url": "https://thecodebros.xyz",
+      "newtab_tile": true,
+      "risk": "low",
+      "enabled": true,
+      "own": true,
+      "referral_prompt": {
+        "enabled": false,
+        "terms_checked": true,
+        "user_benefit": null,
+        "domains": [],
+        "signup_paths": [],
+        "ref_params": []
+      }
+    },
     {
       "id": "gmgn",
       "name": "GMGN",

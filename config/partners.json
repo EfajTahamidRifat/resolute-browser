@@ -118,7 +118,8 @@
         "domains": [],
         "signup_paths": [],
         "ref_params": []
-      }
+      },
+      "icon": "icons/neptuv.png"
     },
     {
       "id": "thecodebros",
@@ -137,7 +138,8 @@
         "domains": [],
         "signup_paths": [],
         "ref_params": []
-      }
+      },
+      "icon": null
     },
     {
       "id": "gmgn",

@@ -500,6 +500,11 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
   args.gn: official build, no DCHECKs, no PGO, VR/AR/XR off. Build now also
   makes the Play bundle (.aab) and saves the finished build for fast rebuilds.
   This restarted the Chromium 158 build (it had run about 45 min).
+- 2026-11-12: First real-phone test of the 156 test APK: installs and opens,
+  loads google.com, then closes by itself after a few seconds (crash), twice.
+  Likely a DCHECK self-check failing (the test build had them on and they stop
+  the app); the official build in progress turns them off. Asked owner for an
+  Android bug report to confirm.
 
 Add a line here after every build or release.
 

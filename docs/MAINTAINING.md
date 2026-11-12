@@ -468,6 +468,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-12: UI benchmark of Kiwi and Mises written (`docs/UX_BENCHMARK.md`,
   study only, no code copied). Added screen 10 "Quick menu" to the design canvas.
 - 2026-11-12: Added daily Chromium auto-update workflow (`chromium-update.yml`).
+- 2026-11-12: Auto-update: Chromium 156.0.8078.47 -> 158.0.8127.22 (chromium-update workflow). Build started.
 
 Add a line here after every build or release.
 

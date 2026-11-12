@@ -1,0 +1,18 @@
+diff --git a/chrome/browser/chrome_browser_field_trials.cc b/chrome/browser/chrome_browser_field_trials.cc
+index b329f64..c54ac3d 100644
+--- a/chrome/browser/chrome_browser_field_trials.cc
++++ b/chrome/browser/chrome_browser_field_trials.cc
+@@ -226,9 +226,10 @@ void ChromeBrowserFieldTrials::RegisterFeatureOverrides(
+   // Enable ANGLE/Vulkan features.
+   // TODO (crbug.com//376280554): Enable these features with runtime checks
+   // instead.
+-  feature_overrides.EnableFeature(::features::kSkipVulkanBlocklist);
+-  feature_overrides.EnableFeature(::features::kDefaultANGLEVulkan);
+-  feature_overrides.EnableFeature(::features::kVulkanFromANGLE);
++  // Resolute: don't force ANGLE on Vulkan or skip the Vulkan blocklist. On
++  // phones with older Vulkan drivers ANGLE/Vulkan only offers GLES 2.0, the GPU
++  // process can't start and the browser exits ("GPU process isn't usable").
++  // Use Chrome for Android's normal, device-checked graphics setup instead.
+   feature_overrides.EnableFeature(
+       ::features::kDefaultPassthroughCommandDecoder);
+ 

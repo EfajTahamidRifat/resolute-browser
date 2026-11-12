@@ -214,6 +214,12 @@ Without a full Chromium checkout (the usual case here), for small changes:
 3. New files: diff against `/dev/null`.
 4. Put the patch in `chromium/patches/`, commit, push, watch the build.
 
+Current patches:
+
+| Patch | What it does | Why |
+|---|---|---|
+| `0001-gpu-no-forced-angle-vulkan.patch` | Removes three desktop-Android graphics overrides in `chrome/browser/chrome_browser_field_trials.cc` (SkipVulkanBlocklist, DefaultANGLEVulkan, VulkanFromANGLE) | The desktop-Android config forces ANGLE on Vulkan and ignores the Vulkan blocklist. On phones with older Vulkan drivers (owner's OnePlus CPH2473, Adreno, Vulkan 1.1) that gives only GLES 2.0, the GPU process fails 3 times and the browser exits: `GPU process isn't usable. Goodbye.` Without the overrides it uses Chrome for Android's normal graphics setup. On each Chromium update, check this block still exists; drop the patch if upstream adds proper runtime checks (crbug.com/376280554). |
+
 Rules:
 
 - One feature per patch. Keep patches small.
@@ -505,6 +511,12 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
   Likely a DCHECK self-check failing (the test build had them on and they stop
   the app); the official build in progress turns them off. Asked owner for an
   Android bug report to confirm.
+- 2026-11-12: Owner's bug report (OnePlus CPH2473, Android 13) showed the real
+  crash: `GPU process isn't usable. Goodbye.` The desktop-Android config forces
+  ANGLE on Vulkan; this phone's Vulkan driver only gives GLES 2.0. Added patch
+  0001 (normal Android graphics setup). Also seen: the 410 MB libchrome.so was
+  too big for Android's shared-memory reservation (208 MB); the official build
+  should fix that. Restarted the Chromium 158 build with the patch.
 
 Add a line here after every build or release.
 

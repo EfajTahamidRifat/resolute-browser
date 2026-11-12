@@ -156,6 +156,7 @@ With the GitHub CLI: `gh run list --workflow chromium.yml`,
 | Compile error in a Resolute file | Fix the patch. The log line starting with `FAILED:` names the file. |
 | Build too slow / more than 8 stages | Add stages, or reduce work in `args.gn`. |
 | `Unable to locate package ...:i386` / `Temporary failure resolving 'azure.archive.ubuntu.com'` in "Install build dependencies" | The runner could not reach Ubuntu's package servers. The stage now enables i386, tries four Ubuntu mirrors, retries 3 times, and in resumed stages continues with a warning if it still fails. Re-run with `resume_run_id` to continue. |
+| A stage fails with a compile error | Since 2026-11-13 a failed stage still saves its progress. Fix the cause, push with `[skip ci]`, then Run workflow with the failed run's ID as `resume_run_id`. |
 | The final link (`libchrome.so`) runs into every stage deadline and never finishes | ThinLTO is too slow for the runner. Check `thinlto-cache` is growing between stages. If not, set `use_thin_lto = false` in `args.gn` (bigger app, but builds). |
 | A resumed stage starts from zero (progress total close to a full build, e.g. `[25086/92350]` in stage 2) | The saved progress was ignored. Builds must use Ninja: keep `use_siso = false` in `chromium/args.gn`. |
 
@@ -603,6 +604,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-12: Run 43177558602 stage 1 OK: patch 0001 applied, `gn gen` passed with the official-build args, 52,962 of 93,169 steps in one stage (the first build managed 23,939). Saved state 1.3 GB.
 - 2026-11-12: Owner decision: no sale for at least 5 years; build Resolute as a lasting Android + Windows browser.
 - 2026-11-12: Stage 2 OK, 13,218 more steps (66,180 of 93,169), no errors. Official builds also compile Blink a second time for the host (`clang_x64_v8_arm64`, about 4,500 files): that is the V8 context snapshot generator, which makes new pages start faster. One-time cost per build; could be turned off with `use_v8_context_snapshot = false` if builds are ever too slow.
+- 2026-11-13: Run 43177558602 stage 3 failed at 24,631 of 26,989 remaining steps: `omnibox_edit_model.cc` calls `AutocompleteMatch::GetVectorIcon`, which on Android exists only with `enable_vr = true`. My `enable_vr = false` caused it. Fixed: `enable_vr = true`, AR/Cardboard/OpenXR stay off. Stages now save progress even when they fail. Resumed from the stage-2 state (stage 3's work was lost because this fix wasn't in yet).
 
 Add a line here after every build or release.
 

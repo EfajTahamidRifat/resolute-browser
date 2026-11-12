@@ -133,7 +133,10 @@ runs:
         case "$rc" in
           0) echo "done=true" >> "$GITHUB_OUTPUT" ;;
           124) echo "done=false" >> "$GITHUB_OUTPUT" ;;
-          *) exit "$rc" ;;
+          # A compile error: still save the progress (next steps), then fail,
+          # so a fixed run can resume with resume_run_id instead of redoing
+          # this stage's work.
+          *) echo "done=failed" >> "$GITHUB_OUTPUT"; echo "::error::Build failed (exit $rc); progress saved" ;;
         esac
 
     - name: Upload APK
@@ -151,7 +154,7 @@ runs:
     # (patches, branding) can start from it with resume_run_id and only
     # rebuild what changed.
     - name: Save progress for next stage
-      if: steps.build.outputs.done == 'false' || steps.build.outputs.done == 'true'
+      if: always() && steps.build.outputs.done != ''
       shell: bash
       run: |
         mkdir -p /mnt/res/state
@@ -159,7 +162,7 @@ runs:
         ls -lh /mnt/res/state
 
     - name: Upload progress
-      if: steps.build.outputs.done == 'false' || steps.build.outputs.done == 'true'
+      if: always() && steps.build.outputs.done != ''
       uses: actions/upload-artifact@v7
       with:
         name: chromium-state-${{ inputs.cpu }}
@@ -167,3 +170,8 @@ runs:
         compression-level: 0
         retention-days: ${{ steps.build.outputs.done == 'true' && 14 || 2 }}
         overwrite: true
+
+    - name: Fail the stage if the build failed
+      if: steps.build.outputs.done == 'failed'
+      shell: bash
+      run: exit 1

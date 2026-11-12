@@ -14,9 +14,13 @@ dcheck_always_on = false
 # Chrome uses Google's profile data (PGO) for official builds; we don't have it.
 chrome_pgo_phase = 0
 
-# No VR / AR / Cardboard / Android XR: large libraries almost nobody uses in a
+# No AR / Cardboard / Android XR: large libraries almost nobody uses in a
 # browser (the XR library alone was 19 MB).
-enable_vr = false
+# enable_vr itself must stay true: with is_desktop_android, Chromium's desktop
+# address-bar code calls AutocompleteMatch::GetVectorIcon, which on Android only
+# exists when ENABLE_VR is on (build of 2026-11-12 failed with enable_vr=false).
+# With the three SDKs below off, enable_vr only adds a small amount of code.
+enable_vr = true
 enable_arcore = false
 enable_cardboard = false
 enable_openxr = false

@@ -516,6 +516,13 @@ Transaction X-ray, trust/scam protection, swap) as **web pages or a built-in
 extension**, not Android-only Java, wherever possible, so Android and Windows
 share the same code.
 
+**Long-term decision (2026-11-12):** Resolute is a long-term product, not a
+quick flip. The owner will not sell it for at least 5 years; the goal is a
+lasting browser brand on Android and Windows, like Opera. So: keep Chromium
+updated every month, keep every account and key in Resolute's own name, keep
+the code clean (own code only, no GPL copies), keep monthly user and revenue
+numbers, and build features once for both platforms (the shared-web-code rule).
+
 Business model: swap/perps integrator fees, partner links (disclosed),
 Resolute Pro (one-time), grants, white-label builds. No injected ads.
 
@@ -594,6 +601,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-12: UX plan added as the second tab of the UI plan doc.
 - 2026-11-12: Gap review: 16 missing items added to the roadmap (items 15-30). Owner has no D-U-N-S number yet. Background play restricted to non-YouTube media (Play policy).
 - 2026-11-12: Run 43177558602 stage 1 OK: patch 0001 applied, `gn gen` passed with the official-build args, 52,962 of 93,169 steps in one stage (the first build managed 23,939). Saved state 1.3 GB.
+- 2026-11-12: Owner decision: no sale for at least 5 years; build Resolute as a lasting Android + Windows browser.
 
 Add a line here after every build or release.
 

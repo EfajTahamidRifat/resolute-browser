@@ -222,13 +222,55 @@ def t_listed():
     return len(have) == 2, "listed: " + (", ".join(have) or "none"), png
 
 
+@test("08-wallet-connect")
+def t_wallet():
+    """Taps Connect on a local dApp page and records what happens to MetaMask's
+    approval window (the bug owner hit on real phones, 2026-11-13)."""
+    import http.server, socketserver, threading, functools
+    pages = Path(__file__).parent / "pages"
+    handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(pages))
+    srv = socketserver.TCPServer(("127.0.0.1", 8765), handler)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    adb("reverse", "tcp:8765", "tcp:8765")
+    try:
+        mark = logcat_mark()
+        open_url("http://localhost:8765/connect.html")
+        button = wait_for(r"^Connect wallet$", 90, "08-page")
+        shot("08-page")
+        if button is None:
+            return False, "test page did not load", None
+        time.sleep(4)
+        xml = ui_dump("08-before")
+        provider = find(xml, r"^provider:")
+        tap(button)
+        time.sleep(25)
+        xml = ui_dump("08-after")
+        png = shot("08-after")
+        acts = adb("shell", "dumpsys", "activity", "activities")
+        (OUT / "08-activities.txt").write_text(acts)
+        log = adb("logcat", "-d", "-v", "time", "-T", mark, timeout=300)
+        keep = [l for l in log.splitlines() if re.search(
+            r"PopupCreator|BrowserWindow|ChromeAndroidTask|MultiInstance|CustomTab|"
+            r"RESOLUTE_E2E|extension|Extension|windows\.create|ActivityTaskManager|"
+            r"chromium.*(ERROR|WARNING|FATAL)", l)]
+        (OUT / "08-wallet-logcat.txt").write_text("\n".join(keep))
+        seen = find(xml, r"MetaMask|Connect with MetaMask|Create a new wallet|Unlock")
+        result = find(xml, r"^result:")
+        detail = (f"provider={provider.get('text') if provider is not None else '?'}; "
+                  f"{result.get('text') if result is not None else 'no result text'}; "
+                  f"MetaMask window visible={seen is not None}")
+        return seen is not None, detail, png
+    finally:
+        srv.shutdown()
+
+
 def main():
     adb("wait-for-device")
     adb("logcat", "-c")
     adb("shell", "settings", "put", "global", "window_animation_scale", "0")
     adb("shell", "settings", "put", "global", "transition_animation_scale", "0")
     adb("shell", "settings", "put", "global", "animator_duration_scale", "0")
-    for t in (t_install, t_launch, t_example, t_wiki, t_ublock, t_metamask, t_listed):
+    for t in (t_install, t_launch, t_example, t_wiki, t_ublock, t_metamask, t_listed, t_wallet):
         t()
     (OUT / "logcat.txt").write_text(adb("logcat", "-d", "-v", "time", timeout=300))
     (OUT / "report.json").write_text(json.dumps(results, indent=2))

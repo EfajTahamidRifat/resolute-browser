@@ -269,12 +269,19 @@ testing, **not for public release**.
 
 Before the first public release:
 
-1. Create a release keystore **on your own computer**:
-   `keytool -genkey -v -keystore resolute-release.jks -alias resolute -keyalg RSA -keysize 4096 -validity 10000`
-2. **Back it up in two safe places.** If this keystore is lost, you can never
-   update the app on Google Play again. Never commit it.
-3. Add it to GitHub secrets (base64 of the file + passwords) and wire the
-   `android_keystore_*` GN args into the workflow (to do).
+1. **Upload key created 2026-11-13** (`resolute-upload-key.jks`, PKCS12, RSA
+   4096, alias `resolute`, valid 30 years, CN=Resolute Browser, O=The Code
+   Bros). Generated in a Claude session and handed to the owner, who keeps
+   the file and password in two safe places. Fingerprints (public):
+   SHA-1 `F6:04:0B:F9:08:8A:86:08:B8:BD:FD:C1:49:78:3B:36:9D:A3:3E:42`,
+   SHA-256 `85:8F:D5:98:48:C7:CA:ED:31:F5:21:14:CB:DE:F3:4E:BE:EA:D6:77:4A:86:A8:7B:E1:CF:82:52:10:02:18:AE`
+   (add both to the Firebase Android app).
+2. It is the **upload** key: with Play App Signing, Google holds the real app
+   signing key, and a lost or leaked upload key can be reset through Play
+   Console support. Still, never commit it.
+3. GitHub secrets: `RELEASE_KEYSTORE_BASE64` (base64 of the .jks),
+   `RELEASE_KEYSTORE_PASSWORD`, `RELEASE_KEY_ALIAS` (= `resolute`). Wiring the
+   `android_keystore_*` GN args into the workflow: to do with build #3.
 4. App ID is `com.resolute.browser` (`chromium/args.gn`). It becomes permanent
    once published on Google Play.
 5. **Distribution decision (2026-11-10, final): one build, published on
@@ -347,6 +354,9 @@ variables, Actions**. Required names:
 | `ALCHEMY_RPC_URL` | EVM RPC URL incl. key (alchemy.com dashboard) |
 | `LIFI_API_KEY` | LI.FI partner portal (portal.li.fi) |
 | `REOWN_PROJECT_ID` | WalletConnect / Reown dashboard |
+| `RELEASE_KEYSTORE_BASE64` | Base64 of the Play upload keystore `resolute-upload-key.jks` (owner keeps the file) |
+| `RELEASE_KEYSTORE_PASSWORD` | Its password (same for the key) |
+| `RELEASE_KEY_ALIAS` | `resolute` |
 | `GOOGLE_SERVICES_JSON` | Firebase project "Resolute Browser", Android app `com.resolute.browser`: the whole `google-services.json` file (for web push). Not committed because the repo is public. |
 | `FIREBASE_SERVICE_ACCOUNT` | JSON key of service account `github-test-lab` in the same project (runs Firebase Test Lab from Actions) |
 
@@ -665,6 +675,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-13: Privacy policy published: https://efajtahamid.monster/resolute/privacy-policy.html (repo EfajTahamidRifat/dewanefaj, file resolute/privacy-policy.html). Use this URL in Play Console. Swaps and transaction checks are marked there as planned; update the page before releasing any feature that changes what data leaves the phone.
 - 2026-11-13: New logo chosen by the owner: red faceted crystal "R" breaking forward, with shards (made with Gemini, cut out by hand because Gemini's "transparent" background was painted in). All sizes in `branding/` (`branding/android/` = launcher mipmaps incl. adaptive foreground, monochrome and round; `icon_1024.png`, `play_store_icon_512.png`). Old helmet kept in `branding/old-helmet/`. The branding patch must use these.
 - 2026-11-13: Roadmap items 31-45 added (features that need no outside API).
+- 2026-11-13: Play upload key created (alias `resolute`, fingerprints in section 7); owner storing it and adding the three RELEASE_* secrets.
 
 Add a line here after every build or release.
 

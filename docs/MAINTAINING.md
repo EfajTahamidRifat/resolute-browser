@@ -221,7 +221,7 @@ the patches. It renames "Chromium" to "Resolute" in
 `chrome/android/java/res_chromium_base/values/channel_constants.xml` (app name,
 widget names) and overwrites every launcher icon PNG there (`app_icon`,
 `layered_app_icon`, `layered_app_icon_background`, all densities) with the
-images in `chromium/branding/`, resized to each file's size. It fails the build
+pre-made images in `chromium/branding/` (`<kind>_<pixel size>.png`, made from the 1024 px sources with ImageMagick). Plain Python, no image library (CI python has none; a Pillow version failed on 2026-11-13). It fails the build
 if it finds no icons (Chromium moved them). In-app texts that still say
 "Chromium" (chromium_strings.grd) are a later change.
 

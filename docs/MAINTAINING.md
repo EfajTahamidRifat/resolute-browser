@@ -519,6 +519,51 @@ Later:
 30. **Company**: register The Code Bros, get a free D-U-N-S number, then an
     organization Play account (needed for some grants and features).
 
+### Extra features, no outside API needed (owner, 2026-11-13)
+
+Rule: these must work with no API key and no new outside service (only the
+phone, Chromium, the user's own wallet extension, and our GitHub config).
+Ideas that need a data API were left out on purpose: watch-only portfolio,
+gas/price bar, price alerts.
+
+Web3:
+
+31. **Web3 domains in the address bar**: `name.eth` opens through the public
+    eth.limo gateway (name.eth.limo), `ipfs://` and `ipns://` through a public
+    IPFS gateway, chosen in Settings. Just URL rewriting, no API.
+32. **Official-links vault**: verified official site and socials per crypto
+    project, served from a new `config/official-links.json` on GitHub; the
+    trust badge and lookalike warning use it too.
+33. **QR scanner** in the address bar (on-device): opens links, and passes
+    `wc:` WalletConnect codes to the installed wallet.
+
+Safety:
+
+34. **Seed-phrase guard**: warns when a page asks for 12/24 recovery words
+    (detects a word grid or a pasted phrase; checked on the phone only,
+    nothing is stored or sent).
+35. **Fake-APK warning**: warns before installing an APK downloaded from a
+    website, with extra warning when the name looks like a wallet app.
+36. **Profiles**: separate Personal / Work spaces with their own logins and
+    cookies. Not for running many wallets to farm airdrops; never market it
+    that way.
+
+Power tools:
+
+37. **Picture-in-picture** for any video.
+38. **Video speed (0.5x-3x) and volume boost** on any site.
+39. **Full-page screenshot and save page as PDF** (Quick menu).
+40. **Page tools**: view source, a mobile console, user-agent switcher.
+41. **Custom CSS per site** to hide parts of a page permanently.
+42. **Send tab by QR**: show a QR of the page so another device opens it; no
+    account, no server.
+
+Personalisation:
+
+43. **Themes**: wallpaper and accent colour on the new tab.
+44. **Gesture editor**: choose what each swipe does.
+45. **Bangla interface** (with the other planned languages).
+
 **Rule from now on:** build Resolute features (new tab, Resolute Picks, Explore,
 Transaction X-ray, trust/scam protection, swap) as **web pages or a built-in
 extension**, not Android-only Java, wherever possible, so Android and Windows
@@ -619,6 +664,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-13: Privacy policy drafted (Claude Doc "Resolute Browser: Privacy Policy (draft)", https://claude.ai/artifact/4D9QaFxTpsZehAf7hXR1Yn). Before publishing on efajtahamid.monster: fill in the contact email and date, and remove any feature not in the released app (swaps, X-ray, signed config).
 - 2026-11-13: Privacy policy published: https://efajtahamid.monster/resolute/privacy-policy.html (repo EfajTahamidRifat/dewanefaj, file resolute/privacy-policy.html). Use this URL in Play Console. Swaps and transaction checks are marked there as planned; update the page before releasing any feature that changes what data leaves the phone.
 - 2026-11-13: New logo chosen by the owner: red faceted crystal "R" breaking forward, with shards (made with Gemini, cut out by hand because Gemini's "transparent" background was painted in). All sizes in `branding/` (`branding/android/` = launcher mipmaps incl. adaptive foreground, monochrome and round; `icon_1024.png`, `play_store_icon_512.png`). Old helmet kept in `branding/old-helmet/`. The branding patch must use these.
+- 2026-11-13: Roadmap items 31-45 added (features that need no outside API).
 
 Add a line here after every build or release.
 

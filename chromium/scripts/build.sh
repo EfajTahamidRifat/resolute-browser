@@ -24,6 +24,8 @@ for p in "$here"/patches/*.patch; do
   echo "applying $(basename "$p")"
   git apply "$p"
 done
+# Resolute name and icons (see apply_branding.py).
+python3 "$here/scripts/apply_branding.py" "$work/src" "$here"
 
 # Resumed stages run on a fresh machine with a fresh checkout. Give every source
 # file the same old timestamp so ninja doesn't think the restored out/ is stale.

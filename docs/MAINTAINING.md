@@ -677,6 +677,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-13: Roadmap items 31-45 added (features that need no outside API).
 - 2026-11-13: Play upload key created (alias `resolute`, fingerprints in section 7); owner storing it and adding the three RELEASE_* secrets.
 - 2026-11-13: Owner saved the upload key in Google Drive and added RELEASE_KEY_ALIAS, RELEASE_KEYSTORE_PASSWORD, RELEASE_KEYSTORE_BASE64. Claude's working copy deleted.
+- 2026-11-13: **Second APK built** (run 43360148163, Chromium 158.0.8127.22, official build, patch 0001 GPU fix). Released as `test-2026-11-13`. APK 371 MB (was 552): libchrome.so 258 MB (was 407), resources.arsc 34 MB, languages 24 MB, XR library 19 MB (still in, see args.gn). The Play bundle (.aab) is in the run artifact; Play will send each phone only its own language and screen size, compressed. Further size ideas: `is_high_end_android = false` (-Os), an XR-removal patch, dropping unused features.
 
 Add a line here after every build or release.
 

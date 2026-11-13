@@ -11,6 +11,10 @@ on:
       tag:
         description: "Release tag, e.g. test-2026-11-12"
         required: true
+      cpu:
+        description: "arm64 (phones) or x64 (emulator test build)"
+        required: false
+        default: arm64
 
 permissions:
   contents: write
@@ -26,7 +30,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh run download "${{ inputs.run_id }}" -R "${{ github.repository }}" \
-            -n resolute-chromium-arm64 -D apk
+            -n resolute-chromium-${{ inputs.cpu || 'arm64' }} -D apk
           ls -l apk
       - name: Create pre-release
         env:
@@ -35,4 +39,4 @@ jobs:
           gh release create "${{ inputs.tag }}" apk/*.apk \
             -R "${{ github.repository }}" --prerelease \
             --title "Resolute test build ${{ inputs.tag }}" \
-            --notes "Test build (plain Chromium engine, Resolute branding not added yet). arm64 phones. Uninstall the older Resolute test app first. Built by run ${{ inputs.run_id }}."
+            --notes "Resolute test build (${{ inputs.cpu || 'arm64' }}). arm64 = phones; x64 = Android emulator only. Built by run ${{ inputs.run_id }}."

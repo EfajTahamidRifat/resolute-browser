@@ -12,6 +12,12 @@ on:
         description: "Continue from the saved progress of this earlier run ID (leave empty to start fresh)"
         required: false
         default: ""
+      cpu:
+        description: "arm64 = phones (release). x64 = x86_64 build for the GitHub Android emulator (testing)"
+        required: false
+        default: arm64
+        type: choice
+        options: [arm64, x64]
   push:
     branches: [main]
     paths:
@@ -23,8 +29,9 @@ permissions:
   contents: read
   actions: read
 
+# One build per CPU at a time; the arm64 and x64 builds don't cancel each other.
 concurrency:
-  group: chromium-build
+  group: chromium-build-${{ inputs.cpu || 'arm64' }}
   cancel-in-progress: true
 
 jobs:
@@ -38,7 +45,7 @@ jobs:
       - id: stage
         uses: ./.github/actions/chromium-stage
         with:
-          cpu: arm64
+          cpu: ${{ inputs.cpu || 'arm64' }}
           resume: ${{ inputs.resume_run_id != '' && 'true' || 'false' }}
           resume_run_id: ${{ inputs.resume_run_id }}
 
@@ -54,7 +61,7 @@ jobs:
       - id: stage
         uses: ./.github/actions/chromium-stage
         with:
-          cpu: arm64
+          cpu: ${{ inputs.cpu || 'arm64' }}
           resume: "true"
 
   stage3:
@@ -69,7 +76,7 @@ jobs:
       - id: stage
         uses: ./.github/actions/chromium-stage
         with:
-          cpu: arm64
+          cpu: ${{ inputs.cpu || 'arm64' }}
           resume: "true"
 
   stage4:
@@ -84,7 +91,7 @@ jobs:
       - id: stage
         uses: ./.github/actions/chromium-stage
         with:
-          cpu: arm64
+          cpu: ${{ inputs.cpu || 'arm64' }}
           resume: "true"
 
   stage5:
@@ -99,7 +106,7 @@ jobs:
       - id: stage
         uses: ./.github/actions/chromium-stage
         with:
-          cpu: arm64
+          cpu: ${{ inputs.cpu || 'arm64' }}
           resume: "true"
 
   stage6:
@@ -114,7 +121,7 @@ jobs:
       - id: stage
         uses: ./.github/actions/chromium-stage
         with:
-          cpu: arm64
+          cpu: ${{ inputs.cpu || 'arm64' }}
           resume: "true"
 
   stage7:
@@ -129,7 +136,7 @@ jobs:
       - id: stage
         uses: ./.github/actions/chromium-stage
         with:
-          cpu: arm64
+          cpu: ${{ inputs.cpu || 'arm64' }}
           resume: "true"
 
   stage8:
@@ -144,7 +151,7 @@ jobs:
       - id: stage
         uses: ./.github/actions/chromium-stage
         with:
-          cpu: arm64
+          cpu: ${{ inputs.cpu || 'arm64' }}
           resume: "true"
 
   not-finished:

@@ -614,6 +614,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-13: Run 43177558602 stage 3 failed at 24,631 of 26,989 remaining steps: `omnibox_edit_model.cc` calls `AutocompleteMatch::GetVectorIcon`, which on Android exists only with `enable_vr = true`. My `enable_vr = false` caused it. Fixed: `enable_vr = true`, AR/Cardboard/OpenXR stay off. Stages now save progress even when they fail. Resumed from the stage-2 state (stage 3's work was lost because this fix wasn't in yet).
 - 2026-11-13: Resumed run 43321561723 stage 1 reached 19,145 of 28,660 steps, then failed a JNI check: `enable_vr = true` with ARCore/Cardboard/OpenXR off leaves webxr Java classes out of the app. All VR/AR/XR args removed (Chromium defaults, as in the first working build). The new save-on-failure worked (2.1 GB state saved), so the fix resumes from there.
 - 2026-11-13: Firebase project `resolute-browser` created on the free Spark plan, Android app registered. Test Lab skipped for now (no billing).
+- 2026-11-13: The Code Bros' Play Console account is a **personal** account, so a closed test with at least 12 testers for 14 days is required before production. Owner is collecting testers.
 
 Add a line here after every build or release.
 

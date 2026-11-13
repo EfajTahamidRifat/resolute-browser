@@ -1,0 +1,27 @@
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java b/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java
+--- a/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java
+@@ -4800,8 +4800,21 @@ public class ChromeTabbedActivity extends ChromeActivity implements PreAttachInt
+         } else if (id == R.id.extensions_menu_menu_id) {
+             ExtensionsToolbarCoordinator coordinator =
+                     assumeNonNull(getToolbarManager()).getExtensionsToolbarCoordinator();
+-            assumeNonNull(coordinator);
+-            coordinator.showExtensionsMenu();
++            if (coordinator != null) {
++                coordinator.showExtensionsMenu();
++            } else {
++                // Resolute: phones use the phone toolbar, which has no extensions
++                // toolbar, so the coordinator is null and the menu item crashed.
++                // Open the extensions page instead until Resolute's own phone
++                // extensions UI replaces this.
++                getTabCreator(getCurrentTabModel().isIncognito())
++                        .createNewTab(
++                                new LoadUrlParams(
++                                        UrlConstants.CHROME_EXTENSIONS_URL,
++                                        PageTransition.AUTO_TOPLEVEL),
++                                TabLaunchType.FROM_CHROME_UI,
++                                currentTab);
++            }
+             RecordUserAction.record("MobileMenuExtensionsMenu");
+         } else if (id == R.id.manage_extensions_menu_id) {
+             LoadUrlParams params =

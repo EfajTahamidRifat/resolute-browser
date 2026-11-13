@@ -230,6 +230,7 @@ Current patches:
 | Patch | What it does | Why |
 |---|---|---|
 | `0001-gpu-no-forced-angle-vulkan.patch` | Removes three desktop-Android graphics overrides in `chrome/browser/chrome_browser_field_trials.cc` (SkipVulkanBlocklist, DefaultANGLEVulkan, VulkanFromANGLE) | The desktop-Android config forces ANGLE on Vulkan and ignores the Vulkan blocklist. On phones with older Vulkan drivers (owner's OnePlus CPH2473, Adreno, Vulkan 1.1) that gives only GLES 2.0, the GPU process fails 3 times and the browser exits: `GPU process isn't usable. Goodbye.` Without the overrides it uses Chrome for Android's normal graphics setup. On each Chromium update, check this block still exists; drop the patch if upstream adds proper runtime checks (crbug.com/376280554). |
+| `0002-extensions-menu-no-crash-on-phones.patch` | In `ChromeTabbedActivity`, the app-menu item "Open extensions menu" opens `chrome://extensions` when there is no extensions toolbar, instead of crashing | Chromium only creates `ExtensionsToolbarCoordinator` for the tablet toolbar (`ToolbarManager`, `extensions_toolbar_container_stub`); phones use the phone toolbar, so it is null and the menu item crashed (owner's bug report 2026-11-13, NullPointerException in onMenuOrKeyboardAction). Temporary: Resolute's own phone extensions UI (Quick menu row, popups as sheets) replaces it. |
 
 Rules:
 
@@ -688,6 +689,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-13: Owner saved the upload key in Google Drive and added RELEASE_KEY_ALIAS, RELEASE_KEYSTORE_PASSWORD, RELEASE_KEYSTORE_BASE64. Claude's working copy deleted.
 - 2026-11-13: **Second APK built** (run 43360148163, Chromium 158.0.8127.22, official build, patch 0001 GPU fix). Released as `test-2026-11-13`. APK 371 MB (was 552): libchrome.so 258 MB (was 407), resources.arsc 34 MB, languages 24 MB, XR library 19 MB (still in, see args.gn). The Play bundle (.aab) is in the run artifact; Play will send each phone only its own language and screen size, compressed. Further size ideas: `is_high_end_android = false` (-Os), an XR-removal patch, dropping unused features.
 - 2026-11-13: Branding step added (apply_branding.py: name Resolute + crystal-R icons). Build resumed from run 43360148163's finished state, so only resources and the APK are rebuilt.
+- 2026-11-13: Owner's phone test of test-2026-11-13: app opens and stays open (GPU fix works), Chrome Web Store installs MetaMask and Phantom. Crash on "Open extensions menu": phones get no extensions toolbar (tablet-only in Chromium 158). Patch 0002 stops the crash. Big open item: **on phones there is no way to click an extension's icon or open its popup**; Resolute must build its own phone extensions UI (priority for phase 2).
 
 Add a line here after every build or release.
 

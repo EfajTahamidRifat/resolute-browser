@@ -13,8 +13,12 @@ Essentials:
   build**: check `gh run list --workflow chromium.yml` first and warn the owner.
 - Extensions come from upstream `is_desktop_android = true`. Never re-introduce a
   Kiwi-style mega patch.
-- Write all Resolute code ourselves. Do not copy code from Kiwi, Mises, Edge or
-  any GPL project; studying how they work is fine.
+- Code reuse (owner delegated the decision, 2026-11-13): write Resolute code
+  ourselves by default. Small, targeted reuse of phone-specific pieces from
+  Kiwi (BSD-3) or Mises (MPL-2.0) is allowed when it saves real time: adapt it
+  to the current Chromium, keep their licence and copyright notices, credit
+  them in NOTICE, and MPL files stay MPL. Never port Kiwi's whole extensions
+  patch. No GPL code, no Edge code.
 - Keep Chromium updated at least monthly; security updates come before features.
 - Never commit secrets (RPC keys, API keys, keystores, seed phrases). Keys are
   GitHub Actions secrets; names are listed in `docs/MAINTAINING.md` section 8.

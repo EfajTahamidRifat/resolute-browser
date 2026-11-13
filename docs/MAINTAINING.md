@@ -358,7 +358,13 @@ config-signing private key, the release keystore or its passwords.
 
 Accounts used: GitHub (code, builds, config hosting), Helius, Alchemy, LI.FI
 partner portal, Reown (WalletConnect), Firebase (free Spark plan, no card;
-Google Analytics off: web push + Test Lab only, no tracking SDK). Later: Google Play Console, F-Droid.
+Google Analytics off: web push + Test Lab only, no tracking SDK).
+Firebase project (public identifiers, not secrets): project ID
+`resolute-browser`, project number / FCM sender ID `655933825450`, Android
+app ID `1:655933825450:android:ce7936ce9136ef976a0bd3` (package
+`com.resolute.browser`). Plan: **Spark (free) - keep it there**; the Google
+account also has a Cloud billing account with someone else's card, so never
+link this project to billing. Test Lab postponed if it asks for billing. Later: Google Play Console, F-Droid.
 
 ---
 
@@ -607,6 +613,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-12: Stage 2 OK, 13,218 more steps (66,180 of 93,169), no errors. Official builds also compile Blink a second time for the host (`clang_x64_v8_arm64`, about 4,500 files): that is the V8 context snapshot generator, which makes new pages start faster. One-time cost per build; could be turned off with `use_v8_context_snapshot = false` if builds are ever too slow.
 - 2026-11-13: Run 43177558602 stage 3 failed at 24,631 of 26,989 remaining steps: `omnibox_edit_model.cc` calls `AutocompleteMatch::GetVectorIcon`, which on Android exists only with `enable_vr = true`. My `enable_vr = false` caused it. Fixed: `enable_vr = true`, AR/Cardboard/OpenXR stay off. Stages now save progress even when they fail. Resumed from the stage-2 state (stage 3's work was lost because this fix wasn't in yet).
 - 2026-11-13: Resumed run 43321561723 stage 1 reached 19,145 of 28,660 steps, then failed a JNI check: `enable_vr = true` with ARCore/Cardboard/OpenXR off leaves webxr Java classes out of the app. All VR/AR/XR args removed (Chromium defaults, as in the first working build). The new save-on-failure worked (2.1 GB state saved), so the fix resumes from there.
+- 2026-11-13: Firebase project `resolute-browser` created on the free Spark plan, Android app registered. Test Lab skipped for now (no billing).
 
 Add a line here after every build or release.
 

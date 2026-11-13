@@ -690,6 +690,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-13: **Second APK built** (run 43360148163, Chromium 158.0.8127.22, official build, patch 0001 GPU fix). Released as `test-2026-11-13`. APK 371 MB (was 552): libchrome.so 258 MB (was 407), resources.arsc 34 MB, languages 24 MB, XR library 19 MB (still in, see args.gn). The Play bundle (.aab) is in the run artifact; Play will send each phone only its own language and screen size, compressed. Further size ideas: `is_high_end_android = false` (-Os), an XR-removal patch, dropping unused features.
 - 2026-11-13: Branding step added (apply_branding.py: name Resolute + crystal-R icons). Build resumed from run 43360148163's finished state, so only resources and the APK are rebuilt.
 - 2026-11-13: Owner's phone test of test-2026-11-13: app opens and stays open (GPU fix works), Chrome Web Store installs MetaMask and Phantom. Crash on "Open extensions menu": phones get no extensions toolbar (tablet-only in Chromium 158). Patch 0002 stops the crash. Big open item: **on phones there is no way to click an extension's icon or open its popup**; Resolute must build its own phone extensions UI (priority for phase 2).
+- 2026-11-13: Branded APK `test-2026-11-13b` (run 43406185522, resumed from 43360148163): name Resolute + crystal-R icons, patch 0002. Only 100 ninja steps / 8 min of compiling (31 min total run): saved builds + ThinLTO cache work.
 
 Add a line here after every build or release.
 

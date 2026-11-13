@@ -1,20 +1,21 @@
 {
   "schema": 1,
-  "version": 1,
-  "updated": "2026-11-10",
+  "version": 2,
+  "updated": "2026-11-13",
   "swap": {
     "evm": {
       "provider": "lifi",
       "enabled": false,
-      "integrator": "SET_FROM_LIFI_PORTAL",
+      "integrator": "resolute-browser",
       "fee": 0.003,
-      "fee_wallet": "0x0357515b07B9581E04D0D890126F44bD2Cf4970f"
+      "fee_wallet": "0x0357515b07B9581E04D0D890126F44bD2Cf4970f",
+      "lifi_fee_note": "LI.FI's own fee (25 bps, set in the portal) is added on top of ours; the swap sheet must show the total."
     },
     "solana": {
       "provider": "jupiter",
       "enabled": false,
       "fee_bps": 30,
-      "fee_wallet": "SET_SOLANA_ADDRESS"
+      "fee_wallet": "HN28dPPeT8pp8MDKL11rWbmx6CKSNkJkxNppD3wxTgQL"
     }
   },
   "signature": "SIGN_BEFORE_PUBLISHING"

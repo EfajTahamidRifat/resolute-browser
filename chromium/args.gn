@@ -14,16 +14,12 @@ dcheck_always_on = false
 # Chrome uses Google's profile data (PGO) for official builds; we don't have it.
 chrome_pgo_phase = 0
 
-# No AR / Cardboard / Android XR: large libraries almost nobody uses in a
-# browser (the XR library alone was 19 MB).
-# enable_vr itself must stay true: with is_desktop_android, Chromium's desktop
-# address-bar code calls AutocompleteMatch::GetVectorIcon, which on Android only
-# exists when ENABLE_VR is on (build of 2026-11-12 failed with enable_vr=false).
-# With the three SDKs below off, enable_vr only adds a small amount of code.
-enable_vr = true
-enable_arcore = false
-enable_cardboard = false
-enable_openxr = false
+# VR / AR / XR: keep Chromium's defaults. Two tries to turn parts off broke the
+# desktop-Android build (2026-11-12/13): enable_vr=false removes
+# AutocompleteMatch::GetVectorIcon used by the desktop omnibox; enable_vr=true
+# with ARCore/Cardboard/OpenXR off fails the JNI check (webxr Java classes not
+# in the app). In the Play bundle, XR code sits in its own "xr" module, so it
+# costs little in the download. Revisit only with a proper patch.
 
 # No debug symbols: much smaller build output, which matters on CI runners.
 symbol_level = 0

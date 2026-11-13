@@ -112,7 +112,8 @@ The first APK (2026-11-12) was 552 MB: `libchrome.so` 407 MB (317 MB of it code)
 all 55 MB of languages, 35 MB of resources. Cause: a developer build (DCHECK
 self-checks on, no release optimisations). Fixes in `args.gn`:
 `is_official_build = true` (link-time optimisation, identical-code folding, no
-DCHECKs), `chrome_pgo_phase = 0`, VR/AR/XR off. And the Play bundle: Google Play
+DCHECKs), `chrome_pgo_phase = 0`. (VR/AR/XR were also turned off at first, but that
+breaks the desktop-Android build; they stay at Chromium's defaults, see args.gn.) And the Play bundle: Google Play
 sends each phone only its own language and screen density, and compresses the
 download. The APK on GitHub stays bigger than the Play download because it
 holds every language. Check a new APK's breakdown before release.
@@ -605,6 +606,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-12: Owner decision: no sale for at least 5 years; build Resolute as a lasting Android + Windows browser.
 - 2026-11-12: Stage 2 OK, 13,218 more steps (66,180 of 93,169), no errors. Official builds also compile Blink a second time for the host (`clang_x64_v8_arm64`, about 4,500 files): that is the V8 context snapshot generator, which makes new pages start faster. One-time cost per build; could be turned off with `use_v8_context_snapshot = false` if builds are ever too slow.
 - 2026-11-13: Run 43177558602 stage 3 failed at 24,631 of 26,989 remaining steps: `omnibox_edit_model.cc` calls `AutocompleteMatch::GetVectorIcon`, which on Android exists only with `enable_vr = true`. My `enable_vr = false` caused it. Fixed: `enable_vr = true`, AR/Cardboard/OpenXR stay off. Stages now save progress even when they fail. Resumed from the stage-2 state (stage 3's work was lost because this fix wasn't in yet).
+- 2026-11-13: Resumed run 43321561723 stage 1 reached 19,145 of 28,660 steps, then failed a JNI check: `enable_vr = true` with ARCore/Cardboard/OpenXR off leaves webxr Java classes out of the app. All VR/AR/XR args removed (Chromium defaults, as in the first working build). The new save-on-failure worked (2.1 GB state saved), so the fix resumes from there.
 
 Add a line here after every build or release.
 

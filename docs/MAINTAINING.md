@@ -676,6 +676,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-13: New logo chosen by the owner: red faceted crystal "R" breaking forward, with shards (made with Gemini, cut out by hand because Gemini's "transparent" background was painted in). All sizes in `branding/` (`branding/android/` = launcher mipmaps incl. adaptive foreground, monochrome and round; `icon_1024.png`, `play_store_icon_512.png`). Old helmet kept in `branding/old-helmet/`. The branding patch must use these.
 - 2026-11-13: Roadmap items 31-45 added (features that need no outside API).
 - 2026-11-13: Play upload key created (alias `resolute`, fingerprints in section 7); owner storing it and adding the three RELEASE_* secrets.
+- 2026-11-13: Owner saved the upload key in Google Drive and added RELEASE_KEY_ALIAS, RELEASE_KEYSTORE_PASSWORD, RELEASE_KEYSTORE_BASE64. Claude's working copy deleted.
 
 Add a line here after every build or release.
 

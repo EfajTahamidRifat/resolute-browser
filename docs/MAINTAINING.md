@@ -616,6 +616,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-13: Firebase project `resolute-browser` created on the free Spark plan, Android app registered. Test Lab skipped for now (no billing).
 - 2026-11-13: The Code Bros' Play Console account is a **personal** account, so a closed test with at least 12 testers for 14 days is required before production. Owner is collecting testers.
 - 2026-11-13: revenue.json: LI.FI integrator `resolute-browser` (portal integration "Resolute Browser", default EVM fee wallet 0x0357...970f, LI.FI's own fee 25 bps on top of ours). Solana fee address HN28dPPeT8pp8MDKL11rWbmx6CKSNkJkxNppD3wxTgQL (public address). Still to do in the LI.FI portal: set the same address as "Default SVM wallet". Swaps stay disabled until the swap sheet is built and checked against Play policy.
+- 2026-11-13: Privacy policy drafted (Claude Doc "Resolute Browser: Privacy Policy (draft)", https://claude.ai/artifact/4D9QaFxTpsZehAf7hXR1Yn). Before publishing on efajtahamid.monster: fill in the contact email and date, and remove any feature not in the released app (swaps, X-ray, signed config).
 
 Add a line here after every build or release.
 

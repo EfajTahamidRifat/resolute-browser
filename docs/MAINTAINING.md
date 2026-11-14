@@ -702,6 +702,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-14: **First x64 emulator build done** (run 43423621224, 3 stages, about 11 h). Released as `test-x64-2026-11-14` (392 MB, emulator only). E2E run 43536457998 started with it.
 - 2026-11-14: Auto-update: Chromium 158.0.8127.22 -> 158.0.8127.36 (chromium-update workflow). Build started.
 - 2026-11-14: First E2E run with the x64 build (43536457998): **Resolute runs on the emulator** (launch, sites, Chrome Web Store OK). Test bugs fixed: the store button reads "Add to Desktop" (regex only knew Chrome/Chromium/Resolute, so no extension got installed), and the wallet test hung because the single-threaded test web server waited forever on an idle browser connection (now a threaded server with a 10 s timeout; the emulator step also has a 75 min limit so results are always saved).
+- 2026-11-14: E2E run 43549033186: web page content is invisible to uiautomator in this build (only the toolbar is), so the store button and the test page could not be found. The tests now drive web pages through Chromium's DevTools protocol over adb (`adb forward` to the `*devtools_remote` socket, `/json/list`, `Runtime.evaluate`; websocket-client installed by the workflow). The wallet test also saves every open page/popup target before and after Connect (`08-targets.json`), which shows directly whether MetaMask's approval window was created.
 
 Add a line here after every build or release.
 

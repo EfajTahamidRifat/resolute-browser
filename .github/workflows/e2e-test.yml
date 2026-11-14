@@ -36,6 +36,9 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
+      - name: Install test tools
+        run: python3 -m pip install --user --quiet websocket-client
+
       - name: Download APK
         run: |
           curl -fL --retry 5 -o "$RUNNER_TEMP/resolute.apk" "${{ inputs.apk_url }}"

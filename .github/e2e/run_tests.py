@@ -114,6 +114,62 @@ def open_url(url):
     adb("shell", "am", "start", "-a", "android.intent.action.VIEW", "-d", url, "-p", PKG)
 
 
+# ---------------------------------------------------------------- DevTools
+# Web page content is not visible to uiautomator in this build, so pages are
+# driven through Chromium's DevTools protocol (the same connection Chrome
+# DevTools uses over adb). It also lists every page, popup and extension
+# window the browser has open, which is what the wallet test needs.
+CDP_PORT = 9222
+
+
+def cdp_forward():
+    socks = adb("shell", "cat", "/proc/net/unix")
+    names = sorted(set(re.findall(r"@(\S*devtools_remote\S*)", socks)))
+    if not names:
+        return None
+    adb("forward", f"tcp:{CDP_PORT}", f"localabstract:{names[0]}")
+    return names[0]
+
+
+def cdp_targets():
+    import urllib.request
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{CDP_PORT}/json/list", timeout=10) as r:
+            return json.loads(r.read().decode())
+    except Exception as e:  # noqa: BLE001
+        print(f"cdp_targets: {e}", flush=True)
+        return []
+
+
+def cdp_eval(target, expression):
+    """Runs JavaScript in a page target; returns its value (or an error string)."""
+    import websocket  # websocket-client, installed by the workflow
+    ws = websocket.create_connection(target["webSocketDebuggerUrl"], timeout=30,
+                                     suppress_origin=True)
+    try:
+        ws.send(json.dumps({"id": 1, "method": "Runtime.evaluate", "params": {
+            "expression": expression, "returnByValue": True, "awaitPromise": True}}))
+        while True:
+            msg = json.loads(ws.recv())
+            if msg.get("id") == 1:
+                res = msg.get("result", {})
+                if "exceptionDetails" in res:
+                    return "JS error: " + json.dumps(res["exceptionDetails"])[:300]
+                return res.get("result", {}).get("value")
+    finally:
+        ws.close()
+
+
+def cdp_wait_page(url_part, seconds=90):
+    end = time.time() + seconds
+    while time.time() < end:
+        for t in cdp_targets():
+            if t.get("type") == "page" and url_part in t.get("url", ""):
+                return t
+        time.sleep(3)
+    return None
+
+
 def crashed_since(mark):
     log = adb("logcat", "-d", "-v", "time", "-T", mark) if mark else adb("logcat", "-d")
     signals = ("FATAL EXCEPTION", "Fatal signal", "ANR in " + PKG,
@@ -175,8 +231,11 @@ def t_launch():
 @test("03-load-example")
 def t_example():
     open_url("https://example.com")
-    node = wait_for(r"Example Domain", 90, "03-example")
-    return node is not None, "page text found" if node is not None else "page text not found", shot("03-example")
+    cdp_forward()
+    t = cdp_wait_page("example.com", 90)
+    time.sleep(3)
+    title = cdp_eval(t, "document.title") if t else None
+    return title == "Example Domain", f"page title: {title}", shot("03-example")
 
 
 @test("04-load-wikipedia")
@@ -188,18 +247,29 @@ def t_wiki():
 
 def install_from_store(ext_id, name):
     open_url(f"https://chromewebstore.google.com/detail/{ext_id}")
-    button = wait_for(r"^Add to (Chrome|Chromium|Resolute|Desktop)$", 120, f"{name}-store")
+    cdp_forward()
+    page = cdp_wait_page(ext_id, 120)
+    if page is None:
+        return False, "store page not found through DevTools", shot(f"{name}-store")
+    click = ("(() => { const b = [...document.querySelectorAll('button')]"
+             ".find(x => /^Add to /.test((x.innerText || '').trim()));"
+             " if (!b) return 'none'; b.click(); return b.innerText.trim(); })()")
+    label = "none"
+    for _ in range(30):
+        label = cdp_eval(page, click)
+        if label and label != "none" and not str(label).startswith("JS error"):
+            break
+        time.sleep(3)
     png = shot(f"{name}-store")
-    if button is None:
-        return False, "'Add to Chrome' button not found on the store page", png
-    tap(button)
+    if not label or label == "none" or str(label).startswith("JS error"):
+        return False, f"store button not found ({label})", png
     confirm = wait_for(r"^Add extension$", 60, f"{name}-confirm")
     shot(f"{name}-confirm")
     if confirm is None:
-        return False, "install confirmation dialog did not appear", png
+        return False, f"clicked '{label}' but no install dialog appeared", png
     tap(confirm)
     time.sleep(25)
-    return True, "install confirmed", shot(f"{name}-installed")
+    return True, f"clicked '{label}', install confirmed", shot(f"{name}-installed")
 
 
 @test("05-store-install-ublock-lite")
@@ -218,8 +288,11 @@ def t_listed():
     time.sleep(10)
     xml = ui_dump("07-extensions")
     png = shot("07-extensions")
-    have = [n for n in ("uBlock Origin Lite", "MetaMask") if find(xml, re.escape(n)) is not None]
-    return len(have) == 2, "listed: " + (", ".join(have) or "none"), png
+    urls = " ".join(t.get("url", "") for t in cdp_targets())
+    have = [n for n, i in (("uBlock Origin Lite", UBLOCK_LITE), ("MetaMask", METAMASK))
+            if f"chrome-extension://{i}" in urls or find(xml, re.escape(n)) is not None]
+    (OUT / "07-targets.json").write_text(json.dumps(cdp_targets(), indent=1))
+    return len(have) == 2, "running/listed: " + (", ".join(have) or "none"), png
 
 
 @test("08-wallet-connect")
@@ -242,31 +315,35 @@ def t_wallet():
     try:
         mark = logcat_mark()
         open_url("http://localhost:8765/connect.html")
-        button = wait_for(r"^Connect wallet$", 90, "08-page")
+        cdp_forward()
+        page = cdp_wait_page("localhost:8765", 90)
         shot("08-page")
-        if button is None:
+        if page is None:
             return False, "test page did not load", None
         time.sleep(4)
-        xml = ui_dump("08-before")
-        provider = find(xml, r"^provider:")
-        tap(button)
+        provider = cdp_eval(page, "document.getElementById('provider').textContent")
+        before = {t.get("id") for t in cdp_targets()}
+        cdp_eval(page, "document.getElementById('go').click(); 'clicked'")
         time.sleep(25)
+        targets = cdp_targets()
+        (OUT / "08-targets.json").write_text(json.dumps(targets, indent=1))
+        new = [t for t in targets if t.get("id") not in before]
+        result = cdp_eval(page, "document.getElementById('result').textContent")
         xml = ui_dump("08-after")
         png = shot("08-after")
-        acts = adb("shell", "dumpsys", "activity", "activities")
-        (OUT / "08-activities.txt").write_text(acts)
+        (OUT / "08-activities.txt").write_text(adb("shell", "dumpsys", "activity", "activities"))
         log = adb("logcat", "-d", "-v", "time", "-T", mark, timeout=300)
         keep = [l for l in log.splitlines() if re.search(
             r"PopupCreator|BrowserWindow|ChromeAndroidTask|MultiInstance|CustomTab|"
-            r"RESOLUTE_E2E|extension|Extension|windows\.create|ActivityTaskManager|"
+            r"RESOLUTE_E2E|xtension|windows\.create|ActivityTaskManager|"
             r"chromium.*(ERROR|WARNING|FATAL)", l)]
         (OUT / "08-wallet-logcat.txt").write_text("\n".join(keep))
-        seen = find(xml, r"MetaMask|Connect with MetaMask|Create a new wallet|Unlock")
-        result = find(xml, r"^result:")
-        detail = (f"provider={provider.get('text') if provider is not None else '?'}; "
-                  f"{result.get('text') if result is not None else 'no result text'}; "
-                  f"MetaMask window visible={seen is not None}")
-        return seen is not None, detail, png
+        mm_new = [t["url"] for t in new if METAMASK in t.get("url", "")]
+        visible = find(xml, r"MetaMask|Connect with MetaMask|Unlock|Create a new wallet") is not None
+        detail = (f"{provider}; {result}; new MetaMask pages: {mm_new or 'none'}; "
+                  f"other new targets: {[t.get('url') for t in new if t.get('url') not in mm_new][:4]}; "
+                  f"MetaMask visible on screen={visible}")
+        return bool(mm_new) and visible, detail, png
     finally:
         threading.Thread(target=srv.shutdown, daemon=True).start()
         srv.server_close()

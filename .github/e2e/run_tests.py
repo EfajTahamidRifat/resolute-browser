@@ -471,6 +471,27 @@ def top_activity():
     return m.group(1) if m else "unknown"
 
 
+ACTIVE_TABS_JS = ("chrome.tabs.query({active: true}).then(ts => ts.map(t => ({id: t.id,"
+                  " windowId: t.windowId, url: t.url || null})))")
+
+
+def page_inventory():
+    """Every page target with what it really is (an empty URL in /json/list
+    can hide a still-running extension page, e.g. MetaMask's closed popup)."""
+    out = []
+    for t in cdp_targets():
+        if t.get("type") != "page":
+            continue
+        item = {"id": t.get("id"), "listed_url": t.get("url")}
+        try:
+            item["real"] = cdp_eval(t, "location.href + ' | ' + document.title + ' | ' +"
+                                       " (document.body ? document.body.innerText.slice(0, 120) : '')")
+        except Exception as e:  # noqa: BLE001
+            item["real"] = f"error: {e}"[:120]
+        out.append(item)
+    return out
+
+
 WINDOWS_JS = ("chrome.windows.getAll({populate: true}).then(ws => ws.map(w => ({id: w.id,"
               " type: w.type, state: w.state, focused: w.focused,"
               " tabs: (w.tabs || []).map(t => t.url)})))")
@@ -502,6 +523,8 @@ def dapp_connect(tag, wait=25):
     provider = cdp_on_page(DAPP, lambda t: cdp_eval(t, "document.getElementById('provider').textContent"))
     before = {t.get("id") for t in cdp_targets()}
     win_before = mm_windows()
+    pages_before = page_inventory()
+    active_before = cdp_on_page(UBLOCK_PAGE, lambda t: cdp_eval(t, ACTIVE_TABS_JS), 2)
     mark = logcat_mark()
     cdp_on_page(DAPP, lambda t: cdp_tap(t, "document.getElementById('go')"))
     info = {"provider": provider, "mm_new": [], "top": [], "popup": None}
@@ -518,7 +541,9 @@ def dapp_connect(tag, wait=25):
     targets = cdp_targets()
     (OUT / f"{tag}-targets.json").write_text(json.dumps(targets, indent=1))
     (OUT / f"{tag}-windows.json").write_text(json.dumps(
-        {"before_tap": win_before, "after": mm_windows()}, indent=1))
+        {"before_tap": win_before, "after": mm_windows(),
+         "active_tabs_before": active_before, "pages_before": pages_before,
+         "pages_after": page_inventory()}, indent=1))
     (OUT / f"{tag}-activities.txt").write_text(adb("shell", "dumpsys", "activity", "activities"))
     log = adb("logcat", "-d", "-v", "time", "-T", mark, timeout=300)
     keep = [l for l in log.splitlines() if re.search(
@@ -640,6 +665,43 @@ def t_wallet_approve():
                     f"approve clicks: {approved}; dApp: {result}"), png
 
 
+@test("11-wallet-after-cleanup")
+def t_wallet_cleanup():
+    """Experiment: close leftover empty-URL pages and MetaMask's own tabs,
+    reload the dApp, connect again. If this works while 10 doesn't, the
+    leftover page (closed popup still running) is what blocks MetaMask."""
+    closed = []
+    for t in cdp_targets():
+        u = t.get("url", "")
+        if t.get("type") == "page" and (u == "" or (METAMASK in u and "home.html" in u)):
+            closed.append(u or "(empty)")
+            try:
+                cdp_on_page(DAPP, lambda d: cdp_send(d, [("Target.closeTarget", {"targetId": t["id"]})]), 2)
+            except Exception:  # noqa: BLE001
+                pass
+    time.sleep(3)
+    cdp_on_page(DAPP, lambda d: cdp_send(d, [("Page.reload", {})]), 3)
+    time.sleep(6)
+    with DappServer():
+        info = dapp_connect("11", wait=15)
+        if info is None:
+            return False, "test page did not load", shot("11-page")
+        approved = []
+        if info["popup"]:
+            for _ in range(5):
+                r = cdp_on_page("notification.html", lambda t: cdp_eval(t, APPROVE_JS), 3)
+                approved.append(r)
+                time.sleep(3)
+                if cdp_wait_page("notification.html", 2) is None:
+                    break
+        time.sleep(4)
+        result = cdp_on_page(DAPP, lambda t: cdp_eval(t, "document.getElementById('result').textContent"), 3)
+        png = shot("11-after")
+        return bool(result) and "accounts" in result, (
+            f"closed first: {closed}; popup: {info['popup'] or 'never opened'}; "
+            f"approve clicks: {approved}; dApp: {result}"), png
+
+
 def main():
     adb("wait-for-device")
     adb("logcat", "-c")
@@ -647,7 +709,7 @@ def main():
     adb("shell", "settings", "put", "global", "transition_animation_scale", "0")
     adb("shell", "settings", "put", "global", "animator_duration_scale", "0")
     for t in (t_install, t_launch, t_example, t_wiki, t_ublock, t_metamask, t_listed,
-              t_wallet_opens, t_wallet_setup, t_wallet_approve):
+              t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup):
         t()
     (OUT / "logcat.txt").write_text(adb("logcat", "-d", "-v", "time", timeout=300))
     (OUT / "report.json").write_text(json.dumps(results, indent=2))

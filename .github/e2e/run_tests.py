@@ -414,74 +414,198 @@ def t_metamask():
 
 @test("07-extensions-listed")
 def t_listed():
+    """Asks chrome://extensions itself which extensions are installed (its
+    web content is invisible to the Android screen reader)."""
     open_url("chrome://extensions")
-    time.sleep(10)
-    xml = ui_dump("07-extensions")
-    png = shot("07-extensions")
-    urls = " ".join(t.get("url", "") for t in cdp_targets())
-    have = [n for n, i in (("uBlock Origin Lite", UBLOCK_LITE), ("MetaMask", METAMASK))
-            if f"chrome-extension://{i}" in urls or find(xml, re.escape(n)) is not None]
+    time.sleep(8)
+    names = cdp_on_page("chrome://extensions", lambda t: cdp_eval(t,
+        "new Promise(r => chrome.developerPrivate.getExtensionsInfo(l =>"
+        " r(l.map(e => e.name + ' [' + e.state + ']'))))"), 5)
     (OUT / "07-targets.json").write_text(json.dumps(cdp_targets(), indent=1))
-    return len(have) == 2, "running/listed: " + (", ".join(have) or "none"), png
+    png = shot("07-extensions")
+    names = names if isinstance(names, list) else []
+    have = [n for n in ("uBlock Origin Lite", "MetaMask") if any(n in x for x in names)]
+    return len(have) == 2, "installed: " + (", ".join(names) or "none"), png
 
 
-@test("08-wallet-connect")
-def t_wallet():
-    """Taps Connect on a local dApp page and records what happens to MetaMask's
-    approval window (the bug owner hit on real phones, 2026-11-13)."""
-    import http.server, threading, functools
+class DappServer:
+    """Serves .github/e2e/pages on the phone's localhost:8765 (adb reverse)."""
 
-    class Handler(http.server.SimpleHTTPRequestHandler):
-        # The browser opens spare connections it never uses; without a timeout
-        # the server waited on one forever and the whole job hung (2026-11-14).
-        timeout = 10
+    def __enter__(self):
+        import http.server, threading, functools
 
-    pages = Path(__file__).parent / "pages"
-    handler = functools.partial(Handler, directory=str(pages))
-    srv = http.server.ThreadingHTTPServer(("127.0.0.1", 8765), handler)
-    srv.daemon_threads = True
-    threading.Thread(target=srv.serve_forever, daemon=True).start()
-    adb("reverse", "tcp:8765", "tcp:8765")
-    try:
-        mark = logcat_mark()
-        open_url("http://localhost:8765/connect.html")
+        class Handler(http.server.SimpleHTTPRequestHandler):
+            # The browser opens spare connections it never uses; without a
+            # timeout the server waited on one forever (2026-11-14).
+            timeout = 10
+
+        pages = Path(__file__).parent / "pages"
+        self.srv = http.server.ThreadingHTTPServer(
+            ("127.0.0.1", 8765), functools.partial(Handler, directory=str(pages)))
+        self.srv.daemon_threads = True
+        threading.Thread(target=self.srv.serve_forever, daemon=True).start()
+        adb("reverse", "tcp:8765", "tcp:8765")
+        return self
+
+    def __exit__(self, *exc):
+        import threading
+        threading.Thread(target=self.srv.shutdown, daemon=True).start()
+        self.srv.server_close()
+
+
+DAPP = "localhost:8765/connect.html"
+
+
+def top_activity():
+    m = re.search(r"topResumedActivity=ActivityRecord\{\S+ \S+ (\S+)",
+                  adb("shell", "dumpsys", "activity", "activities"))
+    return m.group(1) if m else "unknown"
+
+
+def dapp_connect(tag, wait=25):
+    """Opens the test dApp (desktop mode), taps Connect, and returns what
+    happened: new MetaMask pages, the screen's top activity, the result."""
+    if cdp_wait_page(DAPP, 3) is None:
+        open_url("http://" + DAPP)
         cdp_forward()
-        page = cdp_wait_page("localhost:8765", 90)
-        if page is None:
+        if cdp_wait_page(DAPP, 90) is None:
+            return None
+        menu_desktop_site(tag)
+        time.sleep(6)
+    cdp_on_page(DAPP, lambda t: cdp_send(t, [("Page.bringToFront", {})]) or True, 3)
+    time.sleep(3)
+    provider = cdp_on_page(DAPP, lambda t: cdp_eval(t, "document.getElementById('provider').textContent"))
+    before = {t.get("id") for t in cdp_targets()}
+    mark = logcat_mark()
+    cdp_on_page(DAPP, lambda t: cdp_tap(t, "document.getElementById('go')"))
+    info = {"provider": provider, "mm_new": [], "top": [], "popup": None}
+    end = time.time() + wait
+    while time.time() < end:
+        time.sleep(2)
+        info["top"].append(top_activity().split("/")[-1])
+        new = [t for t in cdp_targets() if t.get("id") not in before]
+        info["mm_new"] = [t["url"] for t in new if METAMASK in t.get("url", "")]
+        pop = [u for u in info["mm_new"] if "notification.html" in u]
+        if pop and not info["popup"]:
+            info["popup"] = pop[0]
+            shot(f"{tag}-popup")
+    targets = cdp_targets()
+    (OUT / f"{tag}-targets.json").write_text(json.dumps(targets, indent=1))
+    (OUT / f"{tag}-activities.txt").write_text(adb("shell", "dumpsys", "activity", "activities"))
+    log = adb("logcat", "-d", "-v", "time", "-T", mark, timeout=300)
+    keep = [l for l in log.splitlines() if re.search(
+        r"PopupCreator|BrowserWindow|ChromeAndroidTask|CustomTab|ActivityTaskManager|"
+        r"RESOLUTE_E2E|windows\.create|MetaMask|chromium.*(ERROR|FATAL)", l)]
+    (OUT / f"{tag}-wallet-logcat.txt").write_text("\n".join(keep))
+    info["result"] = cdp_on_page(DAPP, lambda t: cdp_eval(t, "document.getElementById('result').textContent"), 3)
+    # collapse repeated activity names: Main > CustomTabActivity > Main
+    info["top"] = [a for i, a in enumerate(info["top"]) if i == 0 or a != info["top"][i - 1]]
+    return info
+
+
+@test("08-wallet-opens")
+def t_wallet_opens():
+    """Connect with no wallet set up yet: MetaMask should open its window
+    (on a PC it then switches to its 'Create a new wallet' page)."""
+    with DappServer():
+        info = dapp_connect("08")
+        if info is None:
             return False, "test page did not load", shot("08-page")
-        # dApps only use a browser extension wallet in desktop mode (in phone
-        # mode they open the wallet app instead), so test it that way.
-        desk = menu_desktop_site("08")
-        time.sleep(4)
-        shot("08-page")
-        time.sleep(4)
-        u = "localhost:8765"
-        provider = cdp_on_page(u, lambda t: cdp_eval(t, "document.getElementById('provider').textContent"))
-        before = {t.get("id") for t in cdp_targets()}
-        cdp_on_page(u, lambda t: cdp_tap(t, "document.getElementById('go')"))
-        time.sleep(25)
-        targets = cdp_targets()
-        (OUT / "08-targets.json").write_text(json.dumps(targets, indent=1))
-        new = [t for t in targets if t.get("id") not in before]
-        result = cdp_on_page(u, lambda t: cdp_eval(t, "document.getElementById('result').textContent"), 5)
-        xml = ui_dump("08-after")
         png = shot("08-after")
-        (OUT / "08-activities.txt").write_text(adb("shell", "dumpsys", "activity", "activities"))
-        log = adb("logcat", "-d", "-v", "time", "-T", mark, timeout=300)
-        keep = [l for l in log.splitlines() if re.search(
-            r"PopupCreator|BrowserWindow|ChromeAndroidTask|MultiInstance|CustomTab|"
-            r"RESOLUTE_E2E|xtension|windows\.create|ActivityTaskManager|"
-            r"chromium.*(ERROR|WARNING|FATAL)", l)]
-        (OUT / "08-wallet-logcat.txt").write_text("\n".join(keep))
-        mm_new = [t["url"] for t in new if METAMASK in t.get("url", "")]
-        visible = find(xml, r"MetaMask|Connect with MetaMask|Unlock|Create a new wallet") is not None
-        detail = (f"{provider}; {result}; new MetaMask pages: {mm_new or 'none'}; "
-                  f"other new targets: {[t.get('url') for t in new if t.get('url') not in mm_new][:4]}; "
-                  f"MetaMask visible on screen={visible}")
-        return bool(mm_new) and visible, detail, png
-    finally:
-        threading.Thread(target=srv.shutdown, daemon=True).start()
-        srv.server_close()
+        return bool(info["mm_new"]), (f"{info['provider']}; {info['result']}; screens: "
+                                      f"{' > '.join(info['top'])}; MetaMask pages opened: "
+                                      f"{info['mm_new'] or 'none'}"), png
+
+
+ONBOARD_JS = r"""(() => {
+  const PW = 'Resolute-e2e-Test-1!';
+  const setVal = (el, v) => {
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, v);
+    el.dispatchEvent(new Event('input', {bubbles: true}));
+    el.dispatchEvent(new Event('change', {bubbles: true}));
+  };
+  const did = [];
+  document.querySelectorAll('input[type=password]').forEach(i => {
+    if (i.value !== PW) { setVal(i, PW); did.push('password'); } });
+  document.querySelectorAll('input[type=checkbox]').forEach(c => {
+    if (!c.checked && !c.disabled) { c.click(); did.push('checkbox'); } });
+  const visible = [...document.querySelectorAll('button,[role=button]')]
+    .filter(b => b.offsetParent !== null);
+  const texts = visible.map(b => (b.innerText || '').trim()).filter(Boolean).slice(0, 12);
+  if (did.length) return {clicked: null, did, texts, url: location.href};
+  const order = [/^Use Secret Recovery Phrase/i, /^I agree/i, /^No thanks/i,
+    /^Create a new wallet/i, /^Create password/i, /^Remind me later/i, /^Skip/i,
+    /^Got it/i, /^Done/i, /^Next/i, /^Continue$/i, /^Confirm/i, /^Open wallet/i];
+  for (const rx of order) {
+    const b = visible.find(b => !b.disabled && rx.test((b.innerText || '').trim()));
+    if (b) { b.click(); return {clicked: b.innerText.trim(), did, texts, url: location.href}; }
+  }
+  return {clicked: null, did, texts, url: location.href};
+})()"""
+
+
+@test("09-wallet-setup")
+def t_wallet_setup():
+    """Creates a throwaway MetaMask wallet inside the emulator, by pressing
+    MetaMask's own onboarding buttons. Nothing is saved: the emulator is
+    deleted after the run and the wallet never holds funds."""
+    trace = []
+    url = ""
+    for _ in range(40):
+        t = cdp_wait_page(METAMASK + "/home.html", 20)
+        if t is None:
+            trace.append("no MetaMask page")
+            break
+        url = t.get("url", "")
+        if "onboarding" not in url and "#" in url:
+            break
+        try:
+            step = cdp_eval(t, ONBOARD_JS)
+        except Exception as e:  # noqa: BLE001 page reloaded between steps
+            step = f"retry: {e}"[:120]
+        trace.append(step)
+        time.sleep(3)
+    (OUT / "09-onboarding.json").write_text(json.dumps(trace, indent=1))
+    png = shot("09-wallet")
+    done = "onboarding" not in url and METAMASK in url
+    clicks = [x["clicked"] for x in trace if isinstance(x, dict) and x.get("clicked")]
+    last = trace[-1] if trace else None
+    return done, (f"ended on {url.split('#')[-1] if url else 'none'}; clicked: {clicks}; "
+                  f"last screen buttons: {last.get('texts') if isinstance(last, dict) else last}"), png
+
+
+APPROVE_JS = r"""(() => {
+  const visible = [...document.querySelectorAll('button,[role=button]')]
+    .filter(b => b.offsetParent !== null && !b.disabled);
+  const b = visible.find(b => /^(Connect|Confirm|Next|Approve)$/i.test((b.innerText || '').trim()));
+  if (b) { b.click(); return b.innerText.trim(); }
+  return 'buttons: ' + visible.map(b => (b.innerText || '').trim()).filter(Boolean).join(' | ');
+})()"""
+
+
+@test("10-wallet-approve")
+def t_wallet_approve():
+    """The real dApp flow with a set-up wallet: tap Connect, MetaMask's
+    approval window must appear on screen, approve it, the dApp gets an
+    account. This is the bug seen on real phones (2026-11-13)."""
+    with DappServer():
+        info = dapp_connect("10", wait=15)
+        if info is None:
+            return False, "test page did not load", shot("10-page")
+        approved = []
+        if info["popup"]:
+            for _ in range(5):
+                r = cdp_on_page("notification.html", lambda t: cdp_eval(t, APPROVE_JS), 3)
+                approved.append(r)
+                time.sleep(3)
+                if cdp_wait_page("notification.html", 2) is None:
+                    break
+        time.sleep(4)
+        result = cdp_on_page(DAPP, lambda t: cdp_eval(t, "document.getElementById('result').textContent"), 3)
+        png = shot("10-after")
+        ok = bool(result) and "accounts" in result
+        return ok, (f"popup: {info['popup'] or 'never opened'}; screens: {' > '.join(info['top'])}; "
+                    f"approve clicks: {approved}; dApp: {result}"), png
 
 
 def main():
@@ -490,7 +614,8 @@ def main():
     adb("shell", "settings", "put", "global", "window_animation_scale", "0")
     adb("shell", "settings", "put", "global", "transition_animation_scale", "0")
     adb("shell", "settings", "put", "global", "animator_duration_scale", "0")
-    for t in (t_install, t_launch, t_example, t_wiki, t_ublock, t_metamask, t_listed, t_wallet):
+    for t in (t_install, t_launch, t_example, t_wiki, t_ublock, t_metamask, t_listed,
+              t_wallet_opens, t_wallet_setup, t_wallet_approve):
         t()
     (OUT / "logcat.txt").write_text(adb("logcat", "-d", "-v", "time", timeout=300))
     (OUT / "report.json").write_text(json.dumps(results, indent=2))

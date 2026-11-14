@@ -419,11 +419,16 @@ def t_listed():
     open_url("chrome://extensions")
     time.sleep(8)
     names = cdp_on_page("chrome://extensions", lambda t: cdp_eval(t,
-        "new Promise(r => chrome.developerPrivate.getExtensionsInfo(l =>"
-        " r(l.map(e => e.name + ' [' + e.state + ']'))))"), 5)
+        "new Promise(r => { const d = chrome.developerPrivate;"
+        " if (!d) return r('no developerPrivate');"
+        " const p = d.getExtensionsInfo({includeDisabled: true, includeTerminated: true}, r);"
+        " if (p && p.then) p.then(r); })"
+        ".then(l => Array.isArray(l) ? l.map(e => e.name + ' [' + e.state + ']') : String(l))"), 5)
     (OUT / "07-targets.json").write_text(json.dumps(cdp_targets(), indent=1))
     png = shot("07-extensions")
-    names = names if isinstance(names, list) else []
+    if not isinstance(names, list):
+        (OUT / "07-error.txt").write_text(str(names))
+        names = []
     have = [n for n in ("uBlock Origin Lite", "MetaMask") if any(n in x for x in names)]
     return len(have) == 2, "installed: " + (", ".join(names) or "none"), png
 
@@ -518,15 +523,13 @@ def t_wallet_opens():
 
 
 ONBOARD_JS = r"""(() => {
+  // MetaMask's LavaMoat hides globals like HTMLInputElement and Event, so
+  // passwords are typed by DevTools (Input.insertText) instead: this only
+  // focuses the next empty field and asks Python to type.
   const PW = 'Resolute-e2e-Test-1!';
-  const setVal = (el, v) => {
-    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, v);
-    el.dispatchEvent(new Event('input', {bubbles: true}));
-    el.dispatchEvent(new Event('change', {bubbles: true}));
-  };
   const did = [];
-  document.querySelectorAll('input[type=password]').forEach(i => {
-    if (i.value !== PW) { setVal(i, PW); did.push('password'); } });
+  const pw = [...document.querySelectorAll('input[type=password]')].find(i => i.value !== PW);
+  if (pw) { pw.focus(); pw.select(); return {type: true, url: location.href}; }
   document.querySelectorAll('input[type=checkbox]').forEach(c => {
     if (!c.checked && !c.disabled) { c.click(); did.push('checkbox'); } });
   const visible = [...document.querySelectorAll('button,[role=button]')]
@@ -561,6 +564,9 @@ def t_wallet_setup():
             break
         try:
             step = cdp_eval(t, ONBOARD_JS)
+            if isinstance(step, dict) and step.get("type"):
+                cdp_send(t, [("Input.insertText", {"text": "Resolute-e2e-Test-1!"})])
+                step = "typed password"
         except Exception as e:  # noqa: BLE001 page reloaded between steps
             step = f"retry: {e}"[:120]
         trace.append(step)

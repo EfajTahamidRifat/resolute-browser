@@ -412,25 +412,29 @@ def t_metamask():
     return install_from_store(METAMASK, "06-metamask")
 
 
+UBLOCK_PAGE = f"chrome-extension://{UBLOCK_LITE}/dashboard.html"
+
+
+def open_ublock_page():
+    """Opens uBlock Origin Lite's settings page in the example.com tab
+    (DevTools navigation; Android intents can't open extension pages)."""
+    if cdp_wait_page(UBLOCK_PAGE, 2):
+        return True
+    return bool(cdp_on_page("example.com", lambda t: cdp_send(t, [
+        ("Page.navigate", {"url": UBLOCK_PAGE})]), 3)) and \
+        cdp_wait_page(UBLOCK_PAGE, 20) is not None
+
+
 @test("07-extensions-listed")
 def t_listed():
-    """Asks chrome://extensions itself which extensions are installed (its
-    web content is invisible to the Android screen reader)."""
-    open_url("chrome://extensions")
-    time.sleep(8)
-    names = cdp_on_page("chrome://extensions", lambda t: cdp_eval(t,
-        "new Promise(r => { const d = chrome.developerPrivate;"
-        " if (!d) return r('no developerPrivate');"
-        " const p = d.getExtensionsInfo({includeDisabled: true, includeTerminated: true}, r);"
-        " if (p && p.then) p.then(r); })"
-        ".then(l => Array.isArray(l) ? l.map(e => e.name + ' [' + e.state + ']') : String(l))"), 5)
+    """uBlock's own page opens (so it is installed) and MetaMask's background
+    worker runs (so it is installed)."""
+    ub = open_ublock_page()
+    time.sleep(3)
+    mm = any(t.get("type") == "service_worker" and METAMASK in t.get("url", "")
+             for t in cdp_targets())
     (OUT / "07-targets.json").write_text(json.dumps(cdp_targets(), indent=1))
-    png = shot("07-extensions")
-    if not isinstance(names, list):
-        (OUT / "07-error.txt").write_text(str(names))
-        names = []
-    have = [n for n in ("uBlock Origin Lite", "MetaMask") if any(n in x for x in names)]
-    return len(have) == 2, "installed: " + (", ".join(names) or "none"), png
+    return ub and mm, f"uBlock Origin Lite page opens: {ub}; MetaMask running: {mm}", None
 
 
 class DappServer:
@@ -473,16 +477,14 @@ WINDOWS_JS = ("chrome.windows.getAll({populate: true}).then(ws => ws.map(w => ({
 
 
 def mm_windows():
-    """What MetaMask's background sees from chrome.windows.getAll(): if its old
-    popup is still listed after closing, MetaMask focuses it instead of
-    opening a new one (suspected cause of the stuck request)."""
-    for t in cdp_targets():
-        if t.get("type") == "service_worker" and METAMASK in t.get("url", ""):
-            try:
-                return cdp_eval(t, WINDOWS_JS)
-            except Exception as e:  # noqa: BLE001
-                return f"error: {e}"
-    return "no MetaMask service worker"
+    """The browser's window list as extensions see it (chrome.windows.getAll),
+    read from uBlock Lite's page because MetaMask's LavaMoat hides `chrome`
+    from DevTools. If MetaMask's closed popup is still listed, MetaMask focuses
+    it instead of opening a new one (suspected cause of the stuck request)."""
+    if not open_ublock_page():
+        return "uBlock page not available"
+    r = cdp_on_page(UBLOCK_PAGE, lambda t: cdp_eval(t, WINDOWS_JS), 3)
+    return r if r is not None else "no answer"
 
 
 def dapp_connect(tag, wait=25):

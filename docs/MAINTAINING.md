@@ -707,6 +707,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-14: E2E run 43558411311: even a real tap gives "To download to your desktop, you need to sign into Chrome and enable sync": in phone mode the Chrome Web Store doesn't install, it offers to send the extension to a computer. The owner's installs worked with Desktop site on. Tests now switch the store page and the wallet test page to desktop mode through DevTools (desktop user agent + `mobile: false` UA hints). **Product item: Resolute must use desktop mode on chromewebstore.google.com automatically** (and on dApps, roadmap phase 3), otherwise users can't install extensions.
 - 2026-11-14: E2E run 43562273186: the DevTools user-agent override ends when the DevTools connection closes, so the reload came back in phone mode. Tests now tick the real ⋮ > Desktop site menu item (native UI, visible to uiautomator), like the owner did.
 - 2026-11-14: E2E run 43565273150: the ⋮ menu button wasn't found because find() matched against "text + ' ' + description", so `^Customize` never matched an icon button with only a description. find() now checks text and description separately.
+- 2026-11-14: E2E run 43569018815: the ⋮ > Desktop site toggle now works, but it reloads the tab as a new DevTools target, so the test's saved target id died ("No such target id"). The test now looks the page up fresh before every DevTools call (cdp_on_page) and retries.
 
 Add a line here after every build or release.
 

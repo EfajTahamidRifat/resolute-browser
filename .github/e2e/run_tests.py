@@ -265,6 +265,26 @@ def cdp_wait_page(url_part, seconds=90):
     return None
 
 
+def cdp_on_page(url_part, fn, tries=20):
+    """Runs fn(target) on the current page whose URL contains url_part.
+    Ticking 'Desktop site' reloads the tab as a new DevTools target, so an old
+    target id stops working ("No such target id"); look it up fresh each try."""
+    last = None
+    for _ in range(tries):
+        t = cdp_wait_page(url_part, 30)
+        if t is not None:
+            try:
+                res = fn(t)
+                if res:
+                    return res
+                last = res
+            except Exception as e:  # noqa: BLE001  target went away; retry
+                last = f"retry after: {e}"[:200]
+        time.sleep(3)
+    print(f"cdp_on_page({url_part}): gave up, last={last}", flush=True)
+    return None
+
+
 def crashed_since(mark):
     log = adb("logcat", "-d", "-v", "time", "-T", mark) if mark else adb("logcat", "-d")
     signals = ("FATAL EXCEPTION", "Fatal signal", "ANR in " + PKG,
@@ -348,15 +368,9 @@ def install_from_store(ext_id, name):
         return False, "store page not found through DevTools", shot(f"{name}-store")
     desk = menu_desktop_site(name)
     time.sleep(6)
-    page = cdp_wait_page(ext_id, 60) or page
     button = ("[...document.querySelectorAll('button')]"
               ".find(x => /^Add to /.test((x.innerText || '').trim()))")
-    label = None
-    for _ in range(30):
-        label = cdp_tap(page, button)
-        if label:
-            break
-        time.sleep(3)
+    label = cdp_on_page(ext_id, lambda t: cdp_tap(t, button), 30)
     png = shot(f"{name}-store")
     if not label:
         return False, "store button not found", png
@@ -420,17 +434,17 @@ def t_wallet():
         # mode they open the wallet app instead), so test it that way.
         desk = menu_desktop_site("08")
         time.sleep(4)
-        page = cdp_wait_page("localhost:8765", 60) or page
         shot("08-page")
         time.sleep(4)
-        provider = cdp_eval(page, "document.getElementById('provider').textContent")
+        u = "localhost:8765"
+        provider = cdp_on_page(u, lambda t: cdp_eval(t, "document.getElementById('provider').textContent"))
         before = {t.get("id") for t in cdp_targets()}
-        cdp_tap(page, "document.getElementById('go')")
+        cdp_on_page(u, lambda t: cdp_tap(t, "document.getElementById('go')"))
         time.sleep(25)
         targets = cdp_targets()
         (OUT / "08-targets.json").write_text(json.dumps(targets, indent=1))
         new = [t for t in targets if t.get("id") not in before]
-        result = cdp_eval(page, "document.getElementById('result').textContent")
+        result = cdp_on_page(u, lambda t: cdp_eval(t, "document.getElementById('result').textContent"), 5)
         xml = ui_dump("08-after")
         png = shot("08-after")
         (OUT / "08-activities.txt").write_text(adb("shell", "dumpsys", "activity", "activities"))

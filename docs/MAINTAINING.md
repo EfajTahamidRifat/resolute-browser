@@ -700,6 +700,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-13: x64 emulator build (run 43423621224) stage 1 OK: 40,409 of 63,726 steps, patches 0001/0002 and branding applied, no errors; stage 2 running. E2E test 08-wallet-connect added: serves `.github/e2e/pages/connect.html` from the runner (adb reverse, port 8765), taps "Connect wallet" (calls `eth_requestAccounts`), then saves a screenshot, UI dump, `dumpsys activity activities` and a filtered logcat (PopupCreator / BrowserWindow / ChromeAndroidTask / extension lines) to see where MetaMask's approval window goes. Passes when a MetaMask screen is visible.
 - 2026-11-14: x64 build stage 2 OK: 20,511 of the 23,334 remaining steps, no errors. Stage 3 should finish compiling and link.
 - 2026-11-14: **First x64 emulator build done** (run 43423621224, 3 stages, about 11 h). Released as `test-x64-2026-11-14` (392 MB, emulator only). E2E run 43536457998 started with it.
+- 2026-11-14: Auto-update: Chromium 158.0.8127.22 -> 158.0.8127.36 (chromium-update workflow). Build started.
 
 Add a line here after every build or release.
 

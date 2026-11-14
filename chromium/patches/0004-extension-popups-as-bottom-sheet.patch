@@ -1,0 +1,34 @@
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/app/tab_activity_glue/PopupCreatorImpl.java b/chrome/android/java/src/org/chromium/chrome/browser/app/tab_activity_glue/PopupCreatorImpl.java
+index fcc1ea6b..c596c62e 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/app/tab_activity_glue/PopupCreatorImpl.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/app/tab_activity_glue/PopupCreatorImpl.java
+@@ -658,10 +658,29 @@ public class PopupCreatorImpl implements PopupCreator {
+         }
+ 
+         IntentUtils.addTrustedIntentExtras(intent);
++        maybeShowAsBottomSheet(intent);
+ 
+         return intent;
+     }
+ 
++    /**
++     * Resolute: on phones, show popups (extension windows such as MetaMask's approval screen)
++     * as a bottom sheet over the page, like Mises and Kiwi, instead of a full-screen window.
++     * Uses Chromium's own partial Custom Tab: 80% of the screen height, draggable to full
++     * height, with expand and close buttons. Tablets and desktop windows keep real windows.
++     */
++    private static void maybeShowAsBottomSheet(Intent intent) {
++        Context context = ContextUtils.getApplicationContext();
++        android.content.res.Configuration config = context.getResources().getConfiguration();
++        if (config.smallestScreenWidthDp >= 600) return;
++        int heightPx = (int) (context.getResources().getDisplayMetrics().heightPixels * 0.8f);
++        intent.putExtra(
++                CustomTabIntentDataProvider.EXTRA_INITIAL_ACTIVITY_HEIGHT_IN_PIXEL_LEGACY,
++                heightPx);
++        // Trusted intent (added above), so this switches to the translucent sheet Activity.
++        CustomTabIntentDataProvider.configureIntentForResizableCustomTab(context, intent);
++    }
++
+     private static Intent initializeDocumentPipIntent(
+             WebContents webContents, PictureInPictureWindowOptions windowOptions) {
+         Intent intent = new Intent();

@@ -33,3 +33,20 @@ index 9e1f21d5..7e432f5a 100644
          <org.chromium.chrome.browser.toolbar.top.ToggleTabStackButton
              android:id="@+id/tab_switcher_button"
              style="@style/ToolbarHoverableButton"
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListMediator.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListMediator.java
+index da03f2af..6b34068c 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListMediator.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListMediator.java
+@@ -268,6 +268,12 @@ class ExtensionActionListMediator implements Destroyable {
+         Set<String> allActionIdsSet =
+                 new HashSet<>(Arrays.asList(mExtensionsToolbarBridge.getAllActionIds()));
+         String[] pinnedActionIds = mExtensionsToolbarBridge.getPinnedActionIds();
++        // Resolute: phones have no room for pinned icons next to the address bar (they
++        // squeezed it to one letter). Extensions open from the puzzle menu instead; the
++        // opened extension's icon still pops out while its popup is showing.
++        if (mContext.getResources().getConfiguration().smallestScreenWidthDp < 600) {
++            pinnedActionIds = new String[0];
++        }
+ 
+         Tab currentTab = mCurrentTabSupplier.get();
+         WebContents webContents = currentTab != null ? currentTab.getWebContents() : null;

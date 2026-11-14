@@ -1,5 +1,5 @@
 diff --git a/chrome/browser/extensions/api/side_panel/side_panel_api.cc b/chrome/browser/extensions/api/side_panel/side_panel_api.cc
-index 99e9cc39..84f340fb 100644
+index 99e9cc39..6cf917d4 100644
 --- a/chrome/browser/extensions/api/side_panel/side_panel_api.cc
 +++ b/chrome/browser/extensions/api/side_panel/side_panel_api.cc
 @@ -8,6 +8,7 @@
@@ -42,3 +42,23 @@ index 99e9cc39..84f340fb 100644
    // `sidePanel.open()` requires a user gesture.
    if (!user_gesture()) {
      return RespondNow(
+diff --git a/chrome/browser/extensions/api/side_panel/side_panel_service.cc b/chrome/browser/extensions/api/side_panel/side_panel_service.cc
+index 61afd659..c24f500b 100644
+--- a/chrome/browser/extensions/api/side_panel/side_panel_service.cc
++++ b/chrome/browser/extensions/api/side_panel/side_panel_service.cc
+@@ -76,6 +76,15 @@ bool SidePanelService::HasSidePanelActionForTab(const Extension& extension,
+     return false;
+   }
+ 
++#if BUILDFLAG(IS_ANDROID)
++  // Resolute: Android has no side panel UI. Extensions that ask for "open my
++  // side panel when the icon is tapped" (MetaMask does) open their popup
++  // instead, otherwise tapping them did nothing.
++  if (!extension.id().empty()) {
++    return false;
++  }
++#endif
++
+   return HasSidePanelAvailableForTab(extension, tab_id);
+ }
+ 

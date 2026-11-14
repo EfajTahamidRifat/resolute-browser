@@ -33,6 +33,29 @@ index 9e1f21d5..7e432f5a 100644
          <org.chromium.chrome.browser.toolbar.top.ToggleTabStackButton
              android:id="@+id/tab_switcher_button"
              style="@style/ToolbarHoverableButton"
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListCoordinator.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListCoordinator.java
+index 348709b5..711c5316 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListCoordinator.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListCoordinator.java
+@@ -154,6 +154,18 @@ public class ExtensionActionListCoordinator implements Destroyable {
+ 
+     /** Retrieves the button view representing the icon of a given extension. */
+     public @Nullable View getButtonViewForId(String actionId) {
++        View view = findButtonViewForId(actionId);
++        // Resolute: phones show no pinned icons, so an extension opened from the puzzle menu may
++        // have no icon to attach its popup to; attach it to the puzzle button instead.
++        if (view == null
++                && mContext.getResources().getConfiguration().smallestScreenWidthDp < 600
++                && mContainer.getParent() instanceof View parent) {
++            view = parent.findViewById(R.id.extensions_menu_button);
++        }
++        return view;
++    }
++
++    private @Nullable View findButtonViewForId(String actionId) {
+         for (int i = 0; i < mModels.size(); i++) {
+             PropertyModel model = mModels.get(i).model;
+             if (actionId.equals(model.get(ExtensionActionButtonProperties.ID))) {
 diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListMediator.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListMediator.java
 index da03f2af..6b34068c 100644
 --- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListMediator.java

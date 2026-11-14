@@ -160,6 +160,46 @@ def cdp_eval(target, expression):
         ws.close()
 
 
+def cdp_send(target, calls):
+    """Sends DevTools commands [(method, params), ...] to one page, in order."""
+    import websocket
+    ws = websocket.create_connection(target["webSocketDebuggerUrl"], timeout=30,
+                                     suppress_origin=True)
+    out = []
+    try:
+        for i, (method, params) in enumerate(calls, start=1):
+            ws.send(json.dumps({"id": i, "method": method, "params": params}))
+            while True:
+                msg = json.loads(ws.recv())
+                if msg.get("id") == i:
+                    out.append(msg)
+                    break
+    finally:
+        ws.close()
+    return out
+
+
+DESKTOP_UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+              "Chrome/158.0.0.0 Safari/537.36")
+
+
+def cdp_desktop_mode(target):
+    """Like ticking 'Desktop site': desktop user agent + non-mobile UA hints.
+    The Chrome Web Store only installs (instead of offering to 'download to
+    your desktop') when the browser looks like a desktop one."""
+    return cdp_send(target, [
+        ("Network.enable", {}),
+        ("Network.setUserAgentOverride", {
+            "userAgent": DESKTOP_UA, "platform": "Linux x86_64",
+            "userAgentMetadata": {
+                "brands": [{"brand": "Chromium", "version": "158"}],
+                "fullVersionList": [{"brand": "Chromium", "version": "158.0.0.0"}],
+                "platform": "Linux", "platformVersion": "6.0", "architecture": "x86",
+                "model": "", "mobile": False}}),
+        ("Page.reload", {"ignoreCache": True}),
+    ])
+
+
 def cdp_tap(target, find_js):
     """Taps an element like a finger would (a real input event, so pages treat
     it as a user gesture; a scripted .click() is not, and the Chrome Web Store
@@ -276,6 +316,8 @@ def install_from_store(ext_id, name):
     page = cdp_wait_page(ext_id, 120)
     if page is None:
         return False, "store page not found through DevTools", shot(f"{name}-store")
+    cdp_desktop_mode(page)
+    time.sleep(10)
     button = ("[...document.querySelectorAll('button')]"
               ".find(x => /^Add to /.test((x.innerText || '').trim()))")
     label = None
@@ -341,9 +383,13 @@ def t_wallet():
         open_url("http://localhost:8765/connect.html")
         cdp_forward()
         page = cdp_wait_page("localhost:8765", 90)
-        shot("08-page")
         if page is None:
-            return False, "test page did not load", None
+            return False, "test page did not load", shot("08-page")
+        # dApps only use a browser extension wallet in desktop mode (in phone
+        # mode they open the wallet app instead), so test it that way.
+        cdp_desktop_mode(page)
+        time.sleep(6)
+        shot("08-page")
         time.sleep(4)
         provider = cdp_eval(page, "document.getElementById('provider').textContent")
         before = {t.get("id") for t in cdp_targets()}

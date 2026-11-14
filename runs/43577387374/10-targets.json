@@ -1,0 +1,151 @@
+[
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/6",
+  "id": "6",
+  "title": "Resolute wallet test",
+  "type": "page",
+  "url": "http://localhost:8765/connect.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/6"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/7D8A12A032F81383DC4111800C2BCFE4",
+  "id": "7D8A12A032F81383DC4111800C2BCFE4",
+  "title": "",
+  "type": "page",
+  "url": "",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/7D8A12A032F81383DC4111800C2BCFE4"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/8",
+  "id": "8",
+  "title": "MetaMask",
+  "type": "page",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/8"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/39318630E6D74559EBBFAADCA63B653A",
+  "id": "39318630E6D74559EBBFAADCA63B653A",
+  "title": "MetaMask Offscreen Page",
+  "type": "other",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/offscreen.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/39318630E6D74559EBBFAADCA63B653A"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/F70FB513B3E1FE6040D20BB7992AEC9D",
+  "id": "F70FB513B3E1FE6040D20BB7992AEC9D",
+  "parentId": "39318630E6D74559EBBFAADCA63B653A",
+  "title": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "type": "iframe",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/F70FB513B3E1FE6040D20BB7992AEC9D"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/D15F6EE6F3B393408D0C86BE5C0CF61E",
+  "id": "D15F6EE6F3B393408D0C86BE5C0CF61E",
+  "parentId": "39318630E6D74559EBBFAADCA63B653A",
+  "title": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "type": "iframe",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/D15F6EE6F3B393408D0C86BE5C0CF61E"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/595FB550CE897333552EC4982FF84578",
+  "id": "595FB550CE897333552EC4982FF84578",
+  "parentId": "39318630E6D74559EBBFAADCA63B653A",
+  "title": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "type": "iframe",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/595FB550CE897333552EC4982FF84578"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/7814E14C046EC8E261E082066551E6FA",
+  "id": "7814E14C046EC8E261E082066551E6FA",
+  "parentId": "39318630E6D74559EBBFAADCA63B653A",
+  "title": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "type": "iframe",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/7814E14C046EC8E261E082066551E6FA"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/5BEB9433BAE581C4F75A7F71A799FFA2",
+  "id": "5BEB9433BAE581C4F75A7F71A799FFA2",
+  "parentId": "39318630E6D74559EBBFAADCA63B653A",
+  "title": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "type": "iframe",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/5BEB9433BAE581C4F75A7F71A799FFA2"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/5",
+  "id": "5",
+  "title": "MetaMask",
+  "type": "page",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/5"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/4",
+  "id": "4",
+  "title": "MetaMask - Chrome Web Store",
+  "type": "page",
+  "url": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/4"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/3",
+  "id": "3",
+  "title": "uBlock Origin Lite - Chrome Web Store",
+  "type": "page",
+  "url": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/3"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/2",
+  "id": "2",
+  "title": "Wikipedia",
+  "type": "page",
+  "url": "https://www.wikipedia.org/",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/2"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/1",
+  "id": "1",
+  "title": "Example Domain",
+  "type": "page",
+  "url": "https://example.com/",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/1"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/0",
+  "id": "0",
+  "title": "New tab",
+  "type": "page",
+  "url": "chrome-native://newtab/",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/0"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/worker_app.html?ws=127.0.0.1:9222/devtools/page/2DBAA95CCFD2DA5C8E707534BAD2057C",
+  "id": "2DBAA95CCFD2DA5C8E707534BAD2057C",
+  "title": "Service Worker chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/service-worker.js",
+  "type": "service_worker",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/service-worker.js",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/2DBAA95CCFD2DA5C8E707534BAD2057C"
+ }
+]

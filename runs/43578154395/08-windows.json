@@ -1,0 +1,4 @@
+{
+ "before_tap": "JS error: {\"exceptionId\": 2, \"text\": \"Uncaught\", \"lineNumber\": 15407, \"columnNumber\": 12, \"scriptId\": \"3\", \"exception\": {\"type\": \"object\", \"subtype\": \"error\", \"className\": \"Error\", \"description\": \"Error: LavaMoat - property \\\"chrome\\\" of globalThis is inaccessible under scuttling mode. To learn more visit htt",
+ "after": "JS error: {\"exceptionId\": 3, \"text\": \"Uncaught\", \"lineNumber\": 15407, \"columnNumber\": 12, \"scriptId\": \"3\", \"exception\": {\"type\": \"object\", \"subtype\": \"error\", \"className\": \"Error\", \"description\": \"Error: LavaMoat - property \\\"chrome\\\" of globalThis is inaccessible under scuttling mode. To learn more visit htt"
+}

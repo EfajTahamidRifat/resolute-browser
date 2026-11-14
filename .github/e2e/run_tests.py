@@ -238,10 +238,12 @@ def menu_desktop_site(name):
     if item is None:
         adb("shell", "input", "keyevent", "4")
         return "Desktop site item not found"
-    checked = None
-    for n in nodes(xml):
-        if (n.get("class") or "").endswith("CheckBox") and n.get("checked") == "true":
-            checked = True
+    # The setting carries over to new tabs, so only tap it when it's off.
+    # The item's description says "Turn on/off Request desktop site".
+    if "Turn off" in (item.get("content-desc") or ""):
+        adb("shell", "input", "keyevent", "4")
+        time.sleep(1)
+        return "desktop site already on"
     tap(item)
     time.sleep(6)
     return "desktop site toggled"

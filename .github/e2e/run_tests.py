@@ -467,6 +467,24 @@ def top_activity():
     return m.group(1) if m else "unknown"
 
 
+WINDOWS_JS = ("chrome.windows.getAll({populate: true}).then(ws => ws.map(w => ({id: w.id,"
+              " type: w.type, state: w.state, focused: w.focused,"
+              " tabs: (w.tabs || []).map(t => t.url)})))")
+
+
+def mm_windows():
+    """What MetaMask's background sees from chrome.windows.getAll(): if its old
+    popup is still listed after closing, MetaMask focuses it instead of
+    opening a new one (suspected cause of the stuck request)."""
+    for t in cdp_targets():
+        if t.get("type") == "service_worker" and METAMASK in t.get("url", ""):
+            try:
+                return cdp_eval(t, WINDOWS_JS)
+            except Exception as e:  # noqa: BLE001
+                return f"error: {e}"
+    return "no MetaMask service worker"
+
+
 def dapp_connect(tag, wait=25):
     """Opens the test dApp (desktop mode), taps Connect, and returns what
     happened: new MetaMask pages, the screen's top activity, the result."""
@@ -481,6 +499,7 @@ def dapp_connect(tag, wait=25):
     time.sleep(3)
     provider = cdp_on_page(DAPP, lambda t: cdp_eval(t, "document.getElementById('provider').textContent"))
     before = {t.get("id") for t in cdp_targets()}
+    win_before = mm_windows()
     mark = logcat_mark()
     cdp_on_page(DAPP, lambda t: cdp_tap(t, "document.getElementById('go')"))
     info = {"provider": provider, "mm_new": [], "top": [], "popup": None}
@@ -496,6 +515,8 @@ def dapp_connect(tag, wait=25):
             shot(f"{tag}-popup")
     targets = cdp_targets()
     (OUT / f"{tag}-targets.json").write_text(json.dumps(targets, indent=1))
+    (OUT / f"{tag}-windows.json").write_text(json.dumps(
+        {"before_tap": win_before, "after": mm_windows()}, indent=1))
     (OUT / f"{tag}-activities.txt").write_text(adb("shell", "dumpsys", "activity", "activities"))
     log = adb("logcat", "-d", "-v", "time", "-T", mark, timeout=300)
     keep = [l for l in log.splitlines() if re.search(
@@ -530,8 +551,11 @@ ONBOARD_JS = r"""(() => {
   const did = [];
   const pw = [...document.querySelectorAll('input[type=password]')].find(i => i.value !== PW);
   if (pw) { pw.focus(); pw.select(); return {type: true, url: location.href}; }
-  document.querySelectorAll('input[type=checkbox]').forEach(c => {
-    if (!c.checked && !c.disabled) { c.click(); did.push('checkbox'); } });
+  // Tick boxes only on the password page ("I understand..."), not the
+  // data-collection page.
+  if (location.hash.includes('create-password'))
+    document.querySelectorAll('input[type=checkbox]').forEach(c => {
+      if (!c.checked && !c.disabled) { c.click(); did.push('checkbox'); } });
   const visible = [...document.querySelectorAll('button,[role=button]')]
     .filter(b => b.offsetParent !== null);
   const texts = visible.map(b => (b.innerText || '').trim()).filter(Boolean).slice(0, 12);

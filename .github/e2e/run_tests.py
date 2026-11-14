@@ -702,6 +702,35 @@ def t_wallet_cleanup():
             f"approve clicks: {approved}; dApp: {result}"), png
 
 
+@test("12-open-extension-from-toolbar")
+def t_open_extension():
+    """Patch 0005: the extensions button (puzzle piece) is on the phone
+    toolbar; tapping it lists extensions and tapping MetaMask opens its popup,
+    like Mises and Kiwi (owner request 2026-11-14)."""
+    open_url("https://example.com")
+    time.sleep(6)
+    xml = ui_dump("12-toolbar")
+    btn = find(xml, r"^Extensions")
+    if btn is None:
+        return False, "no Extensions button on the toolbar", shot("12-toolbar")
+    before = {t.get("id") for t in cdp_targets()}
+    tap(btn)
+    time.sleep(3)
+    xml = ui_dump("12-menu")
+    shot("12-menu")
+    mm = find(xml, r"^MetaMask")
+    if mm is None:
+        return False, "Extensions button opened, but MetaMask not listed", shot("12-menu")
+    tap(mm)
+    time.sleep(6)
+    png = shot("12-popup")
+    ui_dump("12-popup")
+    new = [t.get("url", "") for t in cdp_targets() if t.get("id") not in before]
+    (OUT / "12-targets.json").write_text(json.dumps(cdp_targets(), indent=1))
+    popup = [u for u in new if METAMASK in u]
+    return bool(popup), f"MetaMask pages opened: {popup or 'none'}; other new: {new[:3]}", png
+
+
 def main():
     adb("wait-for-device")
     adb("logcat", "-c")
@@ -709,7 +738,7 @@ def main():
     adb("shell", "settings", "put", "global", "transition_animation_scale", "0")
     adb("shell", "settings", "put", "global", "animator_duration_scale", "0")
     for t in (t_install, t_launch, t_example, t_wiki, t_ublock, t_metamask, t_listed,
-              t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup):
+              t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup, t_open_extension):
         t()
     (OUT / "logcat.txt").write_text(adb("logcat", "-d", "-v", "time", timeout=300))
     (OUT / "report.json").write_text(json.dumps(results, indent=2))

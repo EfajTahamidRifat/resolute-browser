@@ -1,0 +1,35 @@
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/toolbar/ToolbarManager.java b/chrome/android/java/src/org/chromium/chrome/browser/toolbar/ToolbarManager.java
+index e225ddf5..647c3dd8 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/toolbar/ToolbarManager.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/toolbar/ToolbarManager.java
+@@ -2834,7 +2834,8 @@ public class ToolbarManager
+                                                         mActivityTabProvider.asObservable(),
+                                                         mTabCreatorManager.getTabCreator(false),
+                                                         getBrowsingModeThemeColorProvider(),
+-                                                        (ToolbarTablet) mToolbarLayout,
++                                                        // Resolute: phones too.
++                                                        mToolbarLayout,
+                                                         contextMenuPopulatorFactory,
+                                                         selectionDropdownMenuDelegate,
+                                                         mTabModelSelector,
+diff --git a/chrome/browser/ui/android/toolbar/java/res/layout/toolbar_phone.xml b/chrome/browser/ui/android/toolbar/java/res/layout/toolbar_phone.xml
+index 9e1f21d5..7e432f5a 100644
+--- a/chrome/browser/ui/android/toolbar/java/res/layout/toolbar_phone.xml
++++ b/chrome/browser/ui/android/toolbar/java/res/layout/toolbar_phone.xml
+@@ -74,6 +74,16 @@ found in the LICENSE file.
+             android:layout_height="match_parent"
+             android:visibility="gone"/>
+ 
++        <!-- Resolute: the extensions button (puzzle piece) and pinned extensions on phones.
++             Chromium only had this slot in the tablet toolbar, so phones could not open
++             extension popups such as MetaMask's. -->
++        <ViewStub
++            android:id="@+id/extensions_toolbar_container_stub"
++            android:inflatedId="@+id/extensions_toolbar_container"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_gravity="top"/>
++
+         <org.chromium.chrome.browser.toolbar.top.ToggleTabStackButton
+             android:id="@+id/tab_switcher_button"
+             style="@style/ToolbarHoverableButton"

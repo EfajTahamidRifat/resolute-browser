@@ -160,6 +160,31 @@ def cdp_eval(target, expression):
         ws.close()
 
 
+def cdp_tap(target, find_js):
+    """Taps an element like a finger would (a real input event, so pages treat
+    it as a user gesture; a scripted .click() is not, and the Chrome Web Store
+    then refuses to install). find_js must evaluate to the element or null."""
+    import websocket
+    rect = cdp_eval(target, "(() => { const e = " + find_js + "; if (!e) return null;"
+                    " e.scrollIntoView({block: 'center'}); const r = e.getBoundingClientRect();"
+                    " return {x: r.left + r.width / 2, y: r.top + r.height / 2,"
+                    " label: (e.innerText || '').trim()}; })()")
+    if not isinstance(rect, dict):
+        return None
+    ws = websocket.create_connection(target["webSocketDebuggerUrl"], timeout=30,
+                                     suppress_origin=True)
+    try:
+        for i, kind in enumerate(("mousePressed", "mouseReleased"), start=1):
+            ws.send(json.dumps({"id": i, "method": "Input.dispatchMouseEvent", "params": {
+                "type": kind, "x": rect["x"], "y": rect["y"], "button": "left",
+                "clickCount": 1}}))
+            while json.loads(ws.recv()).get("id") != i:
+                pass
+    finally:
+        ws.close()
+    return rect.get("label") or "tapped"
+
+
 def cdp_wait_page(url_part, seconds=90):
     end = time.time() + seconds
     while time.time() < end:
@@ -251,18 +276,17 @@ def install_from_store(ext_id, name):
     page = cdp_wait_page(ext_id, 120)
     if page is None:
         return False, "store page not found through DevTools", shot(f"{name}-store")
-    click = ("(() => { const b = [...document.querySelectorAll('button')]"
-             ".find(x => /^Add to /.test((x.innerText || '').trim()));"
-             " if (!b) return 'none'; b.click(); return b.innerText.trim(); })()")
-    label = "none"
+    button = ("[...document.querySelectorAll('button')]"
+              ".find(x => /^Add to /.test((x.innerText || '').trim()))")
+    label = None
     for _ in range(30):
-        label = cdp_eval(page, click)
-        if label and label != "none" and not str(label).startswith("JS error"):
+        label = cdp_tap(page, button)
+        if label:
             break
         time.sleep(3)
     png = shot(f"{name}-store")
-    if not label or label == "none" or str(label).startswith("JS error"):
-        return False, f"store button not found ({label})", png
+    if not label:
+        return False, "store button not found", png
     confirm = wait_for(r"^Add extension$", 60, f"{name}-confirm")
     shot(f"{name}-confirm")
     if confirm is None:
@@ -323,7 +347,7 @@ def t_wallet():
         time.sleep(4)
         provider = cdp_eval(page, "document.getElementById('provider').textContent")
         before = {t.get("id") for t in cdp_targets()}
-        cdp_eval(page, "document.getElementById('go').click(); 'clicked'")
+        cdp_tap(page, "document.getElementById('go')")
         time.sleep(25)
         targets = cdp_targets()
         (OUT / "08-targets.json").write_text(json.dumps(targets, indent=1))

@@ -1,0 +1,148 @@
+{
+ "before_tap": [
+  {
+   "id": 807823220,
+   "type": "normal",
+   "state": "maximized",
+   "focused": true,
+   "tabs": [
+    null,
+    "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html",
+    "https://www.wikipedia.org/",
+    "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+    "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+    null,
+    "http://localhost:8765/connect.html",
+    null
+   ]
+  }
+ ],
+ "after": [
+  {
+   "id": 807823220,
+   "type": "normal",
+   "state": "minimized",
+   "focused": false,
+   "tabs": [
+    null,
+    "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html",
+    "https://www.wikipedia.org/",
+    "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+    "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+    null,
+    "http://localhost:8765/connect.html",
+    null
+   ]
+  },
+  {
+   "id": 807823232,
+   "type": "popup",
+   "state": "maximized",
+   "focused": true,
+   "tabs": [
+    null
+   ]
+  }
+ ],
+ "active_tabs_before": [
+  {
+   "id": 807823227,
+   "windowId": 807823220,
+   "url": "http://localhost:8765/connect.html"
+  }
+ ],
+ "pages_before": [
+  {
+   "id": "7",
+   "listed_url": "http://localhost:8765/connect.html",
+   "real": "http://localhost:8765/connect.html | Resolute wallet test | Resolute wallet test\n\nprovider: yes (isMetaMask=true)\n\nConnect wallet\n\nresult: error 4001 User rejected the request."
+  },
+  {
+   "id": "63D557EC22D22AFC8A5E3F735E35278B",
+   "listed_url": "",
+   "real": "about:blank |  | "
+  },
+  {
+   "id": "9",
+   "listed_url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/",
+   "real": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/ | MetaMask | Account 1\n\n0xa244a...4b534\n\nFund your wallet\n\nGet your wallet ready to use web3\n\nAdd funds\nBuy\nSwap\nSend\nReceive\nMoney\n\n"
+  },
+  {
+   "id": "6",
+   "listed_url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/",
+   "real": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/ | MetaMask | Account 1\n\n0xa244a...4b534\n\nFund your wallet\n\nGet your wallet ready to use web3\n\nAdd funds\nBuy\nSwap\nSend\nReceive\nMoney\n\n"
+  },
+  {
+   "id": "5",
+   "listed_url": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+   "real": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn | MetaMask - Chrome Web Store | chrome web store\nSign in\nDiscover\nExtensions\nSwitch to Chrome to install extensions and themes\nInstall Chrome\nMetaMask\nC"
+  },
+  {
+   "id": "4",
+   "listed_url": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+   "real": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh | uBlock Origin Lite - Chrome Web Store | chrome web store\nSign in\nDiscover\nExtensions\nSwitch to Chrome to install extensions and themes\nInstall Chrome\nuBlock Ori"
+  },
+  {
+   "id": "3",
+   "listed_url": "https://www.wikipedia.org/",
+   "real": "https://www.wikipedia.org/ | Wikipedia |  Wikipedia\nThe Free Encyclopedia\nEnglish\n7,261,000+ articles\n\u65e5\u672c\u8a9e\n1,526,000+ \u8a18\u4e8b\nDeutsch\n3.164.000+ Artikel\n\u0420\u0443\u0441\u0441\u043a\u0438\u0439\n2\u00a0128\u00a0"
+  },
+  {
+   "id": "2",
+   "listed_url": "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html",
+   "real": "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html | uBO Lite \u2014 Dashboard | Settings\nFilter lists\nCustom filters\nAbout\nDefault filtering mode\n\nThe default filtering mode will be overridden by per-"
+  },
+  {
+   "id": "1",
+   "listed_url": "chrome-native://newtab/",
+   "real": "chrome-native://newtab/ |  | "
+  }
+ ],
+ "pages_after": [
+  {
+   "id": "10",
+   "listed_url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/notification.html#/connect/zI-OYZVAvXJwYfby7xPDq",
+   "real": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/notification.html#/connect/zI-OYZVAvXJwYfby7xPDq | MetaMask | l\nlocalhost\n\nConnect this website with MetaMask\n\nAccount\n\nAccount 1\n\nPermissions\n\nSee addresses, balances, and activity\n"
+  },
+  {
+   "id": "7",
+   "listed_url": "http://localhost:8765/connect.html",
+   "real": "http://localhost:8765/connect.html | Resolute wallet test | Resolute wallet test\n\nprovider: yes (isMetaMask=true)\n\nConnect wallet\n\nresult: waiting for wallet"
+  },
+  {
+   "id": "9",
+   "listed_url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/",
+   "real": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/ | MetaMask | Account 1\n\n0xa244a...4b534\n\nFund your wallet\n\nGet your wallet ready to use web3\n\nAdd funds\nBuy\nSwap\nSend\nReceive\nMoney\n\n"
+  },
+  {
+   "id": "6",
+   "listed_url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/",
+   "real": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/ | MetaMask | Account 1\n\n0xa244a...4b534\n\nFund your wallet\n\nGet your wallet ready to use web3\n\nAdd funds\nBuy\nSwap\nSend\nReceive\nMoney\n\n"
+  },
+  {
+   "id": "5",
+   "listed_url": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+   "real": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn | MetaMask - Chrome Web Store | chrome web store\nSign in\nDiscover\nExtensions\nSwitch to Chrome to install extensions and themes\nInstall Chrome\nMetaMask\nC"
+  },
+  {
+   "id": "4",
+   "listed_url": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+   "real": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh | uBlock Origin Lite - Chrome Web Store | chrome web store\nSign in\nDiscover\nExtensions\nSwitch to Chrome to install extensions and themes\nInstall Chrome\nuBlock Ori"
+  },
+  {
+   "id": "3",
+   "listed_url": "https://www.wikipedia.org/",
+   "real": "https://www.wikipedia.org/ | Wikipedia |  Wikipedia\nThe Free Encyclopedia\nEnglish\n7,261,000+ articles\n\u65e5\u672c\u8a9e\n1,526,000+ \u8a18\u4e8b\nDeutsch\n3.164.000+ Artikel\n\u0420\u0443\u0441\u0441\u043a\u0438\u0439\n2\u00a0128\u00a0"
+  },
+  {
+   "id": "2",
+   "listed_url": "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html",
+   "real": "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html | uBO Lite \u2014 Dashboard | Settings\nFilter lists\nCustom filters\nAbout\nDefault filtering mode\n\nThe default filtering mode will be overridden by per-"
+  },
+  {
+   "id": "1",
+   "listed_url": "chrome-native://newtab/",
+   "real": "chrome-native://newtab/ |  | "
+  }
+ ]
+}

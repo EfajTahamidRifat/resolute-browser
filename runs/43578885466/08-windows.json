@@ -1,0 +1,37 @@
+{
+ "before_tap": [
+  {
+   "id": 1852772886,
+   "type": "normal",
+   "state": "maximized",
+   "focused": true,
+   "tabs": [
+    null,
+    "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html",
+    "https://www.wikipedia.org/",
+    "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+    "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+    null,
+    "http://localhost:8765/connect.html"
+   ]
+  }
+ ],
+ "after": [
+  {
+   "id": 1852772886,
+   "type": "normal",
+   "state": "maximized",
+   "focused": true,
+   "tabs": [
+    null,
+    "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html",
+    "https://www.wikipedia.org/",
+    "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+    "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+    null,
+    "http://localhost:8765/connect.html",
+    null
+   ]
+  }
+ ]
+}

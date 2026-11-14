@@ -78,6 +78,11 @@ def find(xml, pattern):
     return None
 
 
+def screen_size():
+    m = re.search(r"(\d+)x(\d+)", adb("shell", "wm", "size"))
+    return (int(m.group(1)), int(m.group(2))) if m else (1080, 1920)
+
+
 def tap(node):
     x1, y1, x2, y2 = map(int, re.findall(r"\d+", node.get("bounds")))
     adb("shell", "input", "tap", str((x1 + x2) // 2), str((y1 + y2) // 2))
@@ -210,14 +215,26 @@ def menu_desktop_site(name):
         return "menu button not found"
     tap(menu)
     time.sleep(2)
+    # Scroll inside the menu using this screen's real size. A fixed 1080p
+    # swipe started below the 320x640 emulator screen, which Android read as
+    # the "go home" gesture and sent Resolute to the background (2026-11-14).
+    w, h = screen_size()
     item = None
-    for _ in range(4):
-        xml = ui_dump(f"{name}-menu")
+    for i in range(5):
+        xml = ui_dump(f"{name}-menu{i}")
         item = find(xml, r"^Desktop site$")
         if item is not None:
             break
-        adb("shell", "input", "swipe", "540", "1500", "540", "700", "300")
-        time.sleep(1)
+        if find(xml, r"^(New tab|History|Settings|Bookmarks|Downloads)$") is None:
+            # Menu isn't open (yet): tap the button again.
+            again = find(xml, r"Customize and control")
+            if again is not None:
+                tap(again)
+            time.sleep(2)
+            continue
+        adb("shell", "input", "swipe", str(int(w * 0.7)), str(int(h * 0.75)),
+            str(int(w * 0.7)), str(int(h * 0.35)), "400")
+        time.sleep(1.5)
     if item is None:
         adb("shell", "input", "keyevent", "4")
         return "Desktop site item not found"
@@ -265,13 +282,13 @@ def cdp_wait_page(url_part, seconds=90):
     return None
 
 
-def cdp_on_page(url_part, fn, tries=20):
+def cdp_on_page(url_part, fn, tries=8):
     """Runs fn(target) on the current page whose URL contains url_part.
     Ticking 'Desktop site' reloads the tab as a new DevTools target, so an old
     target id stops working ("No such target id"); look it up fresh each try."""
     last = None
     for _ in range(tries):
-        t = cdp_wait_page(url_part, 30)
+        t = cdp_wait_page(url_part, 10)
         if t is not None:
             try:
                 res = fn(t)
@@ -370,7 +387,7 @@ def install_from_store(ext_id, name):
     time.sleep(6)
     button = ("[...document.querySelectorAll('button')]"
               ".find(x => /^Add to /.test((x.innerText || '').trim()))")
-    label = cdp_on_page(ext_id, lambda t: cdp_tap(t, button), 30)
+    label = cdp_on_page(ext_id, lambda t: cdp_tap(t, button), 15)
     png = shot(f"{name}-store")
     if not label:
         return False, "store button not found", png

@@ -708,6 +708,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-14: E2E run 43562273186: the DevTools user-agent override ends when the DevTools connection closes, so the reload came back in phone mode. Tests now tick the real ⋮ > Desktop site menu item (native UI, visible to uiautomator), like the owner did.
 - 2026-11-14: E2E run 43565273150: the ⋮ menu button wasn't found because find() matched against "text + ' ' + description", so `^Customize` never matched an icon button with only a description. find() now checks text and description separately.
 - 2026-11-14: E2E run 43569018815: the ⋮ > Desktop site toggle now works, but it reloads the tab as a new DevTools target, so the test's saved target id died ("No such target id"). The test now looks the page up fresh before every DevTools call (cdp_on_page) and retries.
+- 2026-11-14: E2E run 43569712909: the menu scroll used fixed 1080p coordinates; on the 320x640 emulator the swipe started off-screen, Android read it as "go home", and Resolute went to the background (screenshots showed the home screen). The swipe now uses the real screen size (wm size), re-taps ⋮ if the menu isn't open, and DevTools retries are shorter.
 
 Add a line here after every build or release.
 

@@ -1,0 +1,50 @@
+[
+  {
+    "test": "01-install",
+    "passed": true,
+    "detail": "Success",
+    "screenshot": null
+  },
+  {
+    "test": "02-launch",
+    "passed": true,
+    "detail": "process id 4075",
+    "screenshot": "02-launch.png"
+  },
+  {
+    "test": "03-load-example",
+    "passed": false,
+    "detail": "page text not found",
+    "screenshot": "03-example.png"
+  },
+  {
+    "test": "04-load-wikipedia",
+    "passed": true,
+    "detail": "page text found",
+    "screenshot": "04-wikipedia.png"
+  },
+  {
+    "test": "05-store-install-ublock-lite",
+    "passed": false,
+    "detail": "'Add to Chrome' button not found on the store page",
+    "screenshot": "05-ublock-store.png"
+  },
+  {
+    "test": "06-store-install-metamask",
+    "passed": false,
+    "detail": "'Add to Chrome' button not found on the store page",
+    "screenshot": "06-metamask-store.png"
+  },
+  {
+    "test": "07-extensions-listed",
+    "passed": false,
+    "detail": "listed: MetaMask",
+    "screenshot": "07-extensions.png"
+  },
+  {
+    "test": "08-wallet-connect",
+    "passed": false,
+    "detail": "test page did not load",
+    "screenshot": null
+  }
+]

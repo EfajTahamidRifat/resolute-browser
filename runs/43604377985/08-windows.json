@@ -1,0 +1,128 @@
+{
+ "before_tap": [
+  {
+   "id": 1430442249,
+   "type": "normal",
+   "state": "maximized",
+   "focused": true,
+   "tabs": [
+    null,
+    "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html",
+    "https://www.wikipedia.org/",
+    "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+    "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+    null,
+    "http://localhost:8765/connect.html"
+   ]
+  }
+ ],
+ "after": [
+  {
+   "id": 1430442249,
+   "type": "normal",
+   "state": "maximized",
+   "focused": true,
+   "tabs": [
+    null,
+    "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html",
+    "https://www.wikipedia.org/",
+    "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+    "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+    null,
+    "http://localhost:8765/connect.html",
+    null
+   ]
+  }
+ ],
+ "active_tabs_before": [
+  {
+   "id": 1430442256,
+   "windowId": 1430442249,
+   "url": "http://localhost:8765/connect.html"
+  }
+ ],
+ "pages_before": [
+  {
+   "id": "7",
+   "listed_url": "http://localhost:8765/connect.html",
+   "real": "http://localhost:8765/connect.html | Resolute wallet test | Resolute wallet test\n\nprovider: yes (isMetaMask=true)\n\nConnect wallet\n\nnot requested"
+  },
+  {
+   "id": "6",
+   "listed_url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/onboarding/welcome",
+   "real": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/onboarding/welcome | MetaMask | \u12a0\u121b\u122d\u129b\n\u0627\u0644\u0639\u0631\u0628\u064a\u0629\n\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438\n\u09ac\u09be\u0982\u09b2\u09be\nCatal\u00e0\n\u010ce\u0161tina\nDansk\nDeutsch\n\u03b5\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac\nEnglish\nEspa\u00f1ol (Latinoam\u00e9rica)\nEstonian\n\u0641\u0627\u0631\u0633\u06cc\nSuomi\n"
+  },
+  {
+   "id": "5",
+   "listed_url": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+   "real": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn | MetaMask - Chrome Web Store | chrome web store\nSign in\nDiscover\nExtensions\nSwitch to Chrome to install extensions and themes\nInstall Chrome\nMetaMask\nC"
+  },
+  {
+   "id": "4",
+   "listed_url": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+   "real": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh | uBlock Origin Lite - Chrome Web Store | chrome web store\nSign in\nDiscover\nExtensions\nSwitch to Chrome to install extensions and themes\nInstall Chrome\nuBlock Ori"
+  },
+  {
+   "id": "3",
+   "listed_url": "https://www.wikipedia.org/",
+   "real": "https://www.wikipedia.org/ | Wikipedia |  Wikipedia\nThe Free Encyclopedia\nEnglish\n7,261,000+ articles\n\u65e5\u672c\u8a9e\n1,526,000+ \u8a18\u4e8b\nDeutsch\n3.164.000+ Artikel\n\u0420\u0443\u0441\u0441\u043a\u0438\u0439\n2\u00a0128\u00a0"
+  },
+  {
+   "id": "2",
+   "listed_url": "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html",
+   "real": "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html | uBO Lite \u2014 Dashboard | Settings\nFilter lists\nCustom filters\nAbout\nDefault filtering mode\n\nThe default filtering mode will be overridden by per-"
+  },
+  {
+   "id": "1",
+   "listed_url": "chrome-native://newtab/",
+   "real": "chrome-native://newtab/ |  | "
+  }
+ ],
+ "pages_after": [
+  {
+   "id": "162356F6DC55916B5E4AB6C3D1A606FD",
+   "listed_url": "",
+   "real": "about:blank |  | "
+  },
+  {
+   "id": "9",
+   "listed_url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/onboarding/welcome",
+   "real": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/onboarding/welcome | MetaMask | \u12a0\u121b\u122d\u129b\n\u0627\u0644\u0639\u0631\u0628\u064a\u0629\n\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438\n\u09ac\u09be\u0982\u09b2\u09be\nCatal\u00e0\n\u010ce\u0161tina\nDansk\nDeutsch\n\u03b5\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac\nEnglish\nEspa\u00f1ol (Latinoam\u00e9rica)\nEstonian\n\u0641\u0627\u0631\u0633\u06cc\nSuomi\n"
+  },
+  {
+   "id": "7",
+   "listed_url": "http://localhost:8765/connect.html",
+   "real": "http://localhost:8765/connect.html | Resolute wallet test | Resolute wallet test\n\nprovider: yes (isMetaMask=true)\n\nConnect wallet\n\nresult: error 4001 User rejected the request."
+  },
+  {
+   "id": "6",
+   "listed_url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/onboarding/welcome",
+   "real": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/onboarding/welcome | MetaMask | \u12a0\u121b\u122d\u129b\n\u0627\u0644\u0639\u0631\u0628\u064a\u0629\n\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438\n\u09ac\u09be\u0982\u09b2\u09be\nCatal\u00e0\n\u010ce\u0161tina\nDansk\nDeutsch\n\u03b5\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac\nEnglish\nEspa\u00f1ol (Latinoam\u00e9rica)\nEstonian\n\u0641\u0627\u0631\u0633\u06cc\nSuomi\n"
+  },
+  {
+   "id": "5",
+   "listed_url": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+   "real": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn | MetaMask - Chrome Web Store | chrome web store\nSign in\nDiscover\nExtensions\nSwitch to Chrome to install extensions and themes\nInstall Chrome\nMetaMask\nC"
+  },
+  {
+   "id": "4",
+   "listed_url": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+   "real": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh | uBlock Origin Lite - Chrome Web Store | chrome web store\nSign in\nDiscover\nExtensions\nSwitch to Chrome to install extensions and themes\nInstall Chrome\nuBlock Ori"
+  },
+  {
+   "id": "3",
+   "listed_url": "https://www.wikipedia.org/",
+   "real": "https://www.wikipedia.org/ | Wikipedia |  Wikipedia\nThe Free Encyclopedia\nEnglish\n7,261,000+ articles\n\u65e5\u672c\u8a9e\n1,526,000+ \u8a18\u4e8b\nDeutsch\n3.164.000+ Artikel\n\u0420\u0443\u0441\u0441\u043a\u0438\u0439\n2\u00a0128\u00a0"
+  },
+  {
+   "id": "2",
+   "listed_url": "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html",
+   "real": "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html | uBO Lite \u2014 Dashboard | Settings\nFilter lists\nCustom filters\nAbout\nDefault filtering mode\n\nThe default filtering mode will be overridden by per-"
+  },
+  {
+   "id": "1",
+   "listed_url": "chrome-native://newtab/",
+   "real": "chrome-native://newtab/ |  | "
+  }
+ ]
+}

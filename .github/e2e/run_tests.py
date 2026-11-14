@@ -70,9 +70,11 @@ def nodes(xml):
 def find(xml, pattern):
     rx = re.compile(pattern, re.I)
     for n in nodes(xml):
-        label = (n.get("text") or "") + " " + (n.get("content-desc") or "")
-        if rx.search(label):
-            return n
+        # Check text and description separately: an icon button has only a
+        # description, and "text + ' ' + desc" broke patterns anchored with ^.
+        for label in (n.get("text") or "", n.get("content-desc") or ""):
+            if label and rx.search(label):
+                return n
     return None
 
 

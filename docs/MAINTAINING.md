@@ -701,6 +701,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-14: x64 build stage 2 OK: 20,511 of the 23,334 remaining steps, no errors. Stage 3 should finish compiling and link.
 - 2026-11-14: **First x64 emulator build done** (run 43423621224, 3 stages, about 11 h). Released as `test-x64-2026-11-14` (392 MB, emulator only). E2E run 43536457998 started with it.
 - 2026-11-14: Auto-update: Chromium 158.0.8127.22 -> 158.0.8127.36 (chromium-update workflow). Build started.
+- 2026-11-14: First E2E run with the x64 build (43536457998): **Resolute runs on the emulator** (launch, sites, Chrome Web Store OK). Test bugs fixed: the store button reads "Add to Desktop" (regex only knew Chrome/Chromium/Resolute, so no extension got installed), and the wallet test hung because the single-threaded test web server waited forever on an idle browser connection (now a threaded server with a 10 s timeout; the emulator step also has a 75 min limit so results are always saved).
 
 Add a line here after every build or release.
 

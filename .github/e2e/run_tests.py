@@ -188,7 +188,7 @@ def t_wiki():
 
 def install_from_store(ext_id, name):
     open_url(f"https://chromewebstore.google.com/detail/{ext_id}")
-    button = wait_for(r"^Add to (Chrome|Chromium|Resolute)$", 120, f"{name}-store")
+    button = wait_for(r"^Add to (Chrome|Chromium|Resolute|Desktop)$", 120, f"{name}-store")
     png = shot(f"{name}-store")
     if button is None:
         return False, "'Add to Chrome' button not found on the store page", png
@@ -226,10 +226,17 @@ def t_listed():
 def t_wallet():
     """Taps Connect on a local dApp page and records what happens to MetaMask's
     approval window (the bug owner hit on real phones, 2026-11-13)."""
-    import http.server, socketserver, threading, functools
+    import http.server, threading, functools
+
+    class Handler(http.server.SimpleHTTPRequestHandler):
+        # The browser opens spare connections it never uses; without a timeout
+        # the server waited on one forever and the whole job hung (2026-11-14).
+        timeout = 10
+
     pages = Path(__file__).parent / "pages"
-    handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(pages))
-    srv = socketserver.TCPServer(("127.0.0.1", 8765), handler)
+    handler = functools.partial(Handler, directory=str(pages))
+    srv = http.server.ThreadingHTTPServer(("127.0.0.1", 8765), handler)
+    srv.daemon_threads = True
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     adb("reverse", "tcp:8765", "tcp:8765")
     try:
@@ -261,7 +268,8 @@ def t_wallet():
                   f"MetaMask window visible={seen is not None}")
         return seen is not None, detail, png
     finally:
-        srv.shutdown()
+        threading.Thread(target=srv.shutdown, daemon=True).start()
+        srv.server_close()
 
 
 def main():

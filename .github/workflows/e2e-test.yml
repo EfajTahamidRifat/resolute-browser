@@ -42,6 +42,7 @@ jobs:
           ls -lh "$RUNNER_TEMP/resolute.apk"
 
       - name: Run tests on emulator
+        timeout-minutes: 75
         id: tests
         uses: reactivecircus/android-emulator-runner@v2
         with:

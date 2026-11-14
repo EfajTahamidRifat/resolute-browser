@@ -200,6 +200,34 @@ def cdp_desktop_mode(target):
     ])
 
 
+def menu_desktop_site(name):
+    """Ticks Resolute's own ⋮ > Desktop site, like a user (it persists for the
+    tab, unlike a DevTools override, which ends when DevTools disconnects)."""
+    menu = wait_for(r"^Customize and control", 20)
+    if menu is None:
+        return "menu button not found"
+    tap(menu)
+    time.sleep(2)
+    item = None
+    for _ in range(4):
+        xml = ui_dump(f"{name}-menu")
+        item = find(xml, r"^Desktop site$")
+        if item is not None:
+            break
+        adb("shell", "input", "swipe", "540", "1500", "540", "700", "300")
+        time.sleep(1)
+    if item is None:
+        adb("shell", "input", "keyevent", "4")
+        return "Desktop site item not found"
+    checked = None
+    for n in nodes(xml):
+        if (n.get("class") or "").endswith("CheckBox") and n.get("checked") == "true":
+            checked = True
+    tap(item)
+    time.sleep(6)
+    return "desktop site toggled"
+
+
 def cdp_tap(target, find_js):
     """Taps an element like a finger would (a real input event, so pages treat
     it as a user gesture; a scripted .click() is not, and the Chrome Web Store
@@ -316,8 +344,9 @@ def install_from_store(ext_id, name):
     page = cdp_wait_page(ext_id, 120)
     if page is None:
         return False, "store page not found through DevTools", shot(f"{name}-store")
-    cdp_desktop_mode(page)
-    time.sleep(10)
+    desk = menu_desktop_site(name)
+    time.sleep(6)
+    page = cdp_wait_page(ext_id, 60) or page
     button = ("[...document.querySelectorAll('button')]"
               ".find(x => /^Add to /.test((x.innerText || '').trim()))")
     label = None
@@ -332,7 +361,7 @@ def install_from_store(ext_id, name):
     confirm = wait_for(r"^Add extension$", 60, f"{name}-confirm")
     shot(f"{name}-confirm")
     if confirm is None:
-        return False, f"clicked '{label}' but no install dialog appeared", png
+        return False, f"clicked '{label}' ({desk}) but no install dialog appeared", png
     tap(confirm)
     time.sleep(25)
     return True, f"clicked '{label}', install confirmed", shot(f"{name}-installed")
@@ -387,8 +416,9 @@ def t_wallet():
             return False, "test page did not load", shot("08-page")
         # dApps only use a browser extension wallet in desktop mode (in phone
         # mode they open the wallet app instead), so test it that way.
-        cdp_desktop_mode(page)
-        time.sleep(6)
+        desk = menu_desktop_site("08")
+        time.sleep(4)
+        page = cdp_wait_page("localhost:8765", 60) or page
         shot("08-page")
         time.sleep(4)
         provider = cdp_eval(page, "document.getElementById('provider').textContent")

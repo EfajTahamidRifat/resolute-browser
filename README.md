@@ -56,3 +56,8 @@ Resolute never asks for, stores or transmits seed phrases or private keys. Walle
 extensions keep full control of signing.
 
 **The Resolute team will never DM you first.**
+
+## Licence
+
+Proprietary. Copyright (c) 2026 Dewan Efaj Tahamid Rifat (The Code Bros). All rights reserved.
+This repository is public so its builds can run, but no permission is granted to use, copy or redistribute it. See [LICENSE](LICENSE) and [NOTICE](NOTICE) (Chromium and other third-party parts keep their own licences).

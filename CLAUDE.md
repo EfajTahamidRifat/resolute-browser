@@ -20,6 +20,10 @@ Essentials:
   them in NOTICE, and MPL files stay MPL. Never port Kiwi's whole extensions
   patch. No GPL code, no Edge code.
 - Keep Chromium updated at least monthly; security updates come before features.
+- Licence: **proprietary, all rights reserved** since 2026-11-14 (LICENSE; third-party
+  notices in NOTICE). The repo is public only so builds run free. Never add an
+  open-source licence or licence headers that grant rights; keep Chromium's BSD
+  notices.
 - Never commit secrets (RPC keys, API keys, keystores, seed phrases). Keys are
   GitHub Actions secrets; names are listed in `docs/MAINTAINING.md` section 8.
 - No Resolute server: config lives in `config/*.json` on GitHub.

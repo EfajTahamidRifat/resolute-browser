@@ -1,0 +1,24 @@
+Resolute Browser
+Copyright (c) 2026 Dewan Efaj Tahamid Rifat (The Code Bros). All rights reserved.
+See LICENSE.
+
+Third-party software
+====================
+
+Resolute Browser is built on the Chromium open source project, which is not
+covered by Resolute's LICENSE and stays under its own licences:
+
+- Chromium: Copyright The Chromium Authors. BSD 3-Clause licence
+  (https://chromium.googlesource.com/chromium/src/+/main/LICENSE).
+  Chromium includes many other open source components under their own
+  licences; the full list ships inside the app at chrome://credits.
+
+The files in chromium/patches/ change Chromium source files. The changed
+Chromium code remains under Chromium's licence; Resolute's own additions are
+covered by Resolute's LICENSE.
+
+If code from Kiwi Browser (BSD 3-Clause) or Mises Browser (MPL 2.0) is reused,
+its notice is added here, and MPL 2.0 files stay under MPL 2.0.
+
+Extensions installed by users from the Chrome Web Store (for example MetaMask)
+are not part of Resolute and belong to their own developers.

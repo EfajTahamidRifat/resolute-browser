@@ -1,0 +1,44 @@
+diff --git a/chrome/browser/extensions/api/side_panel/side_panel_api.cc b/chrome/browser/extensions/api/side_panel/side_panel_api.cc
+index 99e9cc39..84f340fb 100644
+--- a/chrome/browser/extensions/api/side_panel/side_panel_api.cc
++++ b/chrome/browser/extensions/api/side_panel/side_panel_api.cc
+@@ -8,6 +8,7 @@
+ 
+ #include "base/types/expected.h"
+ #include "base/values.h"
++#include "build/build_config.h"
+ #include "chrome/browser/extensions/api/side_panel/side_panel_service.h"
+ #include "chrome/browser/extensions/chrome_extension_function_details.h"
+ #include "chrome/browser/extensions/extension_tab_util.h"
+@@ -68,10 +69,31 @@ SidePanelGetPanelBehaviorFunction::RunFunction() {
+   return RespondNow(WithArguments(behavior.ToValue()));
+ }
+ 
++namespace {
++
++// Resolute: Android phones have no side panel UI, but the API still reported
++// success, so wallets like MetaMask (which now prefer the side panel) waited
++// forever with nothing on screen. Failing here makes them fall back to their
++// popup window, which works. Not constexpr on purpose, so the compiler doesn't
++// flag the code after the check as unreachable.
++bool SidePanelUiAvailable() {
++#if BUILDFLAG(IS_ANDROID)
++  return false;
++#else
++  return true;
++#endif
++}
++
++}  // namespace
++
+ ExtensionFunction::ResponseAction SidePanelOpenFunction::RunFunction() {
+   // Only available to extensions.
+   EXTENSION_FUNCTION_VALIDATE(extension());
+ 
++  if (!SidePanelUiAvailable()) {
++    return RespondNow(Error("Side panel is not available on this device."));
++  }
++
+   // `sidePanel.open()` requires a user gesture.
+   if (!user_gesture()) {
+     return RespondNow(

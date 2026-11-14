@@ -14,6 +14,9 @@ inputs:
   resume_run_id:
     description: "Earlier workflow run to take the saved output from (empty = this run)"
     default: ""
+  version:
+    description: "Chromium version to build instead of chromium/VERSION (empty = use the file)"
+    default: ""
 
 outputs:
   done:
@@ -23,6 +26,18 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: Use the requested Chromium version
+      if: inputs.version != ''
+      shell: bash
+      env:
+        V: ${{ inputs.version }}
+      run: |
+        # Test builds can stay on the version their saved progress was built
+        # with, so a small change rebuilds in minutes instead of a day.
+        [[ "$V" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "bad version $V"; exit 1; }
+        echo "$V" > chromium/VERSION
+        echo "Building Chromium $V (overrides chromium/VERSION)"
+
     - name: Free disk space and set paths
       shell: bash
       run: |

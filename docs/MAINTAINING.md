@@ -106,6 +106,12 @@ ID as `resume_run_id` (within 14 days). Ninja only rebuilds what the patches
 touch (`build.sh` marks patched files as new). This does **not** help after a
 Chromium version change or an `args.gn` change: those rebuild nearly everything.
 
+If `chromium/VERSION` has moved on since that finished run (for example the
+daily auto-update bumped it), also fill the optional `version` input with the
+version the finished run was built with. The build then uses that version
+instead of the file, so test builds (for example x64 for the emulator) stay
+fast. Phone releases should always use the current version (leave it empty).
+
 ### App size
 
 The first APK (2026-11-12) was 552 MB: `libchrome.so` 407 MB (317 MB of it code),
@@ -231,6 +237,7 @@ Current patches:
 |---|---|---|
 | `0001-gpu-no-forced-angle-vulkan.patch` | Removes three desktop-Android graphics overrides in `chrome/browser/chrome_browser_field_trials.cc` (SkipVulkanBlocklist, DefaultANGLEVulkan, VulkanFromANGLE) | The desktop-Android config forces ANGLE on Vulkan and ignores the Vulkan blocklist. On phones with older Vulkan drivers (owner's OnePlus CPH2473, Adreno, Vulkan 1.1) that gives only GLES 2.0, the GPU process fails 3 times and the browser exits: `GPU process isn't usable. Goodbye.` Without the overrides it uses Chrome for Android's normal graphics setup. On each Chromium update, check this block still exists; drop the patch if upstream adds proper runtime checks (crbug.com/376280554). |
 | `0002-extensions-menu-no-crash-on-phones.patch` | In `ChromeTabbedActivity`, the app-menu item "Open extensions menu" opens `chrome://extensions` when there is no extensions toolbar, instead of crashing | Chromium only creates `ExtensionsToolbarCoordinator` for the tablet toolbar (`ToolbarManager`, `extensions_toolbar_container_stub`); phones use the phone toolbar, so it is null and the menu item crashed (owner's bug report 2026-11-13, NullPointerException in onMenuOrKeyboardAction). Temporary: Resolute's own phone extensions UI (Quick menu row, popups as sheets) replaces it. |
+| `0003-sidepanel-open-fails-on-android.patch` | `chrome.sidePanel.open()` returns an error on Android instead of reporting success | Android has no side panel UI, but the API said "opened", so MetaMask (which now opens its approval UI in the side panel once a wallet exists) showed nothing and kept the request pending forever: the owner's "previous request is still active" bug. With the error, MetaMask falls back to its popup window, which Resolute shows (as a Custom Tab screen). Found with E2E runs 43577387374 to 43579627608 and MetaMask's `app/scripts/sidepanel/background.ts`. Later: show extension side panels as a Resolute bottom sheet and remove this patch. |
 
 Rules:
 
@@ -715,6 +722,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-14: E2E run 43577387374 (8/10): **the throwaway wallet was created, and test 10 reproduced the phone bug.** The second Connect leaves the dApp at "waiting for wallet": no popup is created at all (no PopupCreator/CustomTab lines in the log), while a page with an empty URL (the first popup's leftover) still exists. Suspected cause: after the Custom Tab popup closes, Chromium still lists that window, so MetaMask tries to focus the old window instead of opening a new one. The test now records chrome.windows.getAll() from MetaMask's service worker before and after the tap to confirm before writing patch 0003.
 - 2026-11-14: E2E run 43578154395: MetaMask's LavaMoat also hides `chrome` from DevTools, so the window list is now read from uBlock Origin Lite's dashboard page (opened in the example.com tab via DevTools). Test 07 now checks that uBlock's page opens and MetaMask's worker runs.
 - 2026-11-14: E2E run 43578885466 (9/10): chrome.windows.getAll lists only the main window, so it is NOT a stale popup window, and Chromium's code shows windows.create does answer on Android. New lead: after the popup's Custom Tab screen closes, a page with an empty URL stays alive (likely MetaMask's approval page still running, so MetaMask thinks its window is open). Test now inventories every page and the active tabs before tapping, and new test 11 closes leftover pages, reloads, and connects again.
+- 2026-11-14: **Found the MetaMask bug.** E2E run 43579627608 (9/11): no leftover popup window (chrome.windows lists only the main window), the leftover empty page is just about:blank, and the active tab is the dApp, yet MetaMask keeps the request pending ("-32002 already pending") without opening anything. MetaMask's source (`app/scripts/background.ts` triggerUi, `app/scripts/sidepanel/background.ts`): once a wallet exists, MetaMask first asks Chrome to open its **side panel** (`chrome.sidePanel.open`) and only opens the popup if that fails. Desktop-Android Chromium has the API but no side panel UI on phones, and it reports success, so nothing appears. Before onboarding MetaMask uses the popup, which is why test 08's popup did show. Fix: **patch 0003** makes `sidePanel.open()` fail on Android so MetaMask falls back to its popup. Build workflow got an optional `version` input so the x64 test build can rebuild on its saved 158.0.8127.22 progress while the auto-update builds 158.0.8127.36 for phones.
 
 Add a line here after every build or release.
 

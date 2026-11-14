@@ -1,0 +1,50 @@
+[
+  {
+    "test": "01-install",
+    "passed": true,
+    "detail": "Success",
+    "screenshot": null
+  },
+  {
+    "test": "02-launch",
+    "passed": true,
+    "detail": "process id 4636",
+    "screenshot": "02-launch.png"
+  },
+  {
+    "test": "03-load-example",
+    "passed": true,
+    "detail": "page title: Example Domain",
+    "screenshot": "03-example.png"
+  },
+  {
+    "test": "04-load-wikipedia",
+    "passed": true,
+    "detail": "page text found",
+    "screenshot": "04-wikipedia.png"
+  },
+  {
+    "test": "05-store-install-ublock-lite",
+    "passed": false,
+    "detail": "clicked 'Add to Desktop' but no install dialog appeared",
+    "screenshot": "05-ublock-store.png"
+  },
+  {
+    "test": "06-store-install-metamask",
+    "passed": false,
+    "detail": "clicked 'Add to Desktop' but no install dialog appeared",
+    "screenshot": "06-metamask-store.png"
+  },
+  {
+    "test": "07-extensions-listed",
+    "passed": false,
+    "detail": "running/listed: MetaMask",
+    "screenshot": "07-extensions.png"
+  },
+  {
+    "test": "08-wallet-connect",
+    "passed": false,
+    "detail": "provider: none; result: no provider; new MetaMask pages: none; other new targets: []; MetaMask visible on screen=False",
+    "screenshot": "08-after.png"
+  }
+]

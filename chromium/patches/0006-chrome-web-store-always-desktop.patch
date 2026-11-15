@@ -9,7 +9,7 @@ index 44347aed1..0fe787c8c 100644
 +  // Resolute: the Chrome Web Store only installs extensions in desktop mode
 +  // (same list as DesktopSiteUtils.isAlwaysDesktopSite on the Java side, which
 +  // handles typed addresses; this handles links clicked inside pages).
-+  desktop_mode |= url.host_piece() == "chromewebstore.google.com";
++  desktop_mode |= url.host() == "chromewebstore.google.com";
    bool is_global_setting = setting_info.primary_pattern.MatchesAllHosts();
  
    // RDS Window Setting support.

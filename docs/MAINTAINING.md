@@ -741,6 +741,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-14: **All 12 E2E tests pass** (run 43604377985, `test-x64-2026-11-14-p7`, x64 build 43601096061 with patches 0003, 0004, 0005). Test 12: puzzle button > MetaMask opens MetaMask's wallet popup (`popup.html`) attached to the puzzle button. On the 320 dp emulator the popup is slightly wider than the screen (MetaMask's popup is about 357 px wide); fine on most phones (360 to 412 dp), and the planned Resolute sheet will fix it for all. Next: phone (arm64) build with 0003 to 0005 once the 158.0.8127.36 build finishes.
 - 2026-11-14: Auto-update build 43540885212 (Chromium **158.0.8127.36**, arm64) finished after 4 stages (~17.5 h). Phone rebuild 43629007329 on top of it with patches 0001 to 0005 took 35 min and is published as **`test-2026-11-14-p5`** (`resolute-chromium-arm64.apk`, 372 MB). This is the first phone build with the MetaMask fix, the bottom-sheet popups and the extensions button (all verified by E2E 12/12 on x64). Not yet signed with the release key.
 - 2026-11-15: Owner installed `test-2026-11-14-p5`: works, but installing an extension still needed ⋮ > Desktop site. Added **patch 0006** (Chrome Web Store always desktop). Building x64 (test) and arm64 (phone) together.
+- 2026-11-15: Owner set the LI.FI fee wallets (Solana and EVM) in the LI.FI Partner Portal. EVM fees on some chains must be claimed in the portal (Withdraw) by that same wallet; Solana fees arrive directly.
 
 Add a line here after every build or release.
 

@@ -748,6 +748,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-15: Owner plan: after Windows, **take part in events**. Fits: online hackathons (ETHGlobal, Solana Colosseum), grants (Solana Foundation, Ethereum Foundation ESP, Gitcoin rounds), conferences for partner and phone-maker deals (Solana Breakpoint, Devcon/ETHGlobal events, Token2049; in person needs a passport and visa). Prepare a 1 to 2 minute demo video, a pitch deck and a Resolute web page. Look up current dates and deadlines when starting this step.
 - 2026-11-15: Builds 43661035599 (x64) and 43661038198 (arm64) failed: `GURL::host_piece()` no longer exists in this Chromium; patch 0006 now uses `url.host()`. Resuming both from their saved progress.
 - 2026-11-15: Phone build 43662937635 (158.0.8127.36 + patches 0001 to 0006) published as **`test-2026-11-15-p6`** (372 MB). Adds Chrome Web Store always in desktop mode. x64 E2E for 0006 still running.
+- 2026-11-15: **E2E 12/12** (run 43665382367, `test-x64-2026-11-15-p8`, patches 0001 to 0006). Patch 0006 verified: on the store page the ⋮ menu already said "Turn off Request desktop site" before the test touched it, so the store opened in desktop mode by itself.
 
 Add a line here after every build or release.
 

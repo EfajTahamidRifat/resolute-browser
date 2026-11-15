@@ -32,4 +32,8 @@ Essentials:
   decisions, roadmap progress. After each build or release, add a line to the
   status log (section 11). The owner relies on this file to continue from any
   account.
+- **Every part of the UI must feel elegant and premium** (owner rule, 2026-11-15).
+  Follow the Resolute Design System in `docs/MAINTAINING.md`; change shared theme
+  tokens before one-off screens; check E2E screenshots against the design canvas
+  before handing a build to the owner.
 - The owner is not a Chromium expert: explain changes in plain language.

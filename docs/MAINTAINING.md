@@ -751,6 +751,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-15: Phone build 43662937635 (158.0.8127.36 + patches 0001 to 0006) published as **`test-2026-11-15-p6`** (372 MB). Adds Chrome Web Store always in desktop mode. x64 E2E for 0006 still running.
 - 2026-11-15: **E2E 12/12** (run 43665382367, `test-x64-2026-11-15-p8`, patches 0001 to 0006). Patch 0006 verified: on the store page the ⋮ menu already said "Turn off Request desktop site" before the test touched it, so the store opened in desktop mode by itself.
 - 2026-11-15: Started the Resolute look. **Patch 0007** (dark default, red colours, no Gemini; see patch table) and `apply_branding.py` step 3: "Chromium" → "Resolute" in `chrome/app/*chromium_strings*` and `components/*chromium_strings*` (about 840 strings), keeping "The Chromium Authors" in the copyright line. Those files use `fallback_to_english`, so other languages show English for changed strings. Building x64 (test) and arm64 (phone).
+- 2026-11-15: Owner rule: **every part of the UI must feel elegant and premium.** Plan: (1) shared theme tokens first (colours, corner radii, type, depth/blur) so all Chromium screens follow; (2) hand-built key screens: new tab page, wallet sheet, toolbar and ⋮ menu, tab switcher, Settings home, first-run; (3) motion and haptics; (4) screenshot review against the design canvas before each owner build. Next: write the Resolute Design System section (exact tokens). Rule added to CLAUDE.md.
 
 Add a line here after every build or release.
 

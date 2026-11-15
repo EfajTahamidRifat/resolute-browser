@@ -9,6 +9,9 @@ chrome/android/java/res_chromium_base. Instead of a patch with binary images
   * renames "Chromium" to "Resolute" in values/channel_constants.xml
   * finds every launcher icon PNG there and replaces it with Resolute's icon
     of the same pixel size, from chromium/branding/<kind>_<size>.png
+  * replaces "Chromium" with "Resolute" in Chromium's English UI text
+    (chrome/app/*chromium_strings*, components/*chromium_strings*), keeping
+    "The Chromium Authors" in the copyright line
 Plain Python only (no image library): the CI machine's python has none.
 It prints every file it changes and every PNG it leaves alone.
 """
@@ -63,6 +66,27 @@ for png in sorted(base.rglob("*.png")):
     changed += 1
 
 print(f"branding done: {changed} icons replaced, {kept} PNGs left as they were")
+
+# 3. Text: "Chromium" -> "Resolute" in Chromium's English UI text (settings,
+# chrome:// pages, dialogs). Keeps "The Chromium Authors" (the copyright line
+# must credit Chromium). Other languages fall back to English for changed
+# messages until translated.
+STRING_FILES = sorted(
+    set((src / "chrome/app").rglob("*chromium_strings*.grd*"))
+    | set((src / "components").glob("*chromium_strings*.grd*"))
+)
+WORD = re.compile(r"(?<!The )\bChromium\b(?! Authors)")
+total = 0
+for f in STRING_FILES:
+    text = f.read_text(encoding="utf-8")
+    new, n = WORD.subn("Resolute", text)
+    if n:
+        f.write_text(new, encoding="utf-8")
+        print(f"text: {f.relative_to(src)} ({n} x Chromium -> Resolute)")
+        total += n
+print(f"text done: {total} replacements in {len(STRING_FILES)} files")
+if total == 0:
+    sys.exit("no Chromium strings found: Chromium moved them, update apply_branding.py")
 for m in missing:
     # Not fatal: the icon simply stays Chromium's until we add that size.
     print(f"WARNING no Resolute icon, left Chromium's: {m}")

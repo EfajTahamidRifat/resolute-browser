@@ -1,0 +1,94 @@
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/ChromeBaseAppCompatActivity.java b/chrome/android/java/src/org/chromium/chrome/browser/ChromeBaseAppCompatActivity.java
+index dba5a09b..eb7cf6c3 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/ChromeBaseAppCompatActivity.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/ChromeBaseAppCompatActivity.java
+@@ -600,7 +600,8 @@ public class ChromeBaseAppCompatActivity extends AppCompatActivity
+         // Note: this should be called before any calls to `Window#getDecorView`.
+         if (shouldApplyDynamicColors()) {
+             if (!maybeApplyCustomizedColors()) {
+-                DynamicColors.applyToActivityIfAvailable(this);
++                // Resolute: brand colours come from Resolute red, not from the wallpaper.
++                NtpCustomizationUtils.applyDynamicColorToActivity(this, 0xFFE10600);
+             }
+         }
+ 
+diff --git a/chrome/browser/glic/public/glic_enabling.cc b/chrome/browser/glic/public/glic_enabling.cc
+index 3f39a2ac..d850fc22 100644
+--- a/chrome/browser/glic/public/glic_enabling.cc
++++ b/chrome/browser/glic/public/glic_enabling.cc
+@@ -922,6 +922,14 @@ bool GlicEnabling::IsProfileEligible(Profile* profile) {
+     return true;
+   }
+ 
++#if BUILDFLAG(IS_ANDROID)
++  // Resolute: no Gemini (Google's assistant) in Resolute; this hides its menu
++  // item, toolbar button and prompts.
++  if (profile) {
++    return false;
++  }
++#endif
++
+   // Glic is supported only in regular profiles (i.e. disabled in incognito,
+   // guest, system profile, etc.).
+   if (!profile || !profile->IsRegularProfile()) {
+diff --git a/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/NightModeUtils.java b/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/NightModeUtils.java
+index 9dcc83fe..cb4ab978 100644
+--- a/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/NightModeUtils.java
++++ b/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/NightModeUtils.java
+@@ -113,7 +113,8 @@ public class NightModeUtils {
+     public static @ThemeType int getThemeSetting() {
+         int userSetting = ChromeSharedPreferences.getInstance().readInt(UI_THEME_SETTING, -1);
+         if (userSetting == -1) {
+-            return ThemeType.SYSTEM_DEFAULT;
++            // Resolute: dark theme by default (users can still pick Light or System in Settings).
++            return ThemeType.DARK;
+         } else {
+             return userSetting;
+         }
+diff --git a/ui/android/java/res/values/color_palette.xml b/ui/android/java/res/values/color_palette.xml
+index 24896316..2095a31a 100644
+--- a/ui/android/java/res/values/color_palette.xml
++++ b/ui/android/java/res/values/color_palette.xml
+@@ -8,24 +8,25 @@ found in the LICENSE file.
+     <!-- 2021 color palette. -->
+     <color name="baseline_error_80">#F2B8B5</color>
+     <color name="baseline_error_40">#B3261E</color>
++    <!-- Resolute: primary tones are Resolute red (#E10600) instead of Google blue. -->
+     <color name="baseline_primary_100">@android:color/white</color>
+-    <color name="baseline_primary_95">#ECF3FE</color>
+-    <color name="baseline_primary_90">#D3E3FD</color>
+-    <color name="baseline_primary_80">#A8C7FA</color>
+-    <color name="baseline_primary_80_alpha_10" tools:ignore="UnusedResources">#19A8C7FA</color>
+-    <color name="baseline_primary_80_alpha_20">#33A8C7FA</color>
+-    <color name="baseline_primary_70">#7CACF8</color>
+-    <color name="baseline_primary_60">#4C8DF6</color>
+-    <color name="baseline_primary_50">#1B6EF3</color>
+-    <color name="baseline_primary_40">#0B57D0</color>
+-    <color name="baseline_primary_40_alpha_6">#0F0B57D0</color>
+-    <color name="baseline_primary_40_alpha_12">#1F0B57D0</color>
+-    <color name="baseline_primary_40_alpha_24">#3D0B57D0</color>
+-    <color name="baseline_primary_40_alpha_65" tools:ignore="UnusedResources">#6A0B57D0</color>
+-    <color name="baseline_primary_30">#0842A0</color>
+-    <color name="baseline_primary_20">#062E6F</color>
+-    <color name="baseline_primary_20_alpha_38">#61062E6F</color>
+-    <color name="baseline_primary_10">#041E49</color>
++    <color name="baseline_primary_95">#FFEDEA</color>
++    <color name="baseline_primary_90">#FFDAD4</color>
++    <color name="baseline_primary_80">#FFB4A8</color>
++    <color name="baseline_primary_80_alpha_10" tools:ignore="UnusedResources">#19FFB4A8</color>
++    <color name="baseline_primary_80_alpha_20">#33FFB4A8</color>
++    <color name="baseline_primary_70">#FF8A78</color>
++    <color name="baseline_primary_60">#FF5540</color>
++    <color name="baseline_primary_50">#EC1609</color>
++    <color name="baseline_primary_40">#C00500</color>
++    <color name="baseline_primary_40_alpha_6">#0FC00500</color>
++    <color name="baseline_primary_40_alpha_12">#1FC00500</color>
++    <color name="baseline_primary_40_alpha_24">#3DC00500</color>
++    <color name="baseline_primary_40_alpha_65" tools:ignore="UnusedResources">#6AC00500</color>
++    <color name="baseline_primary_30">#930300</color>
++    <color name="baseline_primary_20">#680200</color>
++    <color name="baseline_primary_20_alpha_38">#61680200</color>
++    <color name="baseline_primary_10">#410100</color>
+     <color name="baseline_neutral_100">@android:color/white</color>
+     <color name="baseline_neutral_100_alpha_10">#19FFFFFF</color>
+     <color name="baseline_neutral_100_alpha_16">#29FFFFFF</color>

@@ -1,19 +1,83 @@
 diff --git a/chrome/android/java/src/org/chromium/chrome/browser/ChromeBaseAppCompatActivity.java b/chrome/android/java/src/org/chromium/chrome/browser/ChromeBaseAppCompatActivity.java
-index dba5a09b..eb7cf6c3 100644
+index dba5a09b9..8f55a58f4 100644
 --- a/chrome/android/java/src/org/chromium/chrome/browser/ChromeBaseAppCompatActivity.java
 +++ b/chrome/android/java/src/org/chromium/chrome/browser/ChromeBaseAppCompatActivity.java
-@@ -600,7 +600,8 @@ public class ChromeBaseAppCompatActivity extends AppCompatActivity
+@@ -34,7 +34,6 @@ import androidx.annotation.VisibleForTesting;
+ import androidx.appcompat.app.AppCompatActivity;
+ import androidx.appcompat.widget.Toolbar;
+ 
+-import com.google.android.material.color.DynamicColors;
+ 
+ import org.chromium.base.BundleUtils;
+ import org.chromium.base.CommandLine;
+@@ -599,9 +598,10 @@ public class ChromeBaseAppCompatActivity extends AppCompatActivity
+         // UI that's pre-inflated using a themed application context as part of CCT warmup.
          // Note: this should be called before any calls to `Window#getDecorView`.
          if (shouldApplyDynamicColors()) {
-             if (!maybeApplyCustomizedColors()) {
+-            if (!maybeApplyCustomizedColors()) {
 -                DynamicColors.applyToActivityIfAvailable(this);
-+                // Resolute: brand colours come from Resolute red, not from the wallpaper.
-+                NtpCustomizationUtils.applyDynamicColorToActivity(this, 0xFFE10600);
-             }
+-            }
++            // Resolute: no wallpaper colours. Keep Resolute's own palette (charcoal greys with
++            // Resolute red, see color_palette.xml); a colour the user picks on the New Tab page
++            // still applies.
++            maybeApplyCustomizedColors();
          }
  
+         // TODO(https://crbug.com/392634251): Explore setting elegantTextHeight to 'true' on older
+diff --git a/chrome/browser/glic/public/android/java/src/org/chromium/chrome/browser/glic/GlicEnabling.java b/chrome/browser/glic/public/android/java/src/org/chromium/chrome/browser/glic/GlicEnabling.java
+index 7fd0ce45f..a1fa985cd 100644
+--- a/chrome/browser/glic/public/android/java/src/org/chromium/chrome/browser/glic/GlicEnabling.java
++++ b/chrome/browser/glic/public/android/java/src/org/chromium/chrome/browser/glic/GlicEnabling.java
+@@ -26,7 +26,8 @@ public class GlicEnabling {
+      */
+     public static boolean isEnabledByFlags() {
+         if (sIsEnabledForTesting != null) return sIsEnabledForTesting;
+-        return GlicEnablingJni.get().isEnabledByFlags();
++        // Resolute: no Gemini in Resolute.
++        return false;
+     }
+ 
+     /**
+@@ -37,21 +38,24 @@ public class GlicEnabling {
+     public static boolean isProfileEligible(@Nullable Profile profile) {
+         if (profile == null) return false;
+         if (sIsEnabledForTesting != null) return sIsEnabledForTesting;
+-        return GlicEnablingJni.get().isProfileEligible(profile);
++        // Resolute: no Gemini in Resolute.
++        return false;
+     }
+ 
+     /** Returns true if the given profile has Glic enabled. This value can change at runtime. */
+     public static boolean isEnabledForProfile(@Nullable Profile profile) {
+         if (profile == null) return false;
+         if (sIsEnabledForTesting != null) return sIsEnabledForTesting;
+-        return GlicEnablingJni.get().isEnabledForProfile(profile);
++        // Resolute: no Gemini in Resolute.
++        return false;
+     }
+ 
+     /** Returns true if the given profile has Glic enabled and the user has consented. */
+     public static boolean isEnabledAndConsentForProfile(@Nullable Profile profile) {
+         if (profile == null) return false;
+         if (sIsEnabledForTesting != null) return sIsEnabledForTesting;
+-        return GlicEnablingJni.get().isEnabledAndConsentForProfile(profile);
++        // Resolute: no Gemini in Resolute.
++        return false;
+     }
+ 
+     /** Returns true if the user was previously determined to be ineligible for Glic. */
+@@ -65,7 +69,8 @@ public class GlicEnabling {
+     public static boolean shouldShowSettingsPage(@Nullable Profile profile) {
+         if (profile == null) return false;
+         if (sIsEnabledForTesting != null) return sIsEnabledForTesting;
+-        return GlicEnablingJni.get().shouldShowSettingsPage(profile);
++        // Resolute: no Gemini in Resolute.
++        return false;
+     }
+ 
+     /** Returns true if the web actuation / auto browse toggle should be shown for the profile. */
 diff --git a/chrome/browser/glic/public/glic_enabling.cc b/chrome/browser/glic/public/glic_enabling.cc
-index 3f39a2ac..d850fc22 100644
+index 3f39a2acc..d850fc222 100644
 --- a/chrome/browser/glic/public/glic_enabling.cc
 +++ b/chrome/browser/glic/public/glic_enabling.cc
 @@ -922,6 +922,14 @@ bool GlicEnabling::IsProfileEligible(Profile* profile) {
@@ -32,7 +96,7 @@ index 3f39a2ac..d850fc22 100644
    // guest, system profile, etc.).
    if (!profile || !profile->IsRegularProfile()) {
 diff --git a/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/NightModeUtils.java b/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/NightModeUtils.java
-index 9dcc83fe..cb4ab978 100644
+index 9dcc83fe9..cb4ab9783 100644
 --- a/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/NightModeUtils.java
 +++ b/chrome/browser/ui/android/night_mode/java/src/org/chromium/chrome/browser/night_mode/NightModeUtils.java
 @@ -113,7 +113,8 @@ public class NightModeUtils {
@@ -46,7 +110,7 @@ index 9dcc83fe..cb4ab978 100644
              return userSetting;
          }
 diff --git a/ui/android/java/res/values/color_palette.xml b/ui/android/java/res/values/color_palette.xml
-index 24896316..2095a31a 100644
+index 24896316c..02ccfb9bb 100644
 --- a/ui/android/java/res/values/color_palette.xml
 +++ b/ui/android/java/res/values/color_palette.xml
 @@ -8,24 +8,25 @@ found in the LICENSE file.
@@ -92,3 +156,43 @@ index 24896316..2095a31a 100644
      <color name="baseline_neutral_100">@android:color/white</color>
      <color name="baseline_neutral_100_alpha_10">#19FFFFFF</color>
      <color name="baseline_neutral_100_alpha_16">#29FFFFFF</color>
+@@ -75,22 +76,23 @@ found in the LICENSE file.
+     <color name="baseline_neutral_variant_50">#747775</color>
+     <color name="baseline_neutral_variant_30">#444746</color>
+     <color name="baseline_neutral_variant_30_alpha_20">#33444746</color>
+-    <color name="baseline_secondary_95">#DFF3FF</color>
+-    <color name="baseline_secondary_90">#C2E7FF</color>
+-    <color name="baseline_secondary_90_with_neutral_10_alpha_8">#B3D7EF</color>
+-    <color name="baseline_secondary_90_with_neutral_10_alpha_24">#94B7CF</color>
+-    <color name="baseline_secondary_80">#7FCFFF</color>
+-    <color name="baseline_secondary_70">#5AB3F0</color>
+-    <color name="baseline_secondary_70_with_neutral_90_alpha_8">#53A7E1</color>
+-    <color name="baseline_secondary_70_with_neutral_90_alpha_24">#448FC4</color>
+-    <color name="baseline_secondary_60">#3998D3</color>
+-    <color name="baseline_secondary_50">#047DB7</color>
+-    <color name="baseline_secondary_40">#00639B</color>
+-    <color name="baseline_secondary_35">#005789</color>
+-    <color name="baseline_secondary_30">#004A77</color>
+-    <color name="baseline_secondary_25">#003F66</color>
+-    <color name="baseline_secondary_20">#003355</color>
+-    <color name="baseline_secondary_10">#001D35</color>
++    <!-- Resolute: secondary tones are neutral greys (Google uses light blue). -->
++    <color name="baseline_secondary_95">#F1F1F1</color>
++    <color name="baseline_secondary_90">#E2E2E2</color>
++    <color name="baseline_secondary_90_with_neutral_10_alpha_8">#E2E2E2</color>
++    <color name="baseline_secondary_90_with_neutral_10_alpha_24">#E2E2E2</color>
++    <color name="baseline_secondary_80">#C6C6C6</color>
++    <color name="baseline_secondary_70">#ABABAB</color>
++    <color name="baseline_secondary_70_with_neutral_90_alpha_8">#ABABAB</color>
++    <color name="baseline_secondary_70_with_neutral_90_alpha_24">#ABABAB</color>
++    <color name="baseline_secondary_60">#919191</color>
++    <color name="baseline_secondary_50">#777777</color>
++    <color name="baseline_secondary_40">#5E5E5E</color>
++    <color name="baseline_secondary_35">#525252</color>
++    <color name="baseline_secondary_30">#474747</color>
++    <color name="baseline_secondary_25">#3B3B3B</color>
++    <color name="baseline_secondary_20">#303030</color>
++    <color name="baseline_secondary_10">#1B1B1B</color>
+     <color name="baseline_tertiary_90">#C4EED0</color>
+     <color name="baseline_tertiary_80">#6DD58C</color>
+     <color name="baseline_tertiary_40">#146C2E</color>

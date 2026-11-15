@@ -1,0 +1,47 @@
+diff --git a/chrome/browser/content_settings/request_desktop_site_web_contents_observer_android.cc b/chrome/browser/content_settings/request_desktop_site_web_contents_observer_android.cc
+index 44347aed1..0fe787c8c 100644
+--- a/chrome/browser/content_settings/request_desktop_site_web_contents_observer_android.cc
++++ b/chrome/browser/content_settings/request_desktop_site_web_contents_observer_android.cc
+@@ -76,6 +76,10 @@ void RequestDesktopSiteWebContentsObserverAndroid::DidStartNavigation(
+       base::CommandLine::ForCurrentProcess()->HasSwitch(
+           switches::kRequestDesktopSites);
+   desktop_mode |= always_request_desktop_site;
++  // Resolute: the Chrome Web Store only installs extensions in desktop mode
++  // (same list as DesktopSiteUtils.isAlwaysDesktopSite on the Java side, which
++  // handles typed addresses; this handles links clicked inside pages).
++  desktop_mode |= url.host_piece() == "chromewebstore.google.com";
+   bool is_global_setting = setting_info.primary_pattern.MatchesAllHosts();
+ 
+   // RDS Window Setting support.
+diff --git a/chrome/browser/ui/android/desktop_site/java/src/org/chromium/chrome/browser/desktop_site/DesktopSiteUtils.java b/chrome/browser/ui/android/desktop_site/java/src/org/chromium/chrome/browser/desktop_site/DesktopSiteUtils.java
+index 028311d52..503bd4e42 100644
+--- a/chrome/browser/ui/android/desktop_site/java/src/org/chromium/chrome/browser/desktop_site/DesktopSiteUtils.java
++++ b/chrome/browser/ui/android/desktop_site/java/src/org/chromium/chrome/browser/desktop_site/DesktopSiteUtils.java
+@@ -216,6 +216,11 @@ public class DesktopSiteUtils {
+      */
+     public static boolean shouldOverrideDesktopSite(
+             Profile profile, @Nullable GURL url, Context context) {
++        // Resolute: some sites only work in desktop mode on a phone (see isAlwaysDesktopSite).
++        if (isAlwaysDesktopSite(url)) {
++            return true;
++        }
++
+         // For --request-desktop-sites, always override the user agent.
+         if (CommandLine.getInstance().hasSwitch(ChromeSwitches.REQUEST_DESKTOP_SITES)) {
+             return true;
+@@ -236,6 +241,15 @@ public class DesktopSiteUtils {
+         return false;
+     }
+ 
++    /**
++     * Resolute: sites that always load as desktop sites. The Chrome Web Store only offers "Add to
++     * Chrome" to desktop browsers; in mobile mode it asks you to "sign in and sync to your
++     * desktop" instead, so users had to turn on Desktop site by hand to install an extension.
++     */
++    public static boolean isAlwaysDesktopSite(@Nullable GURL url) {
++        return url != null && url.isValid() && "chromewebstore.google.com".equals(url.getHost());
++    }
++
+     /**
+      * Check if Request Desktop Site Content Setting is enabled.
+      *

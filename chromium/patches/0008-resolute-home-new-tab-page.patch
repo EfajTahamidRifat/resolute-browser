@@ -1,3 +1,24 @@
+diff --git a/chrome/browser/extensions/component_extensions_allowlist/allowlist.cc b/chrome/browser/extensions/component_extensions_allowlist/allowlist.cc
+index 72067126..1d2720d9 100644
+--- a/chrome/browser/extensions/component_extensions_allowlist/allowlist.cc
++++ b/chrome/browser/extensions/component_extensions_allowlist/allowlist.cc
+@@ -48,6 +48,8 @@ bool IsComponentExtensionAllowlisted(const std::string& extension_id) {
+       extension_misc::kNewTabPageExtensionId,
+ #endif  // BUILDFLAG(ENABLE_WEBUI_NTP)
+       extension_misc::kPdfExtensionId,
++      // Resolute Home (Resolute's new tab page, patch 0008).
++      "aaddcaaaojbkjailacplbnladfhcnabm",
+ #if BUILDFLAG(IS_CHROMEOS)
+       extension_misc::kAssessmentAssistantExtensionId,
+       extension_misc::kAccessibilityCommonExtensionId,
+@@ -109,6 +111,7 @@ bool IsComponentExtensionAllowlisted(int manifest_resource_id) {
+     case IDR_NETWORK_SPEECH_SYNTHESIS_MANIFEST:
+     case IDR_NETWORK_SPEECH_SYNTHESIS_MANIFEST_MV3:
+     case IDR_WEBSTORE_MANIFEST:
++    case IDR_RESOLUTE_HOME_MANIFEST:  // Resolute Home (patch 0008)
+ 
+ #if BUILDFLAG(IS_CHROMEOS)
+     // Separate ChromeOS list, as it is quite large.
 diff --git a/chrome/browser/extensions/component_loader.cc b/chrome/browser/extensions/component_loader.cc
 index e6feac01..842ce428 100644
 --- a/chrome/browser/extensions/component_loader.cc

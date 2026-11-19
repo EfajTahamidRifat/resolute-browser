@@ -76,3 +76,27 @@ index 41298ed4..dbf23075 100644
          if (receivedButtonData == null) {
              mOriginalButtonSpec = null;
              return null;
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarCoordinator.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarCoordinator.java
+index c119517c..327c9de8 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarCoordinator.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/TopToolbarCoordinator.java
+@@ -102,6 +102,8 @@ import java.util.function.Supplier;
+ /** A coordinator for the top toolbar component. */
+ @NullMarked
+ public class TopToolbarCoordinator implements Toolbar, TopControlLayer {
++    private static final boolean RESOLUTE_HIDE_SIGNIN_BUTTON = true;
++
+     private static final int UNSPECIFIED_TOOLBAR_OFFSET = -1234;
+     private static final String TAG = "TopToolbarCoord";
+     private View.@Nullable OnLongClickListener mGlicLongClickListener;
+@@ -284,7 +286,9 @@ public class TopToolbarCoordinator implements Toolbar, TopControlLayer {
+                         mToolbarLayout,
+                         () -> toolbarDataProvider.getTab());
+ 
+-        if (SigninFeatureMap.sSigninLevelUpButton.isEnabled()) {
++        // Resolute: no Google sign-in button in the toolbar (patch 0009). Google sign-in, if
++        // wanted, stays in Settings.
++        if (!RESOLUTE_HIDE_SIGNIN_BUTTON && SigninFeatureMap.sSigninLevelUpButton.isEnabled()) {
+             ViewStub signinButtonStub = mToolbarLayout.findViewById(R.id.signin_button_stub);
+             if (signinButtonStub != null) {
+                 mSigninButtonCoordinator =

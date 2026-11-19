@@ -751,6 +751,7 @@ def t_home():
     home = next((t for t in targets if RESOLUTE_HOME in t.get("url", "")
                  or t.get("url", "").startswith("chrome://newtab")), None)
     png = shot("13-home")
+    ui_dump("13-toolbar")  # which toolbar views show on Resolute Home
     if home is None:
         return False, "no new tab page target found", png
     try:

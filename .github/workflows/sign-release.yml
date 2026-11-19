@@ -3,6 +3,11 @@
 # The key only lives in GitHub secrets (RELEASE_KEYSTORE_BASE64,
 # RELEASE_KEYSTORE_PASSWORD, RELEASE_KEY_ALIAS); see docs/MAINTAINING.md section 7.
 # The signed .aab is kept as a workflow artifact (not a public release).
+# With "track" set, it is also uploaded to that Google Play track (closed test =
+# "alpha") through the Play Developer API. GitHub signs in to Google with
+# Workload Identity Federation: no key file; Google only accepts workflows from
+# this repo's main branch. Never upload to "production" from here until the
+# owner decides (see docs/MAINTAINING.md section 7).
 name: Sign Play release
 
 on:
@@ -11,10 +16,24 @@ on:
       run_id:
         description: "Build Chromium APK run ID (arm64) that produced the .aab"
         required: true
+      track:
+        description: "Upload to this Play track (alpha = closed test). Empty = sign only."
+        required: false
+        default: ""
+      notes:
+        description: "What's new (shown to testers, en-US)"
+        required: false
+        default: "Improvements and fixes."
 
 permissions:
   contents: read
   actions: read
+  id-token: write   # for Workload Identity Federation (Play upload)
+
+env:
+  PACKAGE: com.resolute.browser
+  WIF_PROVIDER: projects/121199260441/locations/global/workloadIdentityPools/github/providers/resolute-repo
+  WIF_SERVICE_ACCOUNT: github-play-upload@project-53290f71-1868-4c1d-a2d.iam.gserviceaccount.com
 
 jobs:
   sign:
@@ -61,6 +80,7 @@ jobs:
           java -jar bundletool.jar dump manifest --bundle out/resolute-play-arm64.aab \
             | grep -o 'package="[^"]*"\|android:versionCode="[^"]*"\|android:versionName="[^"]*"' | tee manifest.txt
           grep -q 'package="com.resolute.browser"' manifest.txt
+          sed -n 's/.*android:versionCode="\([0-9]*\)".*/\1/p' manifest.txt > version_code.txt
           {
             echo "## Resolute Play bundle"
             echo "Built by run ${{ inputs.run_id }}. Signed with the upload key ($sha)."
@@ -75,3 +95,44 @@ jobs:
           path: out/resolute-play-arm64.aab
           compression-level: 0
           retention-days: 90
+
+      - name: Refuse production uploads
+        if: inputs.track != ''
+        run: |
+          case "${{ inputs.track }}" in
+            production) echo "Production uploads are not allowed from this workflow yet."; exit 1;;
+          esac
+
+      - name: Sign in to Google (no key file)
+        if: inputs.track != ''
+        id: gauth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.WIF_SERVICE_ACCOUNT }}
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/androidpublisher
+
+      - name: Upload to Google Play
+        if: inputs.track != ''
+        env:
+          TOKEN: ${{ steps.gauth.outputs.access_token }}
+          TRACK: ${{ inputs.track }}
+          NOTES: ${{ inputs.notes }}
+        run: |
+          set -euo pipefail
+          api="https://androidpublisher.googleapis.com/androidpublisher/v3/applications/$PACKAGE"
+          up="https://androidpublisher.googleapis.com/upload/androidpublisher/v3/applications/$PACKAGE"
+          auth=(-H "Authorization: Bearer $TOKEN")
+          code=$(cat version_code.txt)
+          edit=$(curl -sS --fail-with-body "${auth[@]}" -X POST "$api/edits" | jq -r .id)
+          echo "Edit $edit, versionCode $code, track $TRACK"
+          curl -sS --fail-with-body "${auth[@]}" -X POST \
+            -H "Content-Type: application/octet-stream" --data-binary @out/resolute-play-arm64.aab \
+            --max-time 1800 "$up/edits/$edit/bundles?uploadType=media" | jq '{versionCode, sha256}'
+          body=$(jq -n --arg t "$TRACK" --arg c "$code" --arg n "$NOTES" \
+            '{track:$t, releases:[{versionCodes:[$c], status:"completed", releaseNotes:[{language:"en-US", text:$n}]}]}')
+          curl -sS --fail-with-body "${auth[@]}" -X PUT -H "Content-Type: application/json" \
+            -d "$body" "$api/edits/$edit/tracks/$TRACK" | jq -c .
+          curl -sS --fail-with-body "${auth[@]}" -X POST "$api/edits/$edit:commit" | jq -c .
+          echo "Uploaded versionCode $code to the $TRACK track." >> "$GITHUB_STEP_SUMMARY"

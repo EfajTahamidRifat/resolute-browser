@@ -315,6 +315,19 @@ Before the first public release:
    **versionCode:** Chromium's own code for the Chromium version (rises with
    every Chromium update). Two Play uploads of the same Chromium version need
    `android_override_version_code` in `chromium/args.gn` (higher number).
+   **Automatic Play upload (2026-11-20):** run **Sign Play release** with
+   `track` = `alpha` (closed test) to also upload. GitHub signs in to Google
+   with **Workload Identity Federation**, no key file (Google blocks key files
+   on this account: `iam.disableServiceAccountKeyCreation`). Google Cloud
+   project `project-53290f71-1868-4c1d-a2d` (number 121199260441, owner's
+   Google account), pool `github`, provider `resolute-repo` (accepts only
+   `EfajTahamidRifat/resolute-browser` on `refs/heads/main`), service account
+   `github-play-upload@project-53290f71-1868-4c1d-a2d.iam.gserviceaccount.com`
+   (needs "Release to testing tracks" + "View app information" for Resolute
+   in Play Console > Users and permissions). These IDs are not secrets and sit
+   in the workflow file. The workflow refuses `production`. No billing on that
+   project, ever. The first upload of a new app must be done by hand in Play
+   Console; the API can only update an existing app.
 4. App ID is `com.resolute.browser` (`chromium/args.gn`). It becomes permanent
    once published on Google Play.
 5. **Distribution decision (2026-11-10, final): one build, published on
@@ -782,6 +795,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-20: Owner asked to start the **main (Play) version**. Done: patch 0009 (toolbar: no "+" and no profile button; Resolute Home shown as the new tab page in the address bar); Resolute Home's search quest also counts searches made from the address bar (reads today's history on the device for search results pages of Google/Bing/DuckDuckGo/Brave/Yahoo/Ecosia/Yandex; new `history` permission; re-checks when the tab becomes visible); new workflow **Sign Play release** (signs the arm64 `.aab` with the upload key). Next: x64 test build + E2E, then arm64 Play build on Chromium 159.
 - 2026-11-20: Sign Play release tested on the p9 build (run 44592949055): signer SHA-256 matches the upload key, package `com.resolute.browser`, versionCode 815401874, versionName 159.0.8154.18, signed .aab 158 MB. (The secret `RELEASE_KEY_ALIAS` = `resolute`, so GitHub masks the word "resolute" as *** in all workflow logs of that run.) x64 test build with patch 0009: run 44592886627.
 - 2026-11-20: Owner decisions: (1) start the Play **closed test** with the current build and ship the premium native UI (bottom bar + red wallet button, quick-menu sheet, tabs with workspaces, site trust shield) as updates during the 14 days; (2) **updates every day**, uploaded automatically to the closed-test track by GitHub Actions, only after E2E passes (Play Developer API, service account secret `PLAY_SERVICE_ACCOUNT_JSON`, permission "Release to testing tracks" only; versionCode set by the pipeline because Chromium's code stays the same between our updates). First upload stays manual. Owner given the 6 setup steps for the service account.
+- 2026-11-20: Service account key creation blocked by org policy, so switched to Workload Identity Federation; owner ran the Cloud Shell setup (pool `github`, provider `resolute-repo`, workloadIdentityUser binding) successfully. Sign Play release gained `track`/`notes` inputs and the upload steps. Waiting for: first manual upload in Play Console and the service account's Play permission.
 
 Add a line here after every build or release.
 

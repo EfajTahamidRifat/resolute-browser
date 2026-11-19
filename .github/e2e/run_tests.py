@@ -731,6 +731,38 @@ def t_open_extension():
     return bool(popup), f"MetaMask pages opened: {popup or 'none'}; other new: {new[:3]}", png
 
 
+RESOLUTE_HOME = "aaddcaaaojbkjailacplbnladfhcnabm"  # from the key in chromium/resolute_home/manifest.json
+
+
+@test("13-resolute-home")
+def t_home():
+    """Patch 0008: a new tab shows Resolute Home (player card, quests, Picks)
+    instead of Chromium's new tab page."""
+    base = cdp_targets()
+    first = next((t for t in base if t.get("type") == "page"), None)
+    if first is not None:
+        try:
+            cdp_send(first, [("Target.createTarget", {"url": "chrome://newtab/"})])
+        except Exception as e:  # noqa: BLE001
+            print(f"createTarget: {e}", flush=True)
+    time.sleep(8)
+    targets = cdp_targets()
+    (OUT / "13-targets.json").write_text(json.dumps(targets, indent=1))
+    home = next((t for t in targets if RESOLUTE_HOME in t.get("url", "")
+                 or t.get("url", "").startswith("chrome://newtab")), None)
+    png = shot("13-home")
+    if home is None:
+        return False, "no new tab page target found", png
+    try:
+        info = cdp_eval(home, "JSON.stringify({rank: (document.getElementById('rank')||{}).textContent,"
+                              " quests: document.querySelectorAll('.quest').length,"
+                              " picks: document.querySelectorAll('.pick').length, url: location.href})")
+    except Exception as e:  # noqa: BLE001
+        info = f"eval failed: {e}"
+    ok = isinstance(info, str) and '"rank":"Level' in info
+    return ok, f"new tab: {home.get('url')}; page: {info}", png
+
+
 def main():
     adb("wait-for-device")
     adb("logcat", "-c")
@@ -738,7 +770,7 @@ def main():
     adb("shell", "settings", "put", "global", "transition_animation_scale", "0")
     adb("shell", "settings", "put", "global", "animator_duration_scale", "0")
     for t in (t_install, t_launch, t_example, t_wiki, t_ublock, t_metamask, t_listed,
-              t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup, t_open_extension):
+              t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup, t_open_extension, t_home):
         t()
     (OUT / "logcat.txt").write_text(adb("logcat", "-d", "-v", "time", timeout=300))
     (OUT / "report.json").write_text(json.dumps(results, indent=2))

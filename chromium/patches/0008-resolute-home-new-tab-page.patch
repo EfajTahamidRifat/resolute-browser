@@ -1,0 +1,15 @@
+diff --git a/chrome/browser/extensions/component_loader.cc b/chrome/browser/extensions/component_loader.cc
+index e6feac01..842ce428 100644
+--- a/chrome/browser/extensions/component_loader.cc
++++ b/chrome/browser/extensions/component_loader.cc
+@@ -718,6 +718,10 @@ void ComponentLoader::AddDefaultComponentExtensions(
+ 
+   if (!skip_session_components) {
+     AddWebStoreApp();
++    // Resolute: Resolute Home, the new tab page (chrome://newtab override),
++    // built from chromium/resolute_home in the Resolute repo.
++    Add(IDR_RESOLUTE_HOME_MANIFEST,
++        base::FilePath(FILE_PATH_LITERAL("resolute_home")));
+ #if BUILDFLAG(IS_CHROMEOS)
+     AddChromeApp();
+ #endif  // BUILDFLAG(IS_CHROMEOS)

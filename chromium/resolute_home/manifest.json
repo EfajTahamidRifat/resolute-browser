@@ -1,0 +1,25 @@
+{
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0+MujFF0q20l65hMhUL/06uEnKm2E08ytFBZu2hirQluNkaQgCUPoVWySaXI93pewz2sEGNPqJAE63l+xqO2XDJIkH903ul30y/aP71SZJoX6zlSU7bfLCUnw0rO1U8RXHIOpBRrrP/FxTfD02mhhf61kTFJNxPM0JQmEHsqJ+P49aW0JZQ77fOT1BKWw64FMtA5VibXbpYlHQQlADMsPLwInKpCIYZTPQiPtlpuhcr69LIuak4FIcNrSbzXdt7pIf1KnIzGeh2/B/h2mcgN1uB6svv/5jTgvVDoZBhJHi69zXLsOJma0QMYiivm7o8OQr2c9jhQrunnN2o/0QcwywIDAQAB",
+  "manifest_version": 3,
+  "name": "Resolute Home",
+  "version": "1.0.0",
+  "description": "Resolute's home screen: your level, quests, shortcuts and Resolute Picks.",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": [
+    "storage",
+    "topSites",
+    "search",
+    "management",
+    "favicon"
+  ],
+  "host_permissions": [
+    "https://raw.githubusercontent.com/*"
+  ]
+}

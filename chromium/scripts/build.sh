@@ -26,6 +26,8 @@ for p in "$here"/patches/*.patch; do
 done
 # Resolute name and icons (see apply_branding.py).
 python3 "$here/scripts/apply_branding.py" "$work/src" "$here"
+# Resolute Home, the new tab page (see add_resolute_home.py and patch 0008).
+python3 "$here/scripts/add_resolute_home.py" "$work/src" "$(dirname "$here")"
 
 # Resumed stages run on a fresh machine with a fresh checkout. Give every source
 # file the same old timestamp so ninja doesn't think the restored out/ is stale.

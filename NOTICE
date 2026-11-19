@@ -17,6 +17,9 @@ The files in chromium/patches/ change Chromium source files. The changed
 Chromium code remains under Chromium's licence; Resolute's own additions are
 covered by Resolute's LICENSE.
 
+- Space Grotesk font (used by Resolute Home): Copyright 2020 The Space Grotesk
+  Project Authors. SIL Open Font License 1.1 (chromium/resolute_home/fonts/OFL.txt).
+
 If code from Kiwi Browser (BSD 3-Clause) or Mises Browser (MPL 2.0) is reused,
 its notice is added here, and MPL 2.0 files stay under MPL 2.0.
 

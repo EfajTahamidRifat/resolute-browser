@@ -763,6 +763,39 @@ def t_home():
     return ok, f"new tab: {home.get('url')}; page: {info}", png
 
 
+def focused_window():
+    """The window Android sends taps to ('' when none, which is what freezes the app)."""
+    out = adb("shell", "dumpsys", "window")
+    m = re.search(r"mCurrentFocus=(.*)", out)
+    return m.group(1).strip() if m else ""
+
+
+@test("14-home-survives-rebuild")
+def t_home_rebuild():
+    """While Resolute Home is on screen, Android rebuilds the browser screen (here by a
+    font size change, on phones also language/display changes), then the app is restarted.
+    After each, the browser window must still get focus and Resolute Home must show.
+    Runs 44487088816/44488598178/44491509069 froze ('isn't responding', no focused window)
+    after such a rebuild."""
+    steps = []
+    adb("shell", "settings", "put", "system", "font_scale", "1.15")
+    time.sleep(12)
+    steps.append(("font bigger", focused_window()))
+    shot("14-rebuild-1")
+    adb("shell", "settings", "put", "system", "font_scale", "1.0")
+    time.sleep(12)
+    steps.append(("font normal", focused_window()))
+    shot("14-rebuild-2")
+    adb("shell", "am", "force-stop", PKG)
+    time.sleep(2)
+    adb("shell", "monkey", "-p", PKG, "-c", "android.intent.category.LAUNCHER", "1")
+    time.sleep(20)
+    steps.append(("restart", focused_window()))
+    png = shot("14-restart")
+    ok = all(PKG in w for _, w in steps)
+    return ok, "; ".join(f"{n}: {w or 'NO FOCUSED WINDOW'}" for n, w in steps), png
+
+
 def main():
     adb("wait-for-device")
     adb("logcat", "-c")
@@ -770,7 +803,7 @@ def main():
     adb("shell", "settings", "put", "global", "transition_animation_scale", "0")
     adb("shell", "settings", "put", "global", "animator_duration_scale", "0")
     for t in (t_install, t_launch, t_example, t_wiki, t_ublock, t_metamask, t_listed,
-              t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup, t_open_extension, t_home):
+              t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup, t_open_extension, t_home, t_home_rebuild):
         t()
     (OUT / "logcat.txt").write_text(adb("logcat", "-d", "-v", "time", timeout=300))
     # "App isn't responding" and crash reports, with the stack of every thread. Android keeps

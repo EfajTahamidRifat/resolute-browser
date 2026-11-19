@@ -1,0 +1,142 @@
+[
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/D92419826E8EE2929869E8068667546E",
+  "id": "D92419826E8EE2929869E8068667546E",
+  "title": "MetaMask",
+  "type": "page",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/popup.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/D92419826E8EE2929869E8068667546E"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/11",
+  "id": "11",
+  "title": "Example Domain",
+  "type": "page",
+  "url": "https://example.com/",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/11"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/7",
+  "id": "7",
+  "title": "Resolute wallet test",
+  "type": "page",
+  "url": "http://localhost:8765/connect.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/7"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/BE634E8A76ED5D75F7574D00E5FEC1B6",
+  "id": "BE634E8A76ED5D75F7574D00E5FEC1B6",
+  "title": "MetaMask Offscreen Page",
+  "type": "other",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/offscreen.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/BE634E8A76ED5D75F7574D00E5FEC1B6"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/E7A9FBBC8052446F8D977DFC6AEA4563",
+  "id": "E7A9FBBC8052446F8D977DFC6AEA4563",
+  "parentId": "BE634E8A76ED5D75F7574D00E5FEC1B6",
+  "title": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "type": "iframe",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/E7A9FBBC8052446F8D977DFC6AEA4563"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/B10CE01A6E497D396564EF2C39AF78E1",
+  "id": "B10CE01A6E497D396564EF2C39AF78E1",
+  "parentId": "BE634E8A76ED5D75F7574D00E5FEC1B6",
+  "title": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "type": "iframe",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/B10CE01A6E497D396564EF2C39AF78E1"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/0CB2E8C117A272A089FF2291F5D0E61C",
+  "id": "0CB2E8C117A272A089FF2291F5D0E61C",
+  "parentId": "BE634E8A76ED5D75F7574D00E5FEC1B6",
+  "title": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "type": "iframe",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/0CB2E8C117A272A089FF2291F5D0E61C"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/2024A880906EF990DA48C9EFD63CCEC3",
+  "id": "2024A880906EF990DA48C9EFD63CCEC3",
+  "parentId": "BE634E8A76ED5D75F7574D00E5FEC1B6",
+  "title": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "type": "iframe",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/2024A880906EF990DA48C9EFD63CCEC3"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/72AE910F3A8FDB55FF93E29F420144EA",
+  "id": "72AE910F3A8FDB55FF93E29F420144EA",
+  "parentId": "BE634E8A76ED5D75F7574D00E5FEC1B6",
+  "title": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "type": "iframe",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/snaps/index.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/72AE910F3A8FDB55FF93E29F420144EA"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/5",
+  "id": "5",
+  "title": "MetaMask - Chrome Web Store",
+  "type": "page",
+  "url": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/5"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/4",
+  "id": "4",
+  "title": "uBlock Origin Lite - Chrome Web Store",
+  "type": "page",
+  "url": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/4"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/3",
+  "id": "3",
+  "title": "Wikipedia",
+  "type": "page",
+  "url": "https://www.wikipedia.org/",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/3"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/2",
+  "id": "2",
+  "title": "uBO Lite \u2014 Dashboard",
+  "type": "page",
+  "url": "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/2"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/inspector.html?ws=127.0.0.1:9222/devtools/page/1",
+  "id": "1",
+  "title": "chrome-native://newtab",
+  "type": "page",
+  "url": "chrome-native://newtab/",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/1"
+ },
+ {
+  "description": "",
+  "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@58b666ad521f748090829ba302d391bfd3c784cf/worker_app.html?ws=127.0.0.1:9222/devtools/page/51B3565693A0C545FEAD0807AC4DC2F8",
+  "id": "51B3565693A0C545FEAD0807AC4DC2F8",
+  "title": "Service Worker chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/service-worker.js",
+  "type": "service_worker",
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/service-worker.js",
+  "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/page/51B3565693A0C545FEAD0807AC4DC2F8"
+ }
+]

@@ -1,3 +1,76 @@
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java b/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java
+index a08c5880..51b0b702 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java
+@@ -33,6 +33,8 @@ import org.chromium.base.metrics.RecordUserAction;
+ import org.chromium.base.supplier.MonotonicObservableSupplier;
+ import org.chromium.base.supplier.NonNullObservableSupplier;
+ import org.chromium.base.supplier.OneshotSupplier;
++import org.chromium.base.task.PostTask;
++import org.chromium.base.task.TaskTraits;
+ import org.chromium.build.annotations.EnsuresNonNull;
+ import org.chromium.build.annotations.NullMarked;
+ import org.chromium.build.annotations.Nullable;
+@@ -101,8 +103,10 @@ import org.chromium.chrome.browser.ui.native_page.NativePage;
+ import org.chromium.chrome.browser.ui.native_page.NativePageHost;
+ import org.chromium.chrome.browser.ui.side_ui.SideUiStateProvider;
+ import org.chromium.chrome.browser.ui.theme.ChromeSemanticColorUtils;
++import org.chromium.chrome.browser.url_constants.ExtensionsUrlOverrideRegistry;
+ import org.chromium.chrome.browser.url_constants.UrlConstantResolver;
+ import org.chromium.chrome.browser.url_constants.UrlConstantResolverFactory;
++import org.chromium.chrome.browser.url_constants.UrlOverrideUtils;
+ import org.chromium.components.browser_ui.bottomsheet.BottomSheetController;
+ import org.chromium.components.browser_ui.styles.SemanticColorUtils;
+ import org.chromium.components.browser_ui.util.BrowserControlsVisibilityDelegate;
+@@ -169,6 +173,8 @@ public class NewTabPage
+ 
+     private FeedSurfaceProvider mFeedSurfaceProvider;
+     private @Nullable TabObserver mTabObserver;
++    // Resolute: reopens this tab as Resolute Home once it is registered (first launch only).
++    private @Nullable Runnable mResoluteHomeReadyObserver;
+     private @Nullable LifecycleObserver mLifecycleObserver;
+     protected boolean mSearchProviderHasLogo;
+     protected boolean mIsDefaultSearchEngineGoogle;
+@@ -507,6 +513,27 @@ public class NewTabPage
+                 };
+         mTab.addObserver(mTabObserver);
+ 
++        // Resolute: on the very first launch this native page is shown because Resolute Home (a
++        // built-in extension, patch 0008) has not registered its new tab override yet. Switch to
++        // it as soon as it has; on every later start the override is already known and this
++        // native page is not used. (Loading the override before it was registered froze the app.)
++        if (!mTab.isOffTheRecord() && !UrlOverrideUtils.isNtpOverrideEnabled()) {
++            mResoluteHomeReadyObserver =
++                    () ->
++                            PostTask.postTask(
++                                    TaskTraits.UI_DEFAULT,
++                                    mCallbackController.makeCancelable(
++                                            () -> {
++                                                if (mIsDestroyed || mTab.isDestroyed()) return;
++                                                LoadUrlParams params =
++                                                        new LoadUrlParams("chrome://newtab/");
++                                                params.setShouldReplaceCurrentEntry(true);
++                                                mTab.loadUrl(params);
++                                            }));
++            ExtensionsUrlOverrideRegistry.addNtpOverrideEnabledObserver(
++                    mResoluteHomeReadyObserver);
++        }
++
+         mLifecycleObserver =
+                 new PauseResumeWithNativeObserver() {
+                     @Override
+@@ -1129,6 +1156,11 @@ public class NewTabPage
+         if (mIsLoaded && !mTab.isHidden()) recordNtpHidden();
+ 
+         mCallbackController.destroy();
++        if (mResoluteHomeReadyObserver != null) {
++            ExtensionsUrlOverrideRegistry.removeNtpOverrideEnabledObserver(
++                    mResoluteHomeReadyObserver);
++            mResoluteHomeReadyObserver = null;
++        }
+ 
+         mNewTabPageCoordinator.destroy();
+         mNewTabPageManager.onDestroy();
 diff --git a/chrome/browser/extensions/component_extensions_allowlist/allowlist.cc b/chrome/browser/extensions/component_extensions_allowlist/allowlist.cc
 index 72067126..1d2720d9 100644
 --- a/chrome/browser/extensions/component_extensions_allowlist/allowlist.cc
@@ -34,24 +107,54 @@ index e6feac01..842ce428 100644
  #if BUILDFLAG(IS_CHROMEOS)
      AddChromeApp();
  #endif  // BUILDFLAG(IS_CHROMEOS)
-diff --git a/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/UrlOverrideUtils.java b/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/UrlOverrideUtils.java
-index 9eb93c86..48ee2582 100644
---- a/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/UrlOverrideUtils.java
-+++ b/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/UrlOverrideUtils.java
-@@ -16,9 +16,15 @@ import org.chromium.chrome.browser.preferences.ChromeSharedPreferences;
-  */
- @NullMarked
- public class UrlOverrideUtils {
-+    private static final boolean sResoluteHomeAlwaysOn = true;
+diff --git a/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/ExtensionsUrlOverrideRegistry.java b/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/ExtensionsUrlOverrideRegistry.java
+index aea481ec..2a5ec355 100644
+--- a/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/ExtensionsUrlOverrideRegistry.java
++++ b/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/ExtensionsUrlOverrideRegistry.java
+@@ -9,6 +9,8 @@ import org.chromium.build.annotations.NullMarked;
+ import org.chromium.chrome.browser.preferences.ChromePreferenceKeys;
+ import org.chromium.chrome.browser.preferences.ChromeSharedPreferences;
+ 
++import java.util.concurrent.CopyOnWriteArrayList;
 +
-     /** Returns true if the NTP is overridden. */
-     public static boolean isNtpOverrideEnabled() {
--        return ExtensionsUrlOverrideRegistry.getNtpOverrideEnabled()
-+        // Resolute: Resolute Home (a built-in extension, patch 0008) always replaces the New Tab
-+        // Page. Answer yes from the very first launch, before extensions have loaded and reported
-+        // their overrides; otherwise the first tab showed Chromium's own New Tab Page.
-+        return sResoluteHomeAlwaysOn
-+                || ExtensionsUrlOverrideRegistry.getNtpOverrideEnabled()
-                 || PolicyUrlOverrideRegistry.getNewTabPageLocationOverrideEnabled();
+ /** Used to store information on whether extensions have overridden URLs. */
+ @NullMarked
+ public class ExtensionsUrlOverrideRegistry {
+@@ -19,9 +21,25 @@ public class ExtensionsUrlOverrideRegistry {
+     private static final String EXTENSIONS_INCOGNITO_NTP_URL_OVERRIDE_ENABLED = "NTP_INCOGNITO";
+     private static final String EXTENSIONS_NTP_URL_OVERRIDE_ENABLED = "NTP";
+ 
++    // Resolute: told when an extension starts overriding the NTP (patch 0008). On the very first
++    // launch the first tab opens before extensions have loaded, so it shows the native NTP;
++    // NewTabPage listens here and reopens itself as Resolute Home once it is registered.
++    private static final CopyOnWriteArrayList<Runnable> sNtpOverrideEnabledObservers =
++            new CopyOnWriteArrayList<>();
++
+     // Prevent instantiation.
+     private ExtensionsUrlOverrideRegistry() {}
+ 
++    /** Resolute: runs {@code observer} when the NTP override changes from off to on. */
++    public static void addNtpOverrideEnabledObserver(Runnable observer) {
++        sNtpOverrideEnabledObservers.addIfAbsent(observer);
++    }
++
++    /** Resolute: stops {@link #addNtpOverrideEnabledObserver} notifications. */
++    public static void removeNtpOverrideEnabledObserver(Runnable observer) {
++        sNtpOverrideEnabledObservers.remove(observer);
++    }
++
+     /** Returns true if an extension has overridden the NTP page. */
+     public static boolean getNtpOverrideEnabled() {
+         return getPrefs().readBoolean(buildKey(EXTENSIONS_NTP_URL_OVERRIDE_ENABLED), false);
+@@ -58,7 +76,11 @@ public class ExtensionsUrlOverrideRegistry {
+ 
+     /** Sets if an extension has overridden the NTP page. */
+     public static void setNtpOverrideEnabled(boolean status) {
++        boolean wasEnabled = getNtpOverrideEnabled();
+         getPrefs().writeBoolean(buildKey(EXTENSIONS_NTP_URL_OVERRIDE_ENABLED), status);
++        if (status && !wasEnabled) {
++            for (Runnable observer : sNtpOverrideEnabledObservers) observer.run();
++        }
      }
  
+     /** Sets if extensions can override pages in incognito mode. */

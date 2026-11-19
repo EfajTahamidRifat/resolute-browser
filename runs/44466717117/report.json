@@ -1,0 +1,80 @@
+[
+  {
+    "test": "01-install",
+    "passed": true,
+    "detail": "Success",
+    "screenshot": null
+  },
+  {
+    "test": "02-launch",
+    "passed": false,
+    "detail": "process id none",
+    "screenshot": "02-launch.png"
+  },
+  {
+    "test": "03-load-example",
+    "passed": false,
+    "detail": "page title: None",
+    "screenshot": "03-example.png"
+  },
+  {
+    "test": "04-load-wikipedia",
+    "passed": false,
+    "detail": "page text not found",
+    "screenshot": "04-wikipedia.png"
+  },
+  {
+    "test": "05-store-install-ublock-lite",
+    "passed": false,
+    "detail": "store page not found through DevTools",
+    "screenshot": "05-ublock-store.png"
+  },
+  {
+    "test": "06-store-install-metamask",
+    "passed": false,
+    "detail": "store page not found through DevTools",
+    "screenshot": "06-metamask-store.png"
+  },
+  {
+    "test": "07-extensions-listed",
+    "passed": false,
+    "detail": "uBlock Origin Lite page opens: False; MetaMask running: False",
+    "screenshot": null
+  },
+  {
+    "test": "08-wallet-opens",
+    "passed": false,
+    "detail": "test page did not load",
+    "screenshot": "08-page.png"
+  },
+  {
+    "test": "09-wallet-setup",
+    "passed": false,
+    "detail": "ended on none; clicked: []; last screen buttons: no MetaMask page",
+    "screenshot": "09-wallet.png"
+  },
+  {
+    "test": "10-wallet-approve",
+    "passed": false,
+    "detail": "test page did not load",
+    "screenshot": "10-page.png"
+  },
+  {
+    "test": "11-wallet-after-cleanup",
+    "passed": false,
+    "detail": "test page did not load",
+    "screenshot": "11-page.png"
+  },
+  {
+    "test": "12-open-extension-from-toolbar",
+    "passed": false,
+    "detail": "no Extensions button on the toolbar",
+    "screenshot": "12-toolbar.png"
+  },
+  {
+    "test": "13-resolute-home",
+    "passed": false,
+    "detail": "no new tab page target found",
+    "screenshot": "13-home.png"
+  }
+]

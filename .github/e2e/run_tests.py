@@ -773,6 +773,12 @@ def main():
               t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup, t_open_extension, t_home):
         t()
     (OUT / "logcat.txt").write_text(adb("logcat", "-d", "-v", "time", timeout=300))
+    # "App isn't responding" and crash reports, with the stack of every thread. Android keeps
+    # them in its dropbox; reading them needs no root.
+    for tag in ("data_app_anr", "data_app_crash", "data_app_native_crash"):
+        report = adb("shell", "dumpsys", "dropbox", "--print", tag, timeout=120)
+        if "resolute" in report:
+            (OUT / f"{tag}.txt").write_text(report)
     (OUT / "report.json").write_text(json.dumps(results, indent=2))
     passed = sum(r["passed"] for r in results)
     lines = [f"# Resolute E2E: {passed}/{len(results)} passed", "",

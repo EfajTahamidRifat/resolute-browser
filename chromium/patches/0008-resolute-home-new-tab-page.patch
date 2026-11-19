@@ -34,3 +34,24 @@ index e6feac01..842ce428 100644
  #if BUILDFLAG(IS_CHROMEOS)
      AddChromeApp();
  #endif  // BUILDFLAG(IS_CHROMEOS)
+diff --git a/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/UrlOverrideUtils.java b/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/UrlOverrideUtils.java
+index 9eb93c86..48ee2582 100644
+--- a/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/UrlOverrideUtils.java
++++ b/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/UrlOverrideUtils.java
+@@ -16,9 +16,15 @@ import org.chromium.chrome.browser.preferences.ChromeSharedPreferences;
+  */
+ @NullMarked
+ public class UrlOverrideUtils {
++    private static final boolean sResoluteHomeAlwaysOn = true;
++
+     /** Returns true if the NTP is overridden. */
+     public static boolean isNtpOverrideEnabled() {
+-        return ExtensionsUrlOverrideRegistry.getNtpOverrideEnabled()
++        // Resolute: Resolute Home (a built-in extension, patch 0008) always replaces the New Tab
++        // Page. Answer yes from the very first launch, before extensions have loaded and reported
++        // their overrides; otherwise the first tab showed Chromium's own New Tab Page.
++        return sResoluteHomeAlwaysOn
++                || ExtensionsUrlOverrideRegistry.getNtpOverrideEnabled()
+                 || PolicyUrlOverrideRegistry.getNewTabPageLocationOverrideEnabled();
+     }
+ 

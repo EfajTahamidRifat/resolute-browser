@@ -22,6 +22,30 @@ index 9f808963..3b26443b 100644
              mButtonData.setCanShow(false);
              return mButtonData;
          }
+diff --git a/chrome/browser/ui/android/omnibox/java/src/org/chromium/chrome/browser/omnibox/status/StatusMediator.java b/chrome/browser/ui/android/omnibox/java/src/org/chromium/chrome/browser/omnibox/status/StatusMediator.java
+index 4be84a40..57bb5f50 100644
+--- a/chrome/browser/ui/android/omnibox/java/src/org/chromium/chrome/browser/omnibox/status/StatusMediator.java
++++ b/chrome/browser/ui/android/omnibox/java/src/org/chromium/chrome/browser/omnibox/status/StatusMediator.java
+@@ -739,6 +739,9 @@ public class StatusMediator
+         updateStatusViewVisibility();
+     }
+ 
++    // Resolute: no "+" (Google's AI-mode "add context" button) in the address bar (patch 0009).
++    private static final boolean RESOLUTE_HIDE_FUSEBOX_PLUS = true;
++
+     private @StatusIconType int resolveStatusIconType() {
+         boolean previewMatchFaviconsEnabled = OmniboxFeatures.sPreviewMatchFavicons.isEnabled();
+         @AutocompleteRequestType int requestType = AutocompleteRequestType.SEARCH;
+@@ -766,7 +769,8 @@ public class StatusMediator
+                 && mInputSessionState != null
+                 && ToolModeUtils.isAimRequest(requestType)) {
+             return StatusIconType.AIM_SPARK;
+-        } else if (mFuseboxLayoutModeSupplier.get() == FuseboxLayoutMode.TOOLBAR
++        } else if (!RESOLUTE_HIDE_FUSEBOX_PLUS
++                && mFuseboxLayoutModeSupplier.get() == FuseboxLayoutMode.TOOLBAR
+                 && (mFuseboxStateSupplier.get() == FuseboxState.COMPACT
+                         || shouldShowNtpPlusButton())) {
+             return StatusIconType.FUSEBOX_PLUS_BUTTON;
 diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/LocationBarModel.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/LocationBarModel.java
 index d3d2469c..896db5d1 100644
 --- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/LocationBarModel.java

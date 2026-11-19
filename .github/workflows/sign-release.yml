@@ -1,0 +1,77 @@
+# Signs a finished arm64 Chromium build's Android App Bundle (.aab) with the
+# Google Play upload key, ready to upload in Play Console.
+# The key only lives in GitHub secrets (RELEASE_KEYSTORE_BASE64,
+# RELEASE_KEYSTORE_PASSWORD, RELEASE_KEY_ALIAS); see docs/MAINTAINING.md section 7.
+# The signed .aab is kept as a workflow artifact (not a public release).
+name: Sign Play release
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "Build Chromium APK run ID (arm64) that produced the .aab"
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  sign:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Download the build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download "${{ inputs.run_id }}" -R "${{ github.repository }}" \
+            -n resolute-chromium-arm64 -D build
+          ls -l build
+          test -f build/resolute-chromium-arm64.aab
+
+      - name: Sign the .aab with the upload key
+        env:
+          KS_B64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+          KS_PASS: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          KS_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+        run: |
+          set -eu
+          [ -n "$KS_B64" ] && [ -n "$KS_PASS" ] && [ -n "$KS_ALIAS" ] || { echo "RELEASE_* secrets missing"; exit 1; }
+          ks="$RUNNER_TEMP/upload.jks"
+          printf '%s' "$KS_B64" | base64 -d > "$ks"
+          mkdir -p out
+          cp build/resolute-chromium-arm64.aab out/resolute-play-arm64.aab
+          # Remove the Chromium debug-key signature, then sign with the upload key.
+          zip -q -d out/resolute-play-arm64.aab 'META-INF/*.SF' 'META-INF/*.RSA' 'META-INF/*.EC' 'META-INF/*.DSA' 'META-INF/MANIFEST.MF' || true
+          jarsigner -keystore "$ks" -storepass "$KS_PASS" -keypass "$KS_PASS" \
+            -sigalg SHA256withRSA -digestalg SHA-256 \
+            out/resolute-play-arm64.aab "$KS_ALIAS" > /dev/null
+          rm -f "$ks"
+
+      - name: Check signature, package and version
+        run: |
+          set -eu
+          jarsigner -verify out/resolute-play-arm64.aab | tail -1
+          sha=$(keytool -printcert -jarfile out/resolute-play-arm64.aab | grep -m1 'SHA256:' | awk '{print $2}')
+          echo "Signer SHA-256: $sha"
+          want="85:8F:D5:98:48:C7:CA:ED:31:F5:21:14:CB:DE:F3:4E:BE:EA:D6:77:4A:86:A8:7B:E1:CF:82:52:10:02:18:AE"
+          [ "$sha" = "$want" ] || { echo "Not signed with the Resolute upload key"; exit 1; }
+          curl -sSL -o bundletool.jar https://github.com/google/bundletool/releases/download/1.17.2/bundletool-all-1.17.2.jar
+          java -jar bundletool.jar dump manifest --bundle out/resolute-play-arm64.aab \
+            | grep -o 'package="[^"]*"\|android:versionCode="[^"]*"\|android:versionName="[^"]*"' | tee manifest.txt
+          grep -q 'package="com.resolute.browser"' manifest.txt
+          {
+            echo "## Resolute Play bundle"
+            echo "Built by run ${{ inputs.run_id }}. Signed with the upload key ($sha)."
+            echo '```'; cat manifest.txt; ls -l out; echo '```'
+            echo "Download the **resolute-play-arm64** artifact below and upload the .aab in Play Console."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the signed bundle
+        uses: actions/upload-artifact@v7
+        with:
+          name: resolute-play-arm64
+          path: out/resolute-play-arm64.aab
+          compression-level: 0
+          retention-days: 90

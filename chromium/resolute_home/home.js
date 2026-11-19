@@ -83,7 +83,7 @@ const ICONS = {
 };
 const QUESTS = [
   { id: 'open', daily: true, xp: 10, icon: 'sun', name: 'Open Resolute today', desc: 'Keeps your streak alive' },
-  { id: 'search', daily: true, xp: 10, icon: 'search', name: 'Search the web', desc: 'From the box above' },
+  { id: 'search', daily: true, xp: 10, icon: 'search', name: 'Search the web', desc: 'From here or the address bar' },
   { id: 'pick', daily: true, xp: 20, icon: 'compass', name: 'Visit a Resolute Pick', desc: 'Any partner below' },
   { id: 'extension', daily: false, xp: 100, icon: 'puzzle', name: 'Install your first extension', desc: 'From the Chrome Web Store' },
   { id: 'wallet', daily: false, xp: 150, icon: 'wallet', name: 'Add a wallet', desc: 'MetaMask, Phantom, Rabby and more' },
@@ -333,6 +333,30 @@ async function checkExtensions() {
   if (mine.some((x) => WALLET_IDS.has(x.id))) await complete('wallet');
 }
 
+// ---------- searches made from the address bar count too ----------
+// Looks at today's browsing history (on this device only, nothing leaves the phone) for a search
+// results page of a common search engine.
+const SEARCH_PAGES = [
+  /^https:\/\/(www\.)?google\.[a-z.]+\/search\?/,
+  /^https:\/\/(www\.)?bing\.com\/search\?/,
+  /^https:\/\/(duckduckgo\.com|html\.duckduckgo\.com)\/.*[?&]q=/,
+  /^https:\/\/search\.brave\.com\/search\?/,
+  /^https:\/\/search\.yahoo\.com\/search/,
+  /^https:\/\/(www\.)?ecosia\.org\/search\?/,
+  /^https:\/\/yandex\.[a-z]+\/search/,
+];
+async function checkSearches() {
+  if (!hasChrome || !chrome.history || !chrome.history.search) return;
+  if (state.done && state.done.search === dayKey()) return;
+  const midnight = new Date();
+  midnight.setHours(0, 0, 0, 0);
+  let items = [];
+  try {
+    items = await chrome.history.search({ text: '', startTime: midnight.getTime(), maxResults: 500 });
+  } catch (e) { return; }
+  if (items.some((h) => SEARCH_PAGES.some((re) => re.test(h.url || '')))) await complete('search');
+}
+
 // ---------- start ----------
 (async function start() {
   state = await store.get();
@@ -347,4 +371,12 @@ async function checkExtensions() {
   renderShortcuts();
   loadConfig();
   checkExtensions();
+  checkSearches();
 })();
+
+// Coming back to an open Resolute Home tab (after browsing) re-checks the quests.
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState !== 'visible' || !state) return;
+  checkExtensions();
+  checkSearches();
+});

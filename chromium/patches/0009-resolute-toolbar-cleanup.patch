@@ -1,0 +1,78 @@
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/identity_disc/IdentityDiscController.java b/chrome/android/java/src/org/chromium/chrome/browser/identity_disc/IdentityDiscController.java
+index 9f808963..3b26443b 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/identity_disc/IdentityDiscController.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/identity_disc/IdentityDiscController.java
+@@ -188,6 +188,8 @@ public class IdentityDiscController
+         mObservers.removeObserver(obs);
+     }
+ 
++    private static final boolean RESOLUTE_HIDE_PROFILE_BUTTON = true;
++
+     @Override
+     public ButtonData get(@Nullable Tab tab) {
+         mIsTabNtp =
+@@ -195,7 +197,9 @@ public class IdentityDiscController
+                         && !tab.isOffTheRecord()
+                         && (tab.getNativePage() instanceof NewTabPage
+                                 || UrlUtilities.isNtpUrl(tab.getUrl()));
+-        if (!mIsTabNtp) {
++        // Resolute: no Google profile button in the toolbar (it crowded the address bar on the
++        // new tab page). Google accounts stay reachable in Settings.
++        if (RESOLUTE_HIDE_PROFILE_BUTTON || !mIsTabNtp) {
+             mButtonData.setCanShow(false);
+             return mButtonData;
+         }
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/LocationBarModel.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/LocationBarModel.java
+index d3d2469c..896db5d1 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/LocationBarModel.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/LocationBarModel.java
+@@ -198,6 +198,9 @@ public class LocationBarModel implements ToolbarDataProvider, LocationBarDataPro
+     private final ObserverList<ToolbarDataProvider.Observer> mToolbarDataObservers =
+             new ObserverList<>();
+     protected GURL mVisibleGurl = GURL.emptyGURL();
++    private static final String RESOLUTE_HOME_SCHEME = "chrome-extension";
++    private static final String RESOLUTE_HOME_ID = "aaddcaaaojbkjailacplbnladfhcnabm";
++    private static final String RESOLUTE_NTP_URL = "chrome://newtab/";
+     protected String mFormattedFullUrl;
+     protected String mUrlForDisplay;
+     private LocationBarDataProvider.@Nullable AppInstalledDelegate mAppInstalledDelegate;
+@@ -420,6 +423,13 @@ public class LocationBarModel implements ToolbarDataProvider, LocationBarDataPro
+         if (mIsInSameDocNav && mAlreadyUpdatedUrlBarForSameDocNav) return false;
+         try (TraceEvent te = TraceEvent.scoped("LocationBarModel.updateVisibleGurl")) {
+             GURL gurl = getUrlOfVisibleNavigationEntry();
++            // Resolute: Resolute Home (the built-in new tab page, patch 0008) is shown as the new
++            // tab page, never as its chrome-extension:// address. Tabs restored or opened at first
++            // launch can carry the extension address instead of chrome://newtab/.
++            if (RESOLUTE_HOME_SCHEME.equals(gurl.getScheme())
++                    && RESOLUTE_HOME_ID.equals(gurl.getHost())) {
++                gurl = new GURL(RESOLUTE_NTP_URL);
++            }
+             if (!gurl.equals(mVisibleGurl)) {
+                 mVisibleGurl = gurl;
+                 recalculateFormattedUrls();
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/adaptive/AdaptiveToolbarButtonController.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/adaptive/AdaptiveToolbarButtonController.java
+index 41298ed4..dbf23075 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/adaptive/AdaptiveToolbarButtonController.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/adaptive/AdaptiveToolbarButtonController.java
+@@ -72,6 +72,7 @@ public class AdaptiveToolbarButtonController
+     private final Context mContext;
+     private final ObserverList<ButtonDataObserver> mObservers = new ObserverList<>();
+     private @Nullable ButtonDataProvider mSingleProvider;
++    private static final boolean RESOLUTE_HIDE_OPTIONAL_BUTTON = true;
+ 
+     // Maps from {@link AdaptiveToolbarButtonVariant} to {@link ButtonDataProvider}.
+     private final Map<Integer, ButtonDataProvider> mButtonDataProviderMap = new HashMap<>();
+@@ -301,8 +302,12 @@ public class AdaptiveToolbarButtonController
+ 
+     @Override
+     public @Nullable ButtonData get(@Nullable Tab tab) {
++        // Resolute: no optional toolbar button (the "+" new tab shortcut and its variants). The
++        // phone toolbar keeps home, address bar, extensions, tab switcher and menu.
+         final ButtonData receivedButtonData =
+-                mSingleProvider == null ? null : mSingleProvider.get(tab);
++                RESOLUTE_HIDE_OPTIONAL_BUTTON || mSingleProvider == null
++                        ? null
++                        : mSingleProvider.get(tab);
+         if (receivedButtonData == null) {
+             mOriginalButtonSpec = null;
+             return null;

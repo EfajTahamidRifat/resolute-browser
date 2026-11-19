@@ -17,7 +17,8 @@
     "topSites",
     "search",
     "management",
-    "favicon"
+    "favicon",
+    "history"
   ],
   "host_permissions": [
     "https://raw.githubusercontent.com/*"

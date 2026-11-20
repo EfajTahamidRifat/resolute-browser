@@ -814,6 +814,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-20: owner deleted the signed-bundle artifact of 44739669155 by accident; re-signed the same build 44733683286 as **44750746810** (versionCode 815401875, signer OK). A lost artifact can always be re-made this way while the build's `resolute-chromium-arm64` artifact still exists.
 - 2026-11-20: Owner finished the Play forms (content rating, target audience 16+, privacy policy, ads, data safety, health, financial, QUERY_ALL_PACKAGES + REQUEST_INSTALL_PACKAGES + foreground-service declarations with YouTube demo videos, category Tools). Play's quick check then blocked sending for review: `android.hardware.wifi` required. Patch 0012 makes it optional; versionCode 815401876.
 - 2026-11-20: arm64 44780128300 (0001–0012) signed by **44787356131**: versionCode **815401876**, signer OK, no required hardware features listed. This is the bundle for the first closed-test release (replaces 815401875). Next Play upload of Chromium 159: `resolute_version_code = "815401877"`.
+- 2026-11-21: **First closed-test release sent for Google review** (owner, 00:10 Dhaka): track Closed testing – Alpha, release "1.1 test 1", bundle 815401876, 177 countries, tester list "1ww". Next: owner adds 12+ testers who stay opted in 14 days (needed before production access), invites the WIF service account (Release to testing tracks + View app information) so `Sign Play release` can upload with `track=alpha`.
 
 Add a line here after every build or release.
 

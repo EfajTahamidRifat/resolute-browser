@@ -1,0 +1,22 @@
+diff --git a/chrome/android/java/AndroidManifest.xml b/chrome/android/java/AndroidManifest.xml
+index 6b86cc1..0cb15c8 100644
+--- a/chrome/android/java/AndroidManifest.xml
++++ b/chrome/android/java/AndroidManifest.xml
+@@ -75,7 +75,7 @@ by a child template that "extends" this file.
+     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
+     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+     {% set enable_screen_capture = enable_screen_capture|default(0) %}
+-    {% if enable_screen_capture == "true" %}
++    {# Resolute (patch 0010): no screen sharing on phones (getDisplayMedia is refused), so no media-projection permission or service type: Google Play would require a demo video for them. #}{% if false %}
+     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+     {% endif %}
+     <!-- TODO(crbug.com/40259231): Remove this tools:ignore attribute once it's no longer necessary. -->
+@@ -1250,7 +1250,7 @@ by a child template that "extends" this file.
+             android:exported="false"/>
+ 
+         <service android:name="org.chromium.chrome.browser.media.MediaCaptureNotificationService"
+-            {% if enable_screen_capture == "true" %}
++            {# Resolute (patch 0010): no screen sharing on phones (getDisplayMedia is refused), so no media-projection permission or service type: Google Play would require a demo video for them. #}{% if false %}
+             android:foregroundServiceType="camera|microphone|mediaProjection|mediaPlayback"
+             {% else %}
+             android:foregroundServiceType="camera|microphone"

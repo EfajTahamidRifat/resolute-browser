@@ -96,9 +96,11 @@ runs:
           sudo sed -i -E 's#https?://security\.ubuntu\.com/ubuntu/?#mirror+file:/etc/apt/apt-mirrors.txt#' \
             /etc/apt/sources.list.d/ubuntu.sources
         fi
+        # Each try gets at most 20 minutes: on 2026-11-19 apt hung on a mirror
+        # for almost 6 hours and used up a whole stage (run 44597181044).
         for attempt in 1 2 3; do
-          if sudo apt-get update -o Acquire::Retries=5 \
-             && sudo python3 "$RUNNER_TEMP/install-build-deps.py" --no-prompt \
+          if sudo timeout 10m apt-get update -o Acquire::Retries=5 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 \
+             && sudo timeout 20m python3 "$RUNNER_TEMP/install-build-deps.py" --no-prompt \
                   --no-chromeos-fonts --no-arm --no-nacl --android; then
             exit 0
           fi

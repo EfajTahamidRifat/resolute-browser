@@ -1,0 +1,15 @@
+diff --git a/chrome/android/java/AndroidManifest.xml b/chrome/android/java/AndroidManifest.xml
+index 0cb15c8..727e084 100644
+--- a/chrome/android/java/AndroidManifest.xml
++++ b/chrome/android/java/AndroidManifest.xml
+@@ -189,6 +189,10 @@ by a child template that "extends" this file.
+     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+     <!-- android.permission.RECORD_AUDIO -->
+     <uses-feature android:name="android.hardware.microphone" android:required="false" />
++    <!-- Resolute (patch 0012): Wi-Fi permissions (ours and merged libraries')
++         imply android.hardware.wifi as required, which made Google Play block
++         phones/tablets without Wi-Fi. Resolute works on mobile data too. -->
++    <uses-feature android:name="android.hardware.wifi" android:required="false" />
+     <!--
+       The app is usable with keyboard/mouse. This feature is implicitly true for
+       all applications and needs to be disabled manually.

@@ -84,10 +84,13 @@ jobs:
           # Permissions that Play asks declarations for (see docs/MAINTAINING.md).
           java -jar bundletool.jar dump manifest --bundle out/resolute-play-arm64.aab \
             | grep -o 'android.permission.[A-Z_]*' | sort -u | grep -E 'FOREGROUND|QUERY_ALL|INSTALL_PACKAGES|LOCATION|CONTACTS|SMS|CALL_LOG|ACCESSIBILITY|MANAGE_EXTERNAL' | tee permissions.txt
+          # Hardware Play would treat as required (blocks devices without it).
+          java -jar bundletool.jar dump manifest --bundle out/resolute-play-arm64.aab \
+            | grep -o '<uses-feature[^>]*>' | grep -v 'required="false"' | grep -v glEsVersion | tee required_features.txt || true
           {
             echo "## Resolute Play bundle"
             echo "Built by run ${{ inputs.run_id }}. Signed with the upload key ($sha)."
-            echo '```'; cat manifest.txt; ls -l out; echo; echo "Declared-sensitive permissions:"; cat permissions.txt; echo '```'
+            echo '```'; cat manifest.txt; ls -l out; echo; echo "Declared-sensitive permissions:"; cat permissions.txt; echo; echo "Required hardware (should be empty):"; cat required_features.txt; echo '```'
             echo "Download the **resolute-play-arm64** artifact below and upload the .aab in Play Console."
           } >> "$GITHUB_STEP_SUMMARY"
 

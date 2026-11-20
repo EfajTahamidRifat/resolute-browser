@@ -1,0 +1,21 @@
+diff --git a/chrome/version.gni b/chrome/version.gni
+index e058a1b..f550e5c 100644
+--- a/chrome/version.gni
++++ b/chrome/version.gni
+@@ -416,3 +416,16 @@ if (is_android) {
+     false_false_false_false = "1"
+   }
+ }
++
++# Resolute (patch 0011): Google Play needs a higher versionCode for every
++# upload, but Chromium's code only rises with a Chromium update. Set
++# resolute_version_code in args.gn to override it (see docs/MAINTAINING.md).
++if (target_os == "android") {
++  declare_args() {
++    resolute_version_code = ""
++  }
++  if (resolute_version_code != "") {
++    chrome_version_code = resolute_version_code
++    chrome_32_version_code = resolute_version_code
++  }
++}

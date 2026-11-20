@@ -52,6 +52,8 @@ chrome_public_manifest_package = "com.resolute.browser"
 # Google Play needs a new versionCode for every upload. Chromium's own code
 # (815401874 for 159.0.8154.18) only rises with a Chromium update, so raise this
 # by 1 for each extra Play upload of the same Chromium version, and remove it
-# (or set it above Chromium's code) when Chromium is updated. 2026-11-20:
+# (or set it above Chromium's code) when Chromium is updated. Needs patch 0011
+# (Chromium 159 has no built-in override; android_override_version_code did
+# nothing). 2026-11-20:
 # 815401874 was the first Play upload (closed test draft).
-android_override_version_code = "815401875"
+resolute_version_code = "815401875"

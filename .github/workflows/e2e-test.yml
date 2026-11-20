@@ -15,6 +15,11 @@ on:
         description: "Android API level of the emulator"
         required: false
         default: "34"
+      store_shots:
+        description: "Also take Google Play store screenshots on a 1080x1920 phone (slower)"
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: write
@@ -57,7 +62,10 @@ jobs:
           emulator-boot-timeout: 900
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          script: python3 .github/e2e/run_tests.py "$RUNNER_TEMP/resolute.apk" "$GITHUB_WORKSPACE/e2e-out" || echo "some tests failed" > "$GITHUB_WORKSPACE/e2e-out/FAILED"
+          profile: ${{ inputs.store_shots && 'pixel_2' || '' }}
+          script: |
+            python3 .github/e2e/run_tests.py "$RUNNER_TEMP/resolute.apk" "$GITHUB_WORKSPACE/e2e-out" || echo "some tests failed" > "$GITHUB_WORKSPACE/e2e-out/FAILED"
+            if [ "${{ inputs.store_shots }}" = "true" ]; then python3 .github/e2e/store_shots.py "$GITHUB_WORKSPACE/e2e-out" || true; fi
 
       - name: Job summary
         if: always()

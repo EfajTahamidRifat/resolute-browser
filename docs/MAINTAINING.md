@@ -813,6 +813,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-20: arm64 44733683286 (0001–0011) signed by **44739669155**: versionCode **815401875**, versionName 159.0.8154.18, upload-key signer OK, no media-projection permission. This replaces 815401874 in the owner's closed-test draft. Published `test-2026-11-20-p13` (44739804119). Next Play upload of Chromium 159 needs `resolute_version_code = "815401876"`.
 - 2026-11-20: owner deleted the signed-bundle artifact of 44739669155 by accident; re-signed the same build 44733683286 as **44750746810** (versionCode 815401875, signer OK). A lost artifact can always be re-made this way while the build's `resolute-chromium-arm64` artifact still exists.
 - 2026-11-20: Owner finished the Play forms (content rating, target audience 16+, privacy policy, ads, data safety, health, financial, QUERY_ALL_PACKAGES + REQUEST_INSTALL_PACKAGES + foreground-service declarations with YouTube demo videos, category Tools). Play's quick check then blocked sending for review: `android.hardware.wifi` required. Patch 0012 makes it optional; versionCode 815401876.
+- 2026-11-20: arm64 44780128300 (0001–0012) signed by **44787356131**: versionCode **815401876**, signer OK, no required hardware features listed. This is the bundle for the first closed-test release (replaces 815401875). Next Play upload of Chromium 159: `resolute_version_code = "815401877"`.
 
 Add a line here after every build or release.
 

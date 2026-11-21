@@ -231,7 +231,7 @@ pre-made images in `chromium/branding/` (`<kind>_<pixel size>.png`, made from th
 if it finds no icons (Chromium moved them). Step 3 renames "Chromium" to
 "Resolute" in `chrome/app/*chromium_strings*` and `components/*chromium_strings*`.
 Step 4 (2026-11-22) renames "Chrome" / "Google Chrome" to "Resolute" in the
-phone UI text: every `.grd`/`.grdp` under `chrome/` and `components/` with
+phone UI text: every `.grd`/`.grdp` under `chrome/`, `components/` and `ui/` with
 `/android/` in its path (about 265 texts in `android_chrome_strings.grd` alone,
 e.g. "Chrome notifications make things easier", "Customize and control Google
 Chrome"). Only message text changes (never names or descriptions);
@@ -865,6 +865,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-22: Owner: "we should have the full UI and UX of Resolute". Working through the UI plan (Claude Doc) in order: bottom address bar (patch 0014, first), Resolute theme tokens on all native screens, Quick menu sheet, red wallet button, tabs + workspaces, trust shield, then the rest. Each step ships as a Play update after E2E. 0014 goes into the next build after the first-run fix.
 - 2026-11-22: Owner invited the upload service account in Play Console (Users and permissions) and asked for scheduled, unattended work and uploads. Release routine added to section 7. First automatic upload planned: 815401877 (first-run fix) once its E2E passes.
 - 2026-11-22: Owner applied the extra WIF lock in Cloud Shell: provider `resolute-repo` now accepts only `.github/workflows/sign-release.yml` on `main` of this repo.
+- 2026-11-22: x64 rc3 (44935955951, `test-x64-2026-11-22-rc3`) E2E **14/14** (44938619525) with a real first launch: first window is the browser (no FirstRun), opens Resolute Home. arm64 44935970417 = 815401877, published p15. **First automatic Play upload**: Sign Play release 44940115763 with track=alpha committed edit 14679189157683241663 (WIF lock works). Left over: menu button label "Customize and control Google Chrome" lives in `ui/android/java/strings/android_ui_strings.grd`; apply_branding step 4 now also covers `ui/`. Next build: + patch 0014 (bottom bar), versionCode 815401878.
 
 Add a line here after every build or release.
 

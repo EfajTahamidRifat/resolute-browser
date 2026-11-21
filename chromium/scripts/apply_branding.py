@@ -96,7 +96,7 @@ if total == 0:
 # name), "Chrome OS" and "Chromebook" stay.
 ANDROID_STRING_FILES = sorted(
     f
-    for root in ("chrome", "components")
+    for root in ("chrome", "components", "ui")
     for pattern in ("*.grd", "*.grdp")
     for f in (src / root).rglob(pattern)
     if "/android/" in f.as_posix() and "/test/" not in f.as_posix()

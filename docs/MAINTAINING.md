@@ -886,6 +886,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-22: 815401879 build (x64 44944902878, arm64 44944918808): E2E **13/14**, test 13 failed on the new alignment check (extensions centre 604 vs 612): patch 0015 had no effect (ViewStub params win). **Not uploaded.** Fixed in 0005 (stub `match_parent` + `center_vertical`), 0015 removed, rebuilding 815401879 with patch 0016 (Resolute dark greys) too.
 - 2026-11-22: Rebuilt 815401879 (x64 44948921422 rc6, arm64 44948935438 p18): E2E **14/14** (44951887371), toolbar centres all 612. Dialogs/menus show Resolute greys (0016). **Auto-uploaded to alpha** (Sign Play release 44952847895, edit 03535200291553466279). Seen in screenshots, next: dark-theme buttons are Material's salmon (primary_80) not Resolute red; tour footer link is cut off on short (640 px) screens.
 - 2026-11-22: Next build 815401880: patch 0017 (red buttons/switches, white text), 0007 primary_50 = #E10600, tour fits short screens (`@media (max-height: 720px)`).
+- 2026-11-22: 815401880 (x64 44953242874 rc7, arm64 44953255551 p19): E2E **14/14** (44956011229), buttons solid red with white text, switches red, tour fits 640 px emulator. **Auto-uploaded to alpha** (Sign Play release 44956994778, edit 14012768333659079539). Seen: extension popup sheet header shows raw `chrome-extension://...` URL on a white page (polish later with the extension-popup sheet design).
 
 Add a line here after every build or release.
 

@@ -551,6 +551,29 @@ Roadmap after the first working APK:
     and code signing (SignPath Foundation for open source, or Microsoft Store).
     Node Mode returns here as the headline desktop feature.
 
+31. **Onboarding and "Meet the makers" (owner request 2026-11-22).** Patch 0013
+    removed Chrome's first run, so Resolute shows its own:
+    (a) **Welcome tour** on Resolute Home's first visit: 4 swipe cards under 20 s
+    (one-hand bottom bar; real extensions with an "Add MetaMask" button; safety
+    shield; quests and XP), Skip on every card, replay from Settings/Quick menu.
+    Web only (`chromium/resolute_home`), no Chromium code. Last card footer:
+    "Made by The Code Bros" link.
+    (b) **"Getting started" quests**: Take the tour (+20 XP), Pin an extension,
+    Try desktop site, Open the Quick menu, **Meet the makers** (opens
+    https://thecodebros.xyz/?utm_source=resolute&utm_medium=app&utm_campaign=<place>,
+    +50 XP, "Insider" badge). XP has no money value.
+    (c) **Tips bubbles** the first time a native button appears (extensions,
+    wallet, tabs, Quick menu): one per session, using Chromium's in-product-help
+    bubbles with Resolute text (native patch, later).
+    (d) **Made by The Code Bros** everywhere it is honest: Resolute Home tile
+    ("Made by Resolute's founder"), Settings > About, level-up sheet ("Want an
+    app like this? The Code Bros builds them"), Explore "Hire us".
+    Rules: always optional and labelled, never auto-open the site, never block
+    the app, never reward Play ratings or reviews (Play policy), off-switch for
+    promos in Settings. Measuring: no tracking in the app (privacy policy says
+    Resolute collects nothing); clicks are counted on thecodebros.xyz from the
+    UTM tags only.
+
 ### Gaps found 2026-11-12 (all accepted by the owner)
 
 Must fix before the Play launch:

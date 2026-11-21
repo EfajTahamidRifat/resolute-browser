@@ -1,0 +1,25 @@
+diff --git a/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java b/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java
+index 47427d4..43f1739 100644
+--- a/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java
++++ b/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java
+@@ -474,6 +474,20 @@ class AppMenu implements OnKeyListener {
+ 
+         int popupWidth = menuWidth + bgPadding.left + bgPadding.right;
+ 
++        // Resolute (patch 0019): opened from the bottom bar, the menu is a full-width sheet
++        // (Quick menu, UI plan screen 6), up to 480 dp wide on tablets. getPopupPosition()
++        // keeps the bottom-bar lateral margin on both sides.
++        if (isFromBottomBar && !isByPermanentButton) {
++            int lateral =
++                    context.getResources()
++                            .getDimensionPixelSize(R.dimen.bottom_bar_app_menu_lateral_margin);
++            int sheetWidth =
++                    visibleDisplayFrame.width() - 2 * lateral - bgPadding.left - bgPadding.right;
++            int sheetMax = Math.round(480 * context.getResources().getDisplayMetrics().density);
++            menuWidth = Math.max(menuWidth, Math.min(sheetWidth, sheetMax));
++            popupWidth = menuWidth + bgPadding.left + bgPadding.right;
++        }
++
+         popup.setWidth(popupWidth);
+ 
+         Rect padding = new Rect(bgPadding);

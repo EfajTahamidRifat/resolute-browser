@@ -773,6 +773,20 @@ def t_home():
         if m:
             centres[rid] = (int(m.group(1)) + int(m.group(2))) / 2
     lined_up = len(centres) >= 3 and max(centres.values()) - min(centres.values()) <= 3
+    # Quick menu (patch 0019): the menu opened from the bottom bar spans the screen.
+    menu_width = None
+    m = re.search(r'resource-id="[^"]*:id/menu_button"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', toolbar)
+    if m:
+        x1, y1, x2, y2 = map(int, m.groups())
+        adb("shell", "input", "tap", str((x1 + x2) // 2), str((y1 + y2) // 2))
+        time.sleep(2)
+        menu = ui_dump("13-app-menu")
+        shot("13-app-menu")
+        lm = re.search(r'resource-id="[^"]*:id/app_menu_list"[^>]*bounds="\[(\d+),\d+\]\[(\d+),\d+\]"', menu)
+        if lm:
+            menu_width = int(lm.group(2)) - int(lm.group(1))
+        adb("shell", "input", "keyevent", "BACK")
+        time.sleep(1)
     if home is None:
         return False, "no new tab page target found", png
     try:
@@ -782,7 +796,7 @@ def t_home():
     except Exception as e:  # noqa: BLE001
         info = f"eval failed: {e}"
     ok = isinstance(info, str) and '"rank":"Level' in info and lined_up
-    return ok, f"new tab: {home.get('url')}; page: {info}; toolbar centres: {centres}", png
+    return ok, f"new tab: {home.get('url')}; page: {info}; toolbar centres: {centres}; app menu width: {menu_width}", png
 
 
 def focused_window():

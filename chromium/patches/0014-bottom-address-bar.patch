@@ -1,0 +1,16 @@
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/settings/AddressBarPreference.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/settings/AddressBarPreference.java
+index 1f79e58..118470a 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/settings/AddressBarPreference.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/settings/AddressBarPreference.java
+@@ -50,8 +50,10 @@ public class AddressBarPreference extends ContainedRadioButtonGroupPreference
+ 
+     // We choose this as a "default return value" because top omnibox is the default today. Choose
+     // TOP_SETTINGS because TOP_LONG_PRESS causes an animation (see ToolbarPositionController).
++    // Resolute (patch 0014): one hand first, so the address bar starts at the bottom.
++    // People can still move it to the top in Settings > Address bar.
+     private static final @ToolbarPositionAndSource int DEFAULT_POSITION_AND_SOURCE =
+-            ToolbarPositionAndSource.TOP_SETTINGS;
++            ToolbarPositionAndSource.BOTTOM_SETTINGS;
+ 
+     public AddressBarPreference(Context context, AttributeSet attrs) {
+         super(context, attrs);

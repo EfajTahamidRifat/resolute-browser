@@ -346,8 +346,9 @@ Before the first public release:
    requests are refused); (2) only people with write access to the repo can
    push to `main` or start workflows (the owner); (3) in Play Console the
    account can only release to testing tracks, and the workflow refuses
-   `production`; (4) there is no key file to steal. Optional extra lock (owner
-   runs once in Cloud Shell): accept only the Sign Play release workflow:
+   `production`; (4) there is no key file to steal. Extra lock (**applied by the owner
+   2026-11-22**): Google accepts only the Sign Play release workflow, so never
+   rename `.github/workflows/sign-release.yml` (uploads would stop). Command used:
    `gcloud iam workload-identity-pools providers update-oidc resolute-repo --project=project-53290f71-1868-4c1d-a2d --location=global --workload-identity-pool=github --attribute-condition="assertion.repository=='EfajTahamidRifat/resolute-browser' && assertion.ref=='refs/heads/main' && assertion.workflow_ref.startsWith('EfajTahamidRifat/resolute-browser/.github/workflows/sign-release.yml@')"`
    **Release routine (owner not always available):** the assistant keeps
    working on scheduled check-ins: build arm64 + x64, run E2E, and only when
@@ -840,6 +841,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-22: **Closed test approved by Google** (owner installed "Resolute Browser (Early Access)" from Play, 91 MB, rated 3+). His first-install video showed Chrome's first run: Chromium logo, "Make Chrome your own" sign-in, "Chrome notifications make things easier", then google.com instead of Resolute Home. Fix: patch 0013 (skip first run), apply_branding step 4 (Chrome -> Resolute in Android UI text), E2E tests the real first launch. versionCode 815401877. Building x64 (test) and arm64 (Play).
 - 2026-11-22: Owner: "we should have the full UI and UX of Resolute". Working through the UI plan (Claude Doc) in order: bottom address bar (patch 0014, first), Resolute theme tokens on all native screens, Quick menu sheet, red wallet button, tabs + workspaces, trust shield, then the rest. Each step ships as a Play update after E2E. 0014 goes into the next build after the first-run fix.
 - 2026-11-22: Owner invited the upload service account in Play Console (Users and permissions) and asked for scheduled, unattended work and uploads. Release routine added to section 7. First automatic upload planned: 815401877 (first-run fix) once its E2E passes.
+- 2026-11-22: Owner applied the extra WIF lock in Cloud Shell: provider `resolute-repo` now accepts only `.github/workflows/sign-release.yml` on `main` of this repo.
 
 Add a line here after every build or release.
 

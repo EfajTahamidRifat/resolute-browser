@@ -55,5 +55,5 @@ chrome_public_manifest_package = "com.resolute.browser"
 # (or set it above Chromium's code) when Chromium is updated. Needs patch 0011
 # (Chromium 159 has no built-in override; android_override_version_code did
 # nothing). 2026-11-20:
-# 815401874-815401879 used (815401877-815401879 auto-uploaded to alpha 2026-11-22).
-resolute_version_code = "815401880"
+# 815401874-815401880 used (815401877-815401880 auto-uploaded to alpha 2026-11-22).
+resolute_version_code = "815401881"

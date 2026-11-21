@@ -80,13 +80,20 @@ const ICONS = {
   puzzle: 'M14 4h4v4h2v4h-2v6H6v-6H4V8h2V4h4v2h4z',
   wallet: 'M20 7H5a2 2 0 0 1 0-4h13v4M3 5v14a2 2 0 0 0 2 2h15V7M16 14h.01',
   check: 'm5 12 5 5 9-10',
+  play: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM10 8.5v7l6-3.5z',
+  makers: 'M8 9 4 12l4 3M16 9l4 3-4 3M13.5 6l-3 12',
 };
+// The Code Bros links carry UTM tags so thecodebros.xyz can count visits from Resolute.
+// Resolute itself tracks nothing (privacy policy).
+const MAKERS_URL = 'https://thecodebros.xyz/?utm_source=resolute&utm_medium=app&utm_campaign=';
 const QUESTS = [
   { id: 'open', daily: true, xp: 10, icon: 'sun', name: 'Open Resolute today', desc: 'Keeps your streak alive' },
   { id: 'search', daily: true, xp: 10, icon: 'search', name: 'Search the web', desc: 'From here or the address bar' },
   { id: 'pick', daily: true, xp: 20, icon: 'compass', name: 'Visit a Resolute Pick', desc: 'Any partner below' },
+  { id: 'tour', daily: false, xp: 20, icon: 'play', name: 'Take the tour', desc: 'Four quick cards, under 20 seconds', action: 'tour' },
   { id: 'extension', daily: false, xp: 100, icon: 'puzzle', name: 'Install your first extension', desc: 'From the Chrome Web Store' },
   { id: 'wallet', daily: false, xp: 150, icon: 'wallet', name: 'Add a wallet', desc: 'MetaMask, Phantom, Rabby and more' },
+  { id: 'makers', daily: false, xp: 50, icon: 'makers', name: 'Meet the makers', desc: 'The Code Bros built Resolute', action: 'makers' },
 ];
 
 let state = {};
@@ -154,7 +161,26 @@ function render() {
     ic.appendChild(svgIcon(done ? ICONS.check : ICONS[q.icon]));
     const body = el('span', 'q-body');
     body.append(el('span', 'q-name', q.name), el('span', 'q-desc', done ? (q.daily ? 'Done today' : 'Done') : q.desc));
-    li.append(ic, body, el('span', 'q-xp', `+${q.xp} XP`));
+    const parts = [ic, body, el('span', 'q-xp', `+${q.xp} XP`)];
+    if (q.action) {
+      // Quests you finish by tapping them: a real link or button inside the row.
+      const hit = q.action === 'makers' ? el('a', 'q-hit') : el('button', 'q-hit');
+      if (q.action === 'makers') {
+        hit.href = MAKERS_URL + 'quest';
+        hit.rel = 'noopener';
+        hit.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          complete('makers').finally(() => { location.href = hit.href; });
+        });
+      } else {
+        hit.type = 'button';
+        hit.addEventListener('click', () => openTour(0));
+      }
+      hit.append(...parts);
+      li.appendChild(hit);
+    } else {
+      li.append(...parts);
+    }
     list.appendChild(li);
   }
   $('quests-count').textContent = `${doneCount} of ${QUESTS.length} done`;
@@ -357,6 +383,61 @@ async function checkSearches() {
   if (items.some((h) => SEARCH_PAGES.some((re) => re.test(h.url || '')))) await complete('search');
 }
 
+// ---------- welcome tour ----------
+// Shown once on the first visit (Chromium's own first-run screens are removed by patch 0013).
+// Skip on every card; finishing or skipping both count as seen. Swipe or use the button.
+const tour = { i: 0, n: 4, opener: null };
+function showSlide(i) {
+  tour.i = Math.max(0, Math.min(tour.n - 1, i));
+  $('tour-track').style.transform = `translateX(${-100 * tour.i}%)`;
+  const slides = $('tour-track').children;
+  for (let k = 0; k < slides.length; k++) slides[k].setAttribute('aria-hidden', String(k !== tour.i));
+  const dots = $('tour-dots').children;
+  for (let k = 0; k < dots.length; k++) dots[k].className = k === tour.i ? 'on' : '';
+  $('tour-next').textContent = tour.i === tour.n - 1 ? 'Start exploring' : 'Next';
+}
+function openTour(i) {
+  tour.opener = document.activeElement;
+  $('tour').hidden = false;
+  document.body.classList.add('touring');
+  showSlide(i);
+  $('tour-next').focus();
+}
+async function closeTour(finished) {
+  $('tour').hidden = true;
+  document.body.classList.remove('touring');
+  state.toured = true;
+  await store.set(state);
+  if (finished) await complete('tour');
+  if (tour.opener && tour.opener.focus) tour.opener.focus();
+}
+$('tour-next').addEventListener('click', () => {
+  if (tour.i === tour.n - 1) closeTour(true); else showSlide(tour.i + 1);
+});
+$('tour-skip').addEventListener('click', () => closeTour(false));
+$('tour').addEventListener('keydown', (ev) => {
+  if (ev.key === 'Escape') closeTour(false);
+  if (ev.key === 'ArrowRight') showSlide(tour.i + 1);
+  if (ev.key === 'ArrowLeft') showSlide(tour.i - 1);
+});
+(function swipe() {
+  let x0 = null;
+  const t = $('tour-track');
+  t.addEventListener('touchstart', (ev) => { x0 = ev.touches[0].clientX; }, { passive: true });
+  t.addEventListener('touchend', (ev) => {
+    if (x0 == null) return;
+    const dx = ev.changedTouches[0].clientX - x0;
+    x0 = null;
+    if (Math.abs(dx) < 40) return;
+    showSlide(tour.i + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+})();
+$('tour-makers').addEventListener('click', (ev) => {
+  ev.preventDefault();
+  const url = $('tour-makers').href;
+  closeTour(tour.i === tour.n - 1).finally(() => { location.href = url; });
+});
+
 // ---------- start ----------
 (async function start() {
   state = await store.get();
@@ -368,6 +449,7 @@ async function checkSearches() {
   }
   render();
   await complete('open');
+  if (!state.toured) openTour(0);
   renderShortcuts();
   loadConfig();
   checkExtensions();

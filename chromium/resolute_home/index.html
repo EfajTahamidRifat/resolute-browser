@@ -84,6 +84,53 @@
   </div>
 </div>
 
+<!-- Welcome tour: shown once on the first visit, replayable from the "Take the tour" quest. -->
+<div class="tour" id="tour" role="dialog" aria-modal="true" aria-label="Welcome to Resolute" hidden>
+  <div class="tour-top">
+    <span class="tour-brand"><img src="logo.png" alt="" width="22" height="23">Resolute</span>
+    <button class="link" id="tour-skip" type="button">Skip</button>
+  </div>
+  <div class="tour-track" id="tour-track">
+    <section class="slide" aria-roledescription="slide" aria-label="1 of 4">
+      <div class="art art-hand" aria-hidden="true">
+        <span class="phone"><span class="pbar"><i></i><b></b><i></i><i></i></span></span>
+        <span class="thumb"></span>
+      </div>
+      <h2>Made for one hand</h2>
+      <p>Your address bar, tabs and menu sit at the bottom, right under your thumb.</p>
+    </section>
+    <section class="slide" aria-roledescription="slide" aria-label="2 of 4">
+      <div class="art art-ext" aria-hidden="true">
+        <span class="ext e1"></span><span class="ext e2"></span><span class="ext e3"></span>
+        <svg viewBox="0 0 24 24"><path d="M14 4h4v4h2v4h-2v6H6v-6H4V8h2V4h4v2h4z"/></svg>
+      </div>
+      <h2>Real desktop extensions</h2>
+      <p>Install wallets and tools from the Chrome Web Store and use them like on a computer.</p>
+      <a class="ghost" id="tour-metamask" href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn">Add MetaMask</a>
+    </section>
+    <section class="slide" aria-roledescription="slide" aria-label="3 of 4">
+      <div class="art art-shield" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+      </div>
+      <h2>Safety you can see</h2>
+      <p>Your keys stay in your wallet. Resolute never asks for your seed phrase and never DMs you first.</p>
+    </section>
+    <section class="slide" aria-roledescription="slide" aria-label="4 of 4">
+      <div class="art art-level" aria-hidden="true">
+        <svg viewBox="0 0 62 62"><path class="crest-out" d="M31 3 55 17v28L31 59 7 45V17z"/><path class="crest-in" d="M31 12 47 21v20L31 50 15 41V21z"/></svg>
+        <b>1</b>
+      </div>
+      <h2>Level up as you explore</h2>
+      <p>Daily quests earn XP and ranks. Everything stays on your phone, and it is just for fun.</p>
+    </section>
+  </div>
+  <div class="tour-foot">
+    <div class="dots" id="tour-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <button class="primary" id="tour-next" type="button">Next</button>
+    <a class="makers" id="tour-makers" href="https://thecodebros.xyz/?utm_source=resolute&amp;utm_medium=app&amp;utm_campaign=tour">Made by <b>The Code Bros</b></a>
+  </div>
+</div>
+
 <script src="home.js"></script>
 </body>
 </html>

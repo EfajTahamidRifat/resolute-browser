@@ -120,6 +120,51 @@ h2 { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-t
 .levelup p { margin: 0; }
 .primary { margin-top: 10px; width: 100%; height: 52px; border: 0; border-radius: 26px; background: var(--red); color: #fff; font-weight: 700; font-size: 16px; cursor: pointer; }
 
+/* Quests you tap (tour, Meet the makers) */
+.quest:has(.q-hit) { padding: 0; }
+.q-hit { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; border: 0; background: none; text-align: left; cursor: pointer; border-radius: inherit; }
+.q-hit:focus-visible { outline: 2px solid var(--red-soft); outline-offset: 2px; }
+
+/* Welcome tour */
+body.touring { overflow: hidden; }
+.tour { position: fixed; inset: 0; z-index: 20; display: flex; overflow: hidden; flex-direction: column; background: radial-gradient(120% 70% at 50% 0%, #241112 0%, var(--bg) 60%); padding: max(16px, env(safe-area-inset-top)) 0 max(20px, env(safe-area-inset-bottom)); animation: fade .35s ease both; }
+.tour[hidden] { display: none; }
+.tour-top { display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+.tour-brand { display: flex; align-items: center; gap: 8px; font: 700 17px/1 var(--display); }
+.tour-brand img { width: 22px; height: auto; }
+.tour-top .link { min-height: 44px; padding: 0 6px; color: var(--text-2); }
+.tour-track { flex: 1; display: flex; transition: transform .45s var(--ease); }
+.slide { flex: 0 0 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 0 32px; text-align: center; }
+.slide h2 { font: 700 28px/1.15 var(--display); letter-spacing: -.02em; text-transform: none; color: var(--text); margin-top: 10px; }
+.slide p { margin: 0; max-width: 330px; color: var(--text-2); font-size: 15.5px; }
+.ghost { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; margin-top: 6px; border-radius: 22px; border: 1px solid var(--line-strong); background: var(--surface); font-weight: 600; font-size: 14px; }
+.tour-foot { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 0 24px; }
+.tour-foot .primary { max-width: 380px; margin-top: 0; }
+.dots { display: flex; gap: 7px; }
+.dots i { width: 7px; height: 7px; border-radius: 4px; background: var(--line-strong); transition: width .3s var(--ease), background .3s; }
+.dots i.on { width: 22px; background: var(--red); }
+.makers { min-height: 44px; display: inline-flex; align-items: center; font-size: 12.5px; color: var(--text-3); }
+.makers b { margin-left: 4px; color: var(--text-2); font-weight: 600; }
+
+/* Tour illustrations (drawn with CSS/SVG, no images) */
+.art { position: relative; width: 190px; height: 190px; display: grid; place-items: center; }
+.art::before { content: ""; position: absolute; inset: 18px; border-radius: 50%; background: radial-gradient(circle, rgba(225,6,0,.28), transparent 70%); }
+.art svg { position: relative; width: 84px; height: 84px; }
+.art-hand .phone { position: relative; width: 104px; height: 170px; border-radius: 22px; border: 2px solid var(--line-strong); background: var(--surface); }
+.art-hand .pbar { position: absolute; left: 8px; right: 8px; bottom: 10px; height: 26px; border-radius: 13px; background: var(--surface-2); display: flex; align-items: center; justify-content: space-around; padding: 0 6px; }
+.art-hand .pbar i { width: 8px; height: 8px; border-radius: 3px; background: var(--text-3); }
+.art-hand .pbar b { width: 34px; height: 10px; border-radius: 5px; background: var(--red); box-shadow: 0 0 12px rgba(225,6,0,.7); }
+.art-hand .thumb { position: absolute; right: 18px; bottom: -4px; width: 46px; height: 74px; border-radius: 23px 23px 18px 18px; background: linear-gradient(#3a2a26, #2a1e1b); transform: rotate(-24deg); animation: tap 2.4s var(--ease) infinite; }
+.art-ext svg { color: var(--ice); }
+.art-ext .ext { position: absolute; width: 46px; height: 46px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--line-strong); }
+.art-ext .e1 { top: 22px; left: 26px; background: linear-gradient(135deg, #F6851B, #E2761B); }
+.art-ext .e2 { top: 30px; right: 22px; background: linear-gradient(135deg, #AB9FF2, #534BB1); }
+.art-ext .e3 { bottom: 26px; left: 40px; background: linear-gradient(135deg, #8697FF, #4B5CD8); }
+.art-shield svg { width: 100px; height: 100px; color: var(--ok); }
+.art-level svg { width: 120px; height: 120px; position: absolute; }
+.art-level b { position: relative; font: 700 44px/1 var(--display); }
+@keyframes tap { 0%, 70%, 100% { transform: rotate(-24deg) translate(0, 0); } 80% { transform: rotate(-24deg) translate(-4px, -10px); } }
+
 .rise { animation: rise .6s var(--ease) var(--d, 0ms) both; }
 @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 @keyframes shine { 0% { transform: translateX(-120%) skewX(-20deg); } 55%, 100% { transform: translateX(650%) skewX(-20deg); } }

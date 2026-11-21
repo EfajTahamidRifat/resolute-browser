@@ -769,7 +769,7 @@ def t_home():
         return False, "no new tab page target found", png
     try:
         info = cdp_eval(home, "JSON.stringify({rank: (document.getElementById('rank')||{}).textContent,"
-                              " quests: document.querySelectorAll('.quest').length,"
+                              " quests: document.querySelectorAll('.quest').length, tour: !!(document.getElementById('tour') && !document.getElementById('tour').hidden),"
                               " picks: document.querySelectorAll('.pick').length, url: location.href})")
     except Exception as e:  # noqa: BLE001
         info = f"eval failed: {e}"

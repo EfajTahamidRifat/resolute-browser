@@ -27,8 +27,8 @@ index 9e1f21d5..7e432f5a 100644
 +            android:id="@+id/extensions_toolbar_container_stub"
 +            android:inflatedId="@+id/extensions_toolbar_container"
 +            android:layout_width="wrap_content"
-+            android:layout_height="wrap_content"
-+            android:layout_gravity="top"/>
++            android:layout_height="match_parent"
++            android:layout_gravity="center_vertical"/>
 +
          <org.chromium.chrome.browser.toolbar.top.ToggleTabStackButton
              android:id="@+id/tab_switcher_button"

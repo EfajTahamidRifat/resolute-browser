@@ -143,7 +143,7 @@ index 24896316c..02ccfb9bb 100644
 +    <color name="baseline_primary_80_alpha_20">#33FFB4A8</color>
 +    <color name="baseline_primary_70">#FF8A78</color>
 +    <color name="baseline_primary_60">#FF5540</color>
-+    <color name="baseline_primary_50">#EC1609</color>
++    <color name="baseline_primary_50">#E10600</color>
 +    <color name="baseline_primary_40">#C00500</color>
 +    <color name="baseline_primary_40_alpha_6">#0FC00500</color>
 +    <color name="baseline_primary_40_alpha_12">#1FC00500</color>

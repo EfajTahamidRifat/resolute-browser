@@ -228,8 +228,15 @@ the patches. It renames "Chromium" to "Resolute" in
 widget names) and overwrites every launcher icon PNG there (`app_icon`,
 `layered_app_icon`, `layered_app_icon_background`, all densities) with the
 pre-made images in `chromium/branding/` (`<kind>_<pixel size>.png`, made from the 1024 px sources with ImageMagick). Plain Python, no image library (CI python has none; a Pillow version failed on 2026-11-13). It fails the build
-if it finds no icons (Chromium moved them). In-app texts that still say
-"Chromium" (chromium_strings.grd) are a later change.
+if it finds no icons (Chromium moved them). Step 3 renames "Chromium" to
+"Resolute" in `chrome/app/*chromium_strings*` and `components/*chromium_strings*`.
+Step 4 (2026-11-22) renames "Chrome" / "Google Chrome" to "Resolute" in the
+phone UI text: every `.grd`/`.grdp` under `chrome/` and `components/` with
+`/android/` in its path (about 265 texts in `android_chrome_strings.grd` alone,
+e.g. "Chrome notifications make things easier", "Customize and control Google
+Chrome"). Only message text changes (never names or descriptions);
+"Chrome Web Store", "Chrome OS" and "Chromebook" stay. Changed messages show in
+English in other languages until we translate them.
 
 Current patches:
 
@@ -247,6 +254,7 @@ Current patches:
 | `0010-no-screen-capture-permission.patch` | **No screen-sharing permission**: removes `FOREGROUND_SERVICE_MEDIA_PROJECTION` and the `mediaProjection` service type, so Google Play doesn't ask for a screen-share demo video. Screen sharing never worked on phones anyway (`getDisplayMedia` returns NotAllowedError, checked on the owner's phone 2026-11-20). Camera/microphone call notifications stay. | `chrome/android/java/AndroidManifest.xml`: both `{% if enable_screen_capture == "true" %}` blocks become `{% if false %}` (the permission and `MediaCaptureNotificationService`'s type list, which falls back to `camera|microphone`). If screen sharing is ever made to work on phones, drop this patch and add the Play declaration + video. |
 | `0011-resolute-version-code.patch` | **Our own Play version number**: lets `chromium/args.gn` set the app's versionCode, because Play needs a higher number for every upload and Chromium's only rises with a Chromium update | `chrome/version.gni`: new GN arg `resolute_version_code`; when set it replaces `chrome_version_code` and `chrome_32_version_code` (the two values `chrome_public_apk_tmpl.gni` picks from). |
 | `0012-wifi-optional.patch` | **Wi-Fi optional**: Play's pre-review check blocked the first closed test because the app implied `android.hardware.wifi` as required (from Wi-Fi permissions in merged manifests), hiding it from devices without Wi-Fi | `chrome/android/java/AndroidManifest.xml`: adds `<uses-feature android:name="android.hardware.wifi" android:required="false" />` next to the camera/GPS/microphone lines. Sign Play release now prints any required hardware features (should be none). |
+| `0013-skip-first-run.patch` | **No Chrome welcome screens**: Chromium's first run is Chrome's sign-in flow (Chromium logo, "Make Chrome your own", account picker) and it ended on google.com instead of Resolute Home. Resolute needs no account, so first launch goes straight to Resolute Home (same as the `--disable-fre` switch the E2E tests used, which is why the tests never saw it) | `FirstRunFlowSequencer.checkIfFirstRunIsNecessary(boolean, boolean)` returns false first (`RESOLUTE_SKIP_FIRST_RUN`). E2E no longer passes `--disable-fre`; test 02 fails if a FirstRun window opens and lists any visible "Chrome" text. |
 
 Rules:
 
@@ -815,6 +823,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-20: Owner finished the Play forms (content rating, target audience 16+, privacy policy, ads, data safety, health, financial, QUERY_ALL_PACKAGES + REQUEST_INSTALL_PACKAGES + foreground-service declarations with YouTube demo videos, category Tools). Play's quick check then blocked sending for review: `android.hardware.wifi` required. Patch 0012 makes it optional; versionCode 815401876.
 - 2026-11-20: arm64 44780128300 (0001–0012) signed by **44787356131**: versionCode **815401876**, signer OK, no required hardware features listed. This is the bundle for the first closed-test release (replaces 815401875). Next Play upload of Chromium 159: `resolute_version_code = "815401877"`.
 - 2026-11-21: **First closed-test release sent for Google review** (owner, 00:10 Dhaka): track Closed testing – Alpha, release "1.1 test 1", bundle 815401876, 177 countries, tester list "1ww". Next: owner adds 12+ testers who stay opted in 14 days (needed before production access), invites the WIF service account (Release to testing tracks + View app information) so `Sign Play release` can upload with `track=alpha`.
+- 2026-11-22: **Closed test approved by Google** (owner installed "Resolute Browser (Early Access)" from Play, 91 MB, rated 3+). His first-install video showed Chrome's first run: Chromium logo, "Make Chrome your own" sign-in, "Chrome notifications make things easier", then google.com instead of Resolute Home. Fix: patch 0013 (skip first run), apply_branding step 4 (Chrome -> Resolute in Android UI text), E2E tests the real first launch. versionCode 815401877. Building x64 (test) and arm64 (Play).
 
 Add a line here after every build or release.
 

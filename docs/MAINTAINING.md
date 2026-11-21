@@ -890,6 +890,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-22: 815401880 (x64 44953242874 rc7, arm64 44953255551 p19): E2E **14/14** (44956011229), buttons solid red with white text, switches red, tour fits 640 px emulator. **Auto-uploaded to alpha** (Sign Play release 44956994778, edit 14012768333659079539). Seen: extension popup sheet header shows raw `chrome-extension://...` URL on a white page (polish later with the extension-popup sheet design).
 - 2026-11-22: Next build 815401881: patch 0018 (readable text buttons and links).
 - 2026-11-22: 815401881 (x64 44957367894 rc8, arm64 44957381242 p20): E2E **14/14** (44960204848), Cancel buttons readable light red. **Auto-uploaded to alpha.**
+- 2026-11-22: Theme tokens done (0016-0018). Next: **Quick menu** (canvas 10). Chromium has no bottom-sheet app menu; plan: restyle `AppMenu.show()` (`chrome/browser/ui/android/appmenu/internal/.../AppMenu.java`) when `isFromBottomBar`: popup width = visible display width minus 8 dp margins, 28 dp rounded background, slide-up animation; then a toggle row at the top (desktop site, ad block, dark pages, reader) wired to the existing menu item ids, then the extensions-for-this-site row.
 
 Add a line here after every build or release.
 

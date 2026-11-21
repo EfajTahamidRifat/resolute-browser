@@ -1,0 +1,16 @@
+diff --git a/chrome/browser/ui/android/extensions/java/res/layout/extensions_toolbar_container.xml b/chrome/browser/ui/android/extensions/java/res/layout/extensions_toolbar_container.xml
+index 8ddbb30..392a1aa 100644
+--- a/chrome/browser/ui/android/extensions/java/res/layout/extensions_toolbar_container.xml
++++ b/chrome/browser/ui/android/extensions/java/res/layout/extensions_toolbar_container.xml
+@@ -5,7 +5,11 @@ Use of this source code is governed by a BSD-style license that can be
+ found in the LICENSE file.
+ -->
+ 
++<!-- Resolute (patch 0015): centre the extensions button in the toolbar row. It is
++     shorter than the row (toolbarButtonHeight) and sat at the top, higher than the
++     home, tabs and menu buttons. -->
+ <LinearLayout
++    android:layout_gravity="center_vertical"
+     android:layout_height="?attr/toolbarButtonHeight"
+     android:layout_marginVertical="?attr/toolbarButtonMarginVertical"
+     android:layout_width="wrap_content"

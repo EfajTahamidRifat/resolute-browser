@@ -256,6 +256,7 @@ Current patches:
 | `0012-wifi-optional.patch` | **Wi-Fi optional**: Play's pre-review check blocked the first closed test because the app implied `android.hardware.wifi` as required (from Wi-Fi permissions in merged manifests), hiding it from devices without Wi-Fi | `chrome/android/java/AndroidManifest.xml`: adds `<uses-feature android:name="android.hardware.wifi" android:required="false" />` next to the camera/GPS/microphone lines. Sign Play release now prints any required hardware features (should be none). |
 | `0013-skip-first-run.patch` | **No Chrome welcome screens**: Chromium's first run is Chrome's sign-in flow (Chromium logo, "Make Chrome your own", account picker) and it ended on google.com instead of Resolute Home. Resolute needs no account, so first launch goes straight to Resolute Home (same as the `--disable-fre` switch the E2E tests used, which is why the tests never saw it) | `FirstRunFlowSequencer.checkIfFirstRunIsNecessary(boolean, boolean)` returns false first (`RESOLUTE_SKIP_FIRST_RUN`). E2E no longer passes `--disable-fre`; test 02 fails if a FirstRun window opens and lists any visible "Chrome" text. |
 | `0014-bottom-address-bar.patch` | **Address bar at the bottom by default** (UI plan rule 1, "one hand first"; start of the full Resolute UI, owner request 2026-11-22). Chromium 159 already supports a bottom address bar (Settings > Address bar); only the default changes, so people can still move it up | `AddressBarPreference.DEFAULT_POSITION_AND_SOURCE` = `BOTTOM_SETTINGS`. Chromium still moves the bar to the top while typing and on its own native new tab page (`ToolbarPositionController.calculateStateTransition`); Resolute Home is an extension page, so the bar stays at the bottom there. |
+| `0015-center-extensions-button.patch` | **Toolbar buttons on one line** (owner, 2026-11-22): the extensions (puzzle) button sat higher than home/tabs/menu, because its container is `toolbarButtonHeight` tall (shorter than the row) with no gravity | `extensions_toolbar_container.xml`: root `LinearLayout` gets `android:layout_gravity="center_vertical"`. E2E 13 now fails if home, extensions, tabs and menu button centres differ by more than 3 px. |
 
 Rules:
 
@@ -574,6 +575,18 @@ Roadmap after the first working APK:
     Resolute collects nothing); clicks are counted on thecodebros.xyz from the
     UTM tags only.
 
+32. **"Got a SaaS idea?" (owner, 2026-11-22).** Resolute Home card: "Share my
+    idea" makes a level card image (canvas, 1200x675) and opens the phone's
+    share sheet (or an X post) with "I'm Level N <rank> on Resolute Browser.
+    @et_rifat I have a SaaS idea: ". Efaj reads the posts and DMs the good,
+    legal ideas: build at 50% off for 10% equity. Not a contest or draw (no
+    promised winner), so Play's contest rules page is not needed; keep it that
+    way. Fine print: not every idea is chosen, only legal projects, offers from
+    The Code Bros, not Google or X. Equity deals need a written agreement.
+33. **Uses for XP (planned, owner liked):** unlockable looks (accent colours,
+    wallpapers, app icons, Legend crest), badges, shareable card. Never cash,
+    tokens, airdrops, buying or selling XP, or XP for Play ratings.
+
 ### Gaps found 2026-11-12 (all accepted by the owner)
 
 Must fix before the Play launch:
@@ -867,6 +880,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-22: Owner applied the extra WIF lock in Cloud Shell: provider `resolute-repo` now accepts only `.github/workflows/sign-release.yml` on `main` of this repo.
 - 2026-11-22: x64 rc3 (44935955951, `test-x64-2026-11-22-rc3`) E2E **14/14** (44938619525) with a real first launch: first window is the browser (no FirstRun), opens Resolute Home. arm64 44935970417 = 815401877, published p15. **First automatic Play upload**: Sign Play release 44940115763 with track=alpha committed edit 14679189157683241663 (WIF lock works). Left over: menu button label "Customize and control Google Chrome" lives in `ui/android/java/strings/android_ui_strings.grd`; apply_branding step 4 now also covers `ui/`. Next build: + patch 0014 (bottom bar), versionCode 815401878.
 - 2026-11-22: Roadmap 31 started (web part): Resolute Home welcome tour (4 cards: one hand, real extensions with Add MetaMask, safety, quests; Skip everywhere; shown once, `state.toured`; existing users see it once after the update), quests "Take the tour" (+20) and "Meet the makers" (+50, opens thecodebros.xyz with `utm_campaign=quest`), tour footer link `utm_campaign=tour`, Picks tile `utm_campaign=picks` (config/partners.json, live without an app update). E2E 13 now reports whether the tour is showing. Ships in the build after the bottom-bar build.
+- 2026-11-22: Bottom bar build: x64 rc4 (44940413106) E2E 14/14 (44943429759), address bar at the bottom on every page, no "Chrome" text on first screen. arm64 44940429381 = 815401878, p16; **auto-uploaded to alpha** (Sign Play release 44944486474, edit 17772456957750926798). Next build 815401879: welcome tour + quests + "Share my idea" card (roadmap 31, 32) and patch 0015 (extensions button lined up, owner spotted it in the screenshots).
 
 Add a line here after every build or release.
 

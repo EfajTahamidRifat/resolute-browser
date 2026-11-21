@@ -438,6 +438,50 @@ $('tour-makers').addEventListener('click', (ev) => {
   closeTour(tour.i === tour.n - 1).finally(() => { location.href = url; });
 });
 
+// ---------- share my idea (X post tagging @et_rifat, with a level card image) ----------
+// Nothing is sent by Resolute: the phone's share sheet or X opens with a ready post the
+// person edits and posts themselves.
+function cardImage() {
+  const lv = levelFor(state.xp || 0);
+  const c = document.createElement('canvas');
+  c.width = 1200; c.height = 675;
+  const g = c.getContext('2d');
+  const bg = g.createLinearGradient(0, 0, 1200, 675);
+  bg.addColorStop(0, '#22100F'); bg.addColorStop(0.55, '#0D0D0F'); bg.addColorStop(1, '#0F1318');
+  g.fillStyle = bg; g.fillRect(0, 0, 1200, 675);
+  const glow = g.createRadialGradient(300, 330, 20, 300, 330, 330);
+  glow.addColorStop(0, 'rgba(225,6,0,.45)'); glow.addColorStop(1, 'rgba(225,6,0,0)');
+  g.fillStyle = glow; g.fillRect(0, 0, 700, 675);
+  // crest
+  const hex = (cx, cy, r) => { g.beginPath(); for (let k = 0; k < 6; k++) { const a = Math.PI / 3 * k - Math.PI / 2; g.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a)); } g.closePath(); };
+  hex(300, 330, 170); g.fillStyle = '#1A0F10'; g.fill(); g.lineWidth = 8; g.strokeStyle = '#E10600'; g.stroke();
+  hex(300, 330, 128); g.lineWidth = 3; g.strokeStyle = 'rgba(124,196,255,.5)'; g.stroke();
+  g.fillStyle = '#F2F2F4'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.font = '700 120px "Space Grotesk", sans-serif'; g.fillText(String(lv), 300, 338);
+  g.textAlign = 'left'; g.textBaseline = 'alphabetic';
+  g.fillStyle = '#FF6B5E'; g.font = '700 30px "Space Grotesk", sans-serif'; g.fillText(`LEVEL ${lv} · ${rankFor(lv).toUpperCase()}`, 560, 250);
+  g.fillStyle = '#F2F2F4'; g.font = '700 76px "Space Grotesk", sans-serif'; g.fillText(`${(state.xp || 0).toLocaleString()} XP`, 556, 340);
+  g.fillStyle = '#B4B4BE'; g.font = '500 32px system-ui, sans-serif'; g.fillText(`${state.streak || 1} day streak on Resolute Browser`, 560, 400);
+  g.fillStyle = '#8C8C97'; g.font = '500 26px system-ui, sans-serif'; g.fillText('Web3 browser with real desktop extensions', 560, 560);
+  g.fillStyle = '#F2F2F4'; g.font = '700 30px "Space Grotesk", sans-serif'; g.fillText('Resolute', 560, 610);
+  return new Promise((res) => c.toBlob(res, 'image/png'));
+}
+$('share-idea').addEventListener('click', async () => {
+  const lv = levelFor(state.xp || 0);
+  const text = `I'm Level ${lv} ${rankFor(lv)} on Resolute Browser. @et_rifat I have a SaaS idea: `;
+  try {
+    const blob = await cardImage();
+    const file = blob && new File([blob], 'resolute-card.png', { type: 'image/png' });
+    if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], text });
+      return;
+    }
+  } catch (e) {
+    if (e && e.name === 'AbortError') return; // closed the share sheet
+  }
+  location.href = 'https://x.com/intent/post?text=' + encodeURIComponent(text);
+});
+
 // ---------- start ----------
 (async function start() {
   state = await store.get();

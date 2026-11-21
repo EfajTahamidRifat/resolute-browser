@@ -764,7 +764,15 @@ def t_home():
     home = next((t for t in targets if RESOLUTE_HOME in t.get("url", "")
                  or t.get("url", "").startswith("chrome://newtab")), None)
     png = shot("13-home")
-    ui_dump("13-toolbar")  # which toolbar views show on Resolute Home
+    toolbar = ui_dump("13-toolbar")  # which toolbar views show on Resolute Home
+    # Toolbar buttons must sit on one line (owner, 2026-11-22: the extensions button
+    # was higher than the others; patch 0015). Compare vertical centres.
+    centres = {}
+    for rid in ("home_button", "extensions_menu_button", "tab_switcher_button", "menu_button"):
+        m = re.search(r'resource-id="[^"]*:id/%s"[^>]*bounds="\[\d+,(\d+)\]\[\d+,(\d+)\]"' % rid, toolbar)
+        if m:
+            centres[rid] = (int(m.group(1)) + int(m.group(2))) / 2
+    lined_up = len(centres) >= 3 and max(centres.values()) - min(centres.values()) <= 3
     if home is None:
         return False, "no new tab page target found", png
     try:
@@ -773,8 +781,8 @@ def t_home():
                               " picks: document.querySelectorAll('.pick').length, url: location.href})")
     except Exception as e:  # noqa: BLE001
         info = f"eval failed: {e}"
-    ok = isinstance(info, str) and '"rank":"Level' in info
-    return ok, f"new tab: {home.get('url')}; page: {info}", png
+    ok = isinstance(info, str) and '"rank":"Level' in info and lined_up
+    return ok, f"new tab: {home.get('url')}; page: {info}; toolbar centres: {centres}", png
 
 
 def focused_window():

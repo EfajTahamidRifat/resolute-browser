@@ -1,0 +1,71 @@
+[
+ {
+  "clicked": "Create a new wallet",
+  "did": [],
+  "texts": [
+   "Create a new wallet",
+   "I have an existing wallet"
+  ],
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/onboarding/welcome"
+ },
+ {
+  "clicked": "Use Secret Recovery Phrase",
+  "did": [],
+  "texts": [
+   "Continue with Google",
+   "Continue with Apple",
+   "Continue with Telegram",
+   "Use Secret Recovery Phrase"
+  ],
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/onboarding/welcome?login=new"
+ },
+ "typed password",
+ "typed password",
+ {
+  "clicked": null,
+  "did": [
+   "checkbox"
+  ],
+  "texts": [
+   "Create password"
+  ],
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/onboarding/create-password"
+ },
+ {
+  "clicked": "Create password",
+  "did": [],
+  "texts": [
+   "Create password"
+  ],
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/onboarding/create-password"
+ },
+ {
+  "clicked": "Remind me later",
+  "did": [],
+  "texts": [
+   "Secret Recovery Phrase",
+   "Continue",
+   "Remind me later"
+  ],
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/onboarding/review-recovery-phrase"
+ },
+ {
+  "clicked": "Continue",
+  "did": [],
+  "texts": [
+   "Gather basic usage data\n\nWe\u2019ll collect basic product usage data. We may associate this information with on-chain data.",
+   "Marketing updates\n\nWe\u2019ll use this data to learn how you interact with our marketing communications. We may share relevant news (like product features).",
+   "Continue"
+  ],
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/onboarding/metametrics"
+ },
+ {
+  "clicked": "Open wallet",
+  "did": [],
+  "texts": [
+   "Open wallet",
+   "Manage default settings"
+  ],
+  "url": "chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html#/onboarding/completion"
+ }
+]

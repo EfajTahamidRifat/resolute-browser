@@ -341,6 +341,19 @@ Before the first public release:
    in the workflow file. The workflow refuses `production`. No billing on that
    project, ever. The first upload of a new app must be done by hand in Play
    Console; the API can only update an existing app.
+   **Who can use the upload account (2026-11-22):** (1) Google only accepts
+   GitHub Actions tokens from this repo's `main` branch (forks and pull
+   requests are refused); (2) only people with write access to the repo can
+   push to `main` or start workflows (the owner); (3) in Play Console the
+   account can only release to testing tracks, and the workflow refuses
+   `production`; (4) there is no key file to steal. Optional extra lock (owner
+   runs once in Cloud Shell): accept only the Sign Play release workflow:
+   `gcloud iam workload-identity-pools providers update-oidc resolute-repo --project=project-53290f71-1868-4c1d-a2d --location=global --workload-identity-pool=github --attribute-condition="assertion.repository=='EfajTahamidRifat/resolute-browser' && assertion.ref=='refs/heads/main' && assertion.workflow_ref.startsWith('EfajTahamidRifat/resolute-browser/.github/workflows/sign-release.yml@')"`
+   **Release routine (owner not always available):** the assistant keeps
+   working on scheduled check-ins: build arm64 + x64, run E2E, and only when
+   E2E passes run Sign Play release with `track=alpha` and short release
+   notes, raising `resolute_version_code` by 1 for every upload. Owner is told
+   what shipped; nothing goes to production.
 4. App ID is `com.resolute.browser` (`chromium/args.gn`). It becomes permanent
    once published on Google Play.
 5. **Distribution decision (2026-11-10, final): one build, published on
@@ -826,6 +839,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-21: **First closed-test release sent for Google review** (owner, 00:10 Dhaka): track Closed testing – Alpha, release "1.1 test 1", bundle 815401876, 177 countries, tester list "1ww". Next: owner adds 12+ testers who stay opted in 14 days (needed before production access), invites the WIF service account (Release to testing tracks + View app information) so `Sign Play release` can upload with `track=alpha`.
 - 2026-11-22: **Closed test approved by Google** (owner installed "Resolute Browser (Early Access)" from Play, 91 MB, rated 3+). His first-install video showed Chrome's first run: Chromium logo, "Make Chrome your own" sign-in, "Chrome notifications make things easier", then google.com instead of Resolute Home. Fix: patch 0013 (skip first run), apply_branding step 4 (Chrome -> Resolute in Android UI text), E2E tests the real first launch. versionCode 815401877. Building x64 (test) and arm64 (Play).
 - 2026-11-22: Owner: "we should have the full UI and UX of Resolute". Working through the UI plan (Claude Doc) in order: bottom address bar (patch 0014, first), Resolute theme tokens on all native screens, Quick menu sheet, red wallet button, tabs + workspaces, trust shield, then the rest. Each step ships as a Play update after E2E. 0014 goes into the next build after the first-run fix.
+- 2026-11-22: Owner invited the upload service account in Play Console (Users and permissions) and asked for scheduled, unattended work and uploads. Release routine added to section 7. First automatic upload planned: 815401877 (first-run fix) once its E2E passes.
 
 Add a line here after every build or release.
 

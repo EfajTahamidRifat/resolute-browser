@@ -26,7 +26,9 @@ OUT.mkdir(parents=True, exist_ok=True)
 UBLOCK_LITE = "ddkjiahejlhfcafbddmgiahcphecmpfh"
 METAMASK = "nkbihfbeogaeaoehlefnkodbefgpgknn"
 
-FLAGS = ("_ --disable-fre --no-default-browser-check --no-first-run "
+# No --disable-fre: since patch 0013 Resolute has no first-run screens, and the
+# test must see the real first launch (Chrome's welcome slipped through before).
+FLAGS = ("_ --no-default-browser-check --no-first-run "
          "--force-renderer-accessibility --disable-features=SigninPromo")
 
 results = []
@@ -357,9 +359,20 @@ def t_install():
 def t_launch():
     adb("shell", "monkey", "-p", PKG, "-c", "android.intent.category.LAUNCHER", "1")
     time.sleep(20)
-    dismiss_popups(ui_dump())
+    focus = focused_window()
+    first_dump = ui_dump("02-first-screen")
+    shot("02-first-screen")
+    chrome_words = sorted(set(
+        t for t in re.findall(r'(?:text|content-desc)="([^"]*\bChrome\b[^"]*)"', first_dump)
+        if "Chrome Web Store" not in t))
+    dismiss_popups(first_dump)
     pid = adb("shell", "pidof", PKG).strip()
-    return bool(pid), f"process id {pid or 'none'}", shot("02-launch")
+    first_run = "FirstRun" in focus or "SigninFirstRun" in focus
+    ok = bool(pid) and not first_run
+    detail = f"process id {pid or 'none'}; first window: {focus or 'none'}"
+    if chrome_words:
+        detail += f"; says Chrome: {chrome_words[:5]}"
+    return ok, detail, shot("02-launch")
 
 
 @test("03-load-example")

@@ -1,0 +1,24 @@
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/firstrun/FirstRunFlowSequencer.java b/chrome/android/java/src/org/chromium/chrome/browser/firstrun/FirstRunFlowSequencer.java
+index ab88677..9b40bc4 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/firstrun/FirstRunFlowSequencer.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/firstrun/FirstRunFlowSequencer.java
+@@ -56,6 +56,8 @@ import org.chromium.components.signin.identitymanager.IdentityManager;
+  */
+ @NullMarked
+ public abstract class FirstRunFlowSequencer {
++    private static final boolean RESOLUTE_SKIP_FIRST_RUN = true;
++
+     private static final String TAG = "firstrun";
+ 
+     /**
+@@ -252,6 +254,10 @@ public abstract class FirstRunFlowSequencer {
+      * @return Whether the First Run Experience needs to be launched.
+      */
+     public static boolean checkIfFirstRunIsNecessary(boolean preferLightweightFre, boolean isCct) {
++        // Resolute (patch 0013): no first-run screens. Chromium's are Chrome's sign-in
++        // welcome ("Make Chrome your own"); Resolute needs no account and opens straight
++        // to Resolute Home, exactly like the --disable-fre switch the tests use.
++        if (RESOLUTE_SKIP_FIRST_RUN) return false;
+         // If FRE is disabled (e.g. in tests), proceed directly to the intent handling.
+         // Retail demo mode suppresses the FRE, except on desktop devices where the signed-in
+         // experience needs to be showcased. Account visibility controls whether sign-in is

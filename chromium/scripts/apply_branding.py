@@ -87,6 +87,40 @@ for f in STRING_FILES:
 print(f"text done: {total} replacements in {len(STRING_FILES)} files")
 if total == 0:
     sys.exit("no Chromium strings found: Chromium moved them, update apply_branding.py")
+
+# 4. Text: "Chrome" -> "Resolute" in the phone UI text. Chromium's Android
+# strings say "Chrome" directly (not the product name), e.g. "Chrome
+# notifications make things easier", "Customize and control Google Chrome".
+# Only the text shown to people (between <message ...> and </message>) changes,
+# never message names or descriptions. "Chrome Web Store" (the real store's
+# name), "Chrome OS" and "Chromebook" stay.
+ANDROID_STRING_FILES = sorted(
+    f
+    for root in ("chrome", "components")
+    for pattern in ("*.grd", "*.grdp")
+    for f in (src / root).rglob(pattern)
+    if "/android/" in f.as_posix() and "/test/" not in f.as_posix()
+)
+MESSAGE = re.compile(r"(<message\b[^>]*>)(.*?)(</message>)", re.S)
+CHROME = re.compile(r"\b(?:Google )?Chrome\b(?! Web Store| OS)")
+
+
+def rename_chrome(m):
+    return m.group(1) + CHROME.sub("Resolute", m.group(2)) + m.group(3)
+
+
+android_total = 0
+for f in ANDROID_STRING_FILES:
+    text = f.read_text(encoding="utf-8")
+    n = sum(len(CHROME.findall(m.group(2))) for m in MESSAGE.finditer(text))
+    if n:
+        f.write_text(MESSAGE.sub(rename_chrome, text), encoding="utf-8")
+        print(f"text: {f.relative_to(src)} ({n} x Chrome -> Resolute)")
+        android_total += n
+print(f"android text done: {android_total} replacements in {len(ANDROID_STRING_FILES)} files")
+if android_total == 0:
+    sys.exit("no Chrome strings found in Android UI text: update apply_branding.py")
+
 for m in missing:
     # Not fatal: the icon simply stays Chromium's until we add that size.
     print(f"WARNING no Resolute icon, left Chromium's: {m}")

@@ -857,7 +857,8 @@ def t_home_rebuild():
         time.sleep(10)
         targets = cdp_targets()
         (OUT / "14-after-targets.json").write_text(json.dumps(targets, indent=1))
-        home = next((t for t in targets if RESOLUTE_HOME in t.get("url", "")), None)
+        home = next((t for t in targets if RESOLUTE_HOME in t.get("url", "")
+                     or t.get("url", "").startswith("chrome://newtab")), None)
         if home is not None:
             title = home.get("title", "")
             home_info = f"Resolute Home tab title: {title!r}"

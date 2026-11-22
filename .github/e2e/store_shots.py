@@ -55,9 +55,9 @@ def tap_text(pattern, tries=3):
     for _ in range(tries):
         for m in re.finditer(r'<node [^>]*>', dump()):
             node = m.group(0)
-            label = " ".join(re.findall(r'(?:text|content-desc)="([^"]*)"', node))
+            labels = re.findall(r'(?:text|content-desc)="([^"]*)"', node)
             b = re.search(r'bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', node)
-            if b and re.search(pattern, label):
+            if b and any(re.search(pattern, label) for label in labels):
                 x1, y1, x2, y2 = map(int, b.groups())
                 adb("shell", "input", "tap", str((x1 + x2) // 2), str((y1 + y2) // 2))
                 return True
@@ -90,7 +90,8 @@ try:
     if first is not None:
         rt.cdp_send(first, [("Target.createTarget", {"url": "chrome://newtab/"})])
     time.sleep(10)
-    home = next((t for t in rt.cdp_targets() if rt.RESOLUTE_HOME in t.get("url", "")), None)
+    home = next((t for t in rt.cdp_targets() if rt.RESOLUTE_HOME in t.get("url", "")
+                 or t.get("url", "").startswith("chrome://newtab")), None)
     if home is not None:
         print("tour:", rt.cdp_eval(home, "(() => { const s = document.getElementById('tour-skip');"
                                          " if (s && !document.getElementById('tour').hidden)"

@@ -288,7 +288,8 @@ direct URL (e.g. from **Publish test APK**). It boots an Android 14 emulator
 is slow), installs the APK and runs `.github/e2e/run_tests.py`: launch, load
 example.com and wikipedia.org, install uBlock Origin Lite and MetaMask from the
 Chrome Web Store, check they appear in chrome://extensions, and fail on any
-crash in logcat. Report, screenshots, UI dumps and logcat go to the job
+crash in logcat. Test 15 opens the tab switcher and its menu (screenshots `15-tabs.png`,
+`15-tabs-menu.png`, for the Workspaces design check). Report, screenshots, UI dumps and logcat go to the job
 summary, an artifact, and the `e2e-results` branch (`runs/<run id>/`).
 
 **Known limitation (2026-11-12):** the arm64 APK crashes at start on the

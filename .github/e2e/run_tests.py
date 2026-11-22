@@ -838,6 +838,38 @@ def t_home_rebuild():
     return ok, "; ".join(f"{n}: {w or 'NO FOCUSED WINDOW'}" for n, w in steps), png
 
 
+@test("15-tabs-and-workspaces")
+def t_tabs():
+    """Opens the tab switcher (screenshot for the design check) and its menu. The menu text is
+    checked for "workspace" (branding step 5 renames tab groups to Workspaces): report only."""
+    open_url("https://example.com/")
+    time.sleep(6)
+    xml = ui_dump("15-toolbar")
+    m = re.search(r'resource-id="[^"]*:id/tab_switcher_button"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', xml)
+    if not m:
+        return False, "no tab switcher button on the toolbar", shot("15-toolbar")
+    x1, y1, x2, y2 = map(int, m.groups())
+    adb("shell", "input", "tap", str((x1 + x2) // 2), str((y1 + y2) // 2))
+    time.sleep(4)
+    hub = ui_dump("15-tabs")
+    png = shot("15-tabs")
+    opened = ":id/tab_list_recycler_view" in hub or ":id/hub_" in hub
+    menu_text = ""
+    more = find(hub, r"^(More options|Customize and control)")
+    if more is not None:
+        tap(more)
+        time.sleep(2)
+        menu = ui_dump("15-tabs-menu")
+        shot("15-tabs-menu")
+        menu_text = "; ".join(sorted({n.get("text") for n in nodes(menu) if n.get("text")}))
+        adb("shell", "input", "keyevent", "BACK")
+        time.sleep(1)
+    adb("shell", "input", "keyevent", "BACK")
+    time.sleep(2)
+    workspace = "orkspace" in (hub + menu_text)
+    return opened, f"switcher opened: {opened}; says Workspace: {workspace}; menu: {menu_text[:300]}", png
+
+
 def main():
     adb("wait-for-device")
     adb("logcat", "-c")
@@ -845,7 +877,7 @@ def main():
     adb("shell", "settings", "put", "global", "transition_animation_scale", "0")
     adb("shell", "settings", "put", "global", "animator_duration_scale", "0")
     for t in (t_install, t_launch, t_example, t_wiki, t_ublock, t_metamask, t_listed,
-              t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup, t_open_extension, t_home, t_home_rebuild):
+              t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup, t_open_extension, t_home, t_home_rebuild, t_tabs):
         t()
     (OUT / "logcat.txt").write_text(adb("logcat", "-d", "-v", "time", timeout=300))
     # "App isn't responding" and crash reports, with the stack of every thread. Android keeps

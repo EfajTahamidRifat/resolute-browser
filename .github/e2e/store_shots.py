@@ -50,6 +50,21 @@ def tap_id(rid, tries=5):
     return False
 
 
+def tap_text(pattern, tries=3):
+    """Taps the first view whose text or description matches pattern (e.g. a "Got it")."""
+    for _ in range(tries):
+        for m in re.finditer(r'<node [^>]*>', dump()):
+            node = m.group(0)
+            label = " ".join(re.findall(r'(?:text|content-desc)="([^"]*)"', node))
+            b = re.search(r'bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', node)
+            if b and re.search(pattern, label):
+                x1, y1, x2, y2 = map(int, b.groups())
+                adb("shell", "input", "tap", str((x1 + x2) // 2), str((y1 + y2) // 2))
+                return True
+        time.sleep(2)
+    return False
+
+
 def open_url(url, wait=25):
     adb("shell", "am", "start", "-a", "android.intent.action.VIEW", "-d", url, "-p", PKG)
     time.sleep(wait)
@@ -71,7 +86,10 @@ import run_tests as rt  # noqa: E402
 
 try:
     rt.cdp_forward()
-    open_url("chrome://newtab/", 15)
+    first = next((t for t in rt.cdp_targets() if t.get("type") == "page"), None)
+    if first is not None:
+        rt.cdp_send(first, [("Target.createTarget", {"url": "chrome://newtab/"})])
+    time.sleep(10)
     home = next((t for t in rt.cdp_targets() if rt.RESOLUTE_HOME in t.get("url", "")), None)
     if home is not None:
         print("tour:", rt.cdp_eval(home, "(() => { const s = document.getElementById('tour-skip');"
@@ -90,11 +108,12 @@ adb("shell", "am", "force-stop", PKG)
 adb("shell", "monkey", "-p", PKG, "-c", "android.intent.category.LAUNCHER", "1")
 time.sleep(30)
 
-# 1. Resolute Home in a new tab.
-open_url("chrome://newtab/", 20)
-back()  # close the keyboard if the search box took focus
-time.sleep(3)
-shot("1-home")
+# 1. Resolute Home, opened with the toolbar's home button (a chrome:// link from
+# outside the app is not opened: run 45042205048 showed the phone's home screen).
+open_url("https://example.com/", 15)
+if tap_id("home_button"):
+    time.sleep(12)
+    shot("1-home")
 
 # 2 and 3. A dapp with the wallet button, then the extensions menu.
 open_url("https://app.uniswap.org/", 40)
@@ -107,6 +126,9 @@ if tap_id("extensions_menu_button"):
 # 4. The tab screen.
 if tap_id("tab_switcher_button"):
     time.sleep(5)
+    # Chromium's one-time "Your inactive items won't pile up" sheet covers the tabs.
+    if tap_text(r"^Got it$"):
+        time.sleep(3)
     shot("4-workspaces")
     back()
 

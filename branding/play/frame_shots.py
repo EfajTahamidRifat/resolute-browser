@@ -26,7 +26,7 @@ SHOTS = [
 
 
 def main():
-    raw, out = Path(sys.argv[1]), Path(sys.argv[2])
+    raw, out = Path(sys.argv[1]).resolve(), Path(sys.argv[2]).resolve()
     out.mkdir(parents=True, exist_ok=True)
     template = (HERE / "screenshot_frame.html").read_text(encoding="utf-8")
     page_file = out / "frame.html"

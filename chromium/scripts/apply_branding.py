@@ -9,6 +9,7 @@ chrome/android/java/res_chromium_base. Instead of a patch with binary images
   * renames "Chromium" to "Resolute" in values/channel_constants.xml
   * finds every launcher icon PNG there and replaces it with Resolute's icon
     of the same pixel size, from chromium/branding/<kind>_<size>.png
+  * calls tab groups "Workspaces" in the phone UI text (step 5)
   * replaces "Chromium" with "Resolute" in Chromium's English UI text
     (chrome/app/*chromium_strings*, components/*chromium_strings*), keeping
     "The Chromium Authors" in the copyright line
@@ -120,6 +121,73 @@ for f in ANDROID_STRING_FILES:
 print(f"android text done: {android_total} replacements in {len(ANDROID_STRING_FILES)} files")
 if android_total == 0:
     sys.exit("no Chrome strings found in Android UI text: update apply_branding.py")
+
+# 5. Text: tab groups are called "Workspaces" in Resolute (design canvas board 4).
+# Same rule as step 4: only the text people see, outside <ph> placeholders. "Tab
+# group(s)" becomes "Workspace(s)" in every Android UI file. The bare noun "group" is
+# renamed too where it always means a tab group: the tab UI files, messages whose
+# name has GROUP in it, and the shared-group (COLLABORATION) messages. The few
+# messages that use "group" as a verb get their own wording.
+TAB_GROUP = [
+    (re.compile(r"\b[Ss]hared [Tt]ab [Gg]roups\b"), "shared workspaces"),
+    (re.compile(r"\b[Ss]hared [Tt]ab [Gg]roup\b"), "shared workspace"),
+    (re.compile(r"\bTab [Gg]roups\b"), "Workspaces"),
+    (re.compile(r"\btab groups\b"), "workspaces"),
+    (re.compile(r"\bTab [Gg]roup\b"), "Workspace"),
+    (re.compile(r"\btab group\b"), "workspace"),
+]
+BARE_GROUP = [
+    (re.compile(r"\bgroups\b"), "workspaces"),
+    (re.compile(r"\bGroups\b"), "Workspaces"),
+    (re.compile(r"\bgroup\b"), "workspace"),
+    (re.compile(r"\bGroup\b"), "Workspace"),
+]
+# Messages where "group" is a verb (whole visible text, placeholders kept as they are).
+VERB_MESSAGES = {
+    "IDS_UNDO_BAR_GROUP_TAB_MESSAGE": [("tab grouped", "tab added to workspace")],
+    "IDS_UNDO_BAR_GROUP_TABS_MESSAGE": [("tabs grouped", "tabs added to workspace")],
+    "IDS_TAB_GROUP_SUGGESTION_MESSAGE": [("Group ", "Put "), (" tabs to work faster?", " tabs in a workspace?")],
+    "IDS_TAB_GROUP_SUGGESTION_MESSAGE_ACTION_TEXT": [("Group", "Create")],
+    "IDS_IPH_DRAG_AND_DROP_INTRODUCTION": [("Drag tabs to group them", "Drag tabs onto each other to make a workspace")],
+    "IDS_TAB_SUGGESTION_GROUP_TABS_MESSAGE": [("Group them?", "Put them in a workspace?")],
+    "IDS_ACCESSIBILITY_TAB_SUGGESTION_GROUP_TABS_MESSAGE": [("Group them?", "Put them in a workspace?")],
+    "IDS_TAB_SELECTION_EDITOR_UNGROUP_TABS": [("Ungroup tab}", "Remove tab from workspace}"), ("Ungroup tabs}", "Remove tabs from workspace}")],
+    "IDS_ACCESSIBILITY_TAB_SELECTION_EDITOR_UNGROUP_TABS": [("Ungroup ", "Remove ")],
+    "IDS_UNGROUP_TAB_GROUP_DIALOG_TITLE": [("Ungroup tab group?", "Unpack workspace?")],
+    "IDS_UNGROUP_TAB_GROUP_ACTION": [("Ungroup", "Unpack")],
+    "IDS_UNGROUP_TAB_GROUP_MENU_ITEM": [("Ungroup", "Unpack workspace")],
+    "IDS_TAB_GROUP_SUGGESTION_ACTION_CHIP_LABEL": [("Group tabs", "Make a workspace")],
+}
+TAB_UI_FILES = ("android_chrome_tab_ui_strings.grd", "android_tab_ui_strings.grd")
+PH = re.compile(r"(<ph\b.*?</ph>)", re.S)
+NAMED = re.compile(r'(<message\b[^>]*\bname="([^"]+)"[^>]*>)(.*?)(</message>)', re.S)
+
+
+def rename_groups(body, name, in_tab_ui):
+    bare = in_tab_ui or "GROUP" in name or name.startswith("IDS_COLLABORATION_")
+    for old, new in VERB_MESSAGES.get(name, []):
+        body = body.replace(old, new)
+    parts = PH.split(body)
+    for i in range(0, len(parts), 2):  # even parts are outside <ph>
+        rules = TAB_GROUP + (BARE_GROUP if bare else [])
+        for rx, new in rules:
+            parts[i] = rx.sub(new, parts[i])
+    return "".join(parts)
+
+
+group_total = 0
+for f in ANDROID_STRING_FILES:
+    text = f.read_text(encoding="utf-8")
+    in_tab_ui = f.name in TAB_UI_FILES
+    new = NAMED.sub(lambda m: m.group(1) + rename_groups(m.group(3), m.group(2), in_tab_ui) + m.group(4), text)
+    if new != text:
+        n = sum(a != b for a, b in zip(NAMED.findall(text), NAMED.findall(new)))
+        f.write_text(new, encoding="utf-8")
+        print(f"text: {f.relative_to(src)} ({n} messages: tab group -> workspace)")
+        group_total += n
+print(f"workspace text done: {group_total} messages")
+if group_total == 0:
+    sys.exit("no tab group strings found: update apply_branding.py step 5")
 
 for m in missing:
     # Not fatal: the icon simply stays Chromium's until we add that size.

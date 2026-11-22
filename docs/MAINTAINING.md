@@ -908,6 +908,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-22: 815401885 (x64 44990054425 rc13, arm64 44990066142 p25): E2E **14/14** (44992302237), red ring and glow around the MetaMask button. **Auto-uploaded to alpha.** Wallet button done; next: tabs and workspaces.
 - 2026-11-22: 815401885 auto-uploaded (Sign Play release 44993142021, wallet red ring). Owner asked for the address bar on its own full-width row with all buttons below, plus a bookmark star: patch 0023, building 815401886.
 - 2026-11-22: 815401886 first build (x64 44995997564, arm64 44996009087): E2E 14/14 but screenshots show one 56 dp row with the buttons drawn over the full-width address bar. **Not uploaded.** Added patch 0024 (104 dp in the three places Chromium fixes the toolbar height); rebuilding 815401886.
+- 2026-11-22: 815401886 rebuild (x64 45000290462 rc15, arm64 45000302542 p27): E2E **14/14** (45002926461). Two rows: full-width address bar, Home/Star/Wallet/Extensions/Tabs/Menu evenly spaced below; page content ends above the bar. **Auto-uploaded to alpha.**
 
 Add a line here after every build or release.
 

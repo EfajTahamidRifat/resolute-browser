@@ -1,0 +1,69 @@
+{
+ "before_tap": "JS error: {\"exceptionId\": 1, \"text\": \"Uncaught\", \"lineNumber\": 0, \"columnNumber\": 15, \"scriptId\": \"5\", \"exception\": {\"type\": \"object\", \"subtype\": \"error\", \"className\": \"TypeError\", \"description\": \"TypeError: Cannot read properties of undefined (reading 'getAll')\\n    at <anonymous>:1:16\", \"objectId\": \"2366854",
+ "after": "JS error: {\"exceptionId\": 3, \"text\": \"Uncaught\", \"lineNumber\": 0, \"columnNumber\": 15, \"scriptId\": \"5\", \"exception\": {\"type\": \"object\", \"subtype\": \"error\", \"className\": \"TypeError\", \"description\": \"TypeError: Cannot read properties of undefined (reading 'getAll')\\n    at <anonymous>:1:16\", \"objectId\": \"2366854",
+ "active_tabs_before": "JS error: {\"exceptionId\": 2, \"text\": \"Uncaught\", \"lineNumber\": 0, \"columnNumber\": 12, \"scriptId\": \"7\", \"exception\": {\"type\": \"object\", \"subtype\": \"error\", \"className\": \"TypeError\", \"description\": \"TypeError: Cannot read properties of undefined (reading 'query')\\n    at <anonymous>:1:13\", \"objectId\": \"23668548",
+ "pages_before": [
+  {
+   "id": "6",
+   "listed_url": "http://localhost:8765/connect.html",
+   "real": "http://localhost:8765/connect.html | Resolute wallet test | Resolute wallet test\n\nprovider: none\n\nConnect wallet\n\nnot requested"
+  },
+  {
+   "id": "5",
+   "listed_url": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+   "real": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn | MetaMask - Chrome Web Store | chrome web store\nSign in\nDiscover\nExtensions\nSwitch to Chrome to install extensions and themes\nInstall Chrome\nMetaMask\nC"
+  },
+  {
+   "id": "4",
+   "listed_url": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+   "real": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh | uBlock Origin Lite - Chrome Web Store | chrome web store\nSign in\nDiscover\nExtensions\nSwitch to Chrome to install extensions and themes\nInstall Chrome\nuBlock Ori"
+  },
+  {
+   "id": "3",
+   "listed_url": "https://www.wikipedia.org/",
+   "real": "https://www.wikipedia.org/ | Wikipedia |  Wikipedia\nThe Free Encyclopedia\nEnglish\n7,261,000+ articles\n\u65e5\u672c\u8a9e\n1,526,000+ \u8a18\u4e8b\nDeutsch\n3.164.000+ Artikel\n\u0420\u0443\u0441\u0441\u043a\u0438\u0439\n2\u00a0128\u00a0"
+  },
+  {
+   "id": "2",
+   "listed_url": "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html",
+   "real": "chrome-error://chromewebdata/ | chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html | ddkjiahejlhfcafbddmgiahcphecmpfh is blocked\n\nThis page has been blocked by Resolute\n\nERR_BLOCKED_BY_CLIENT\nReload"
+  },
+  {
+   "id": "1",
+   "listed_url": "chrome://newtab/",
+   "real": "chrome-extension://aaddcaaaojbkjailacplbnladfhcnabm/index.html | New tab | Resolute\n1\n1\nLEVEL 1 \u00b7 EXPLORER\n10 XP 40 to level 2\nQUESTS\n1 of 7 done\nOpen Resolute today\nDone today\n+10 XP\nSearch the "
+  }
+ ],
+ "pages_after": [
+  {
+   "id": "6",
+   "listed_url": "http://localhost:8765/connect.html",
+   "real": "http://localhost:8765/connect.html | Resolute wallet test | Resolute wallet test\n\nprovider: none\n\nConnect wallet\n\nresult: no provider"
+  },
+  {
+   "id": "5",
+   "listed_url": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+   "real": "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn | MetaMask - Chrome Web Store | chrome web store\nSign in\nDiscover\nExtensions\nSwitch to Chrome to install extensions and themes\nInstall Chrome\nMetaMask\nC"
+  },
+  {
+   "id": "4",
+   "listed_url": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh",
+   "real": "https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh | uBlock Origin Lite - Chrome Web Store | chrome web store\nSign in\nDiscover\nExtensions\nSwitch to Chrome to install extensions and themes\nInstall Chrome\nuBlock Ori"
+  },
+  {
+   "id": "3",
+   "listed_url": "https://www.wikipedia.org/",
+   "real": "https://www.wikipedia.org/ | Wikipedia |  Wikipedia\nThe Free Encyclopedia\nEnglish\n7,261,000+ articles\n\u65e5\u672c\u8a9e\n1,526,000+ \u8a18\u4e8b\nDeutsch\n3.164.000+ Artikel\n\u0420\u0443\u0441\u0441\u043a\u0438\u0439\n2\u00a0128\u00a0"
+  },
+  {
+   "id": "2",
+   "listed_url": "chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html",
+   "real": "chrome-error://chromewebdata/ | chrome-extension://ddkjiahejlhfcafbddmgiahcphecmpfh/dashboard.html | ddkjiahejlhfcafbddmgiahcphecmpfh is blocked\n\nThis page has been blocked by Resolute\n\nERR_BLOCKED_BY_CLIENT\nReload"
+  },
+  {
+   "id": "1",
+   "listed_url": "chrome://newtab/",
+   "real": "chrome-extension://aaddcaaaojbkjailacplbnladfhcnabm/index.html | New tab | Resolute\n1\n1\nLEVEL 1 \u00b7 EXPLORER\n10 XP 40 to level 2\nQUESTS\n1 of 7 done\nOpen Resolute today\nDone today\n+10 XP\nSearch the "
+  }
+ ]
+}

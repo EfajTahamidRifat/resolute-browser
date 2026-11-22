@@ -1,0 +1,2 @@
+11-22 20:30:58.298 I/cr_NewTabPage( 4324): Resolute Home load: start, retries left 8
+11-22 20:30:59.881 I/cr_NewTabPage( 4324): Resolute Home load: error 0, committed true, url chrome-native://newtab/, retries left 8

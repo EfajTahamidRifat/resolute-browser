@@ -8,7 +8,7 @@ index 6b34068..1eb059f 100644
  class ExtensionActionListMediator implements Destroyable {
 +    // Resolute (patch 0021): wallet extensions, in order of preference (same list as
 +    // Resolute Home's "Add a wallet" quest).
-+    private static final String[] RESOLUTE_WALLET_IDS = {
++    static final String[] RESOLUTE_WALLET_IDS = {
 +        "nkbihfbeogaeaoehlefnkodbefgpgknn", // MetaMask
 +        "bfnaelmomeimhlpmgjnjophhpkkoljpa", // Phantom
 +        "acmacodkjbdgmoleebolmdjonilkdbch", // Rabby

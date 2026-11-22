@@ -1,0 +1,61 @@
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionButtonViewBinder.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionButtonViewBinder.java
+index 556661e..01c44a1 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionButtonViewBinder.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionButtonViewBinder.java
+@@ -6,8 +6,13 @@ package org.chromium.chrome.browser.toolbar.extensions;
+ 
+ import android.annotation.SuppressLint;
+ import android.graphics.Bitmap;
++import android.graphics.drawable.Drawable;
++import android.graphics.drawable.GradientDrawable;
++import android.graphics.drawable.InsetDrawable;
++import android.graphics.drawable.LayerDrawable;
+ 
+ import org.chromium.build.annotations.NullMarked;
++import org.chromium.build.annotations.Nullable;
+ import org.chromium.ui.listmenu.ListMenuButton;
+ import org.chromium.ui.modelutil.PropertyKey;
+ import org.chromium.ui.modelutil.PropertyModel;
+@@ -35,6 +40,42 @@ public class ExtensionActionButtonViewBinder {
+         } else if (key == ExtensionActionButtonProperties.ON_LONG_CLICK_LISTENER) {
+             button.setOnLongClickListener(
+                     model.get(ExtensionActionButtonProperties.ON_LONG_CLICK_LISTENER));
++        } else if (key == ExtensionActionButtonProperties.ID) {
++            maybeStyleAsWalletButton(button, model.get(ExtensionActionButtonProperties.ID));
+         }
+     }
++
++    // Resolute (patch 0022): the wallet button (patch 0021) gets a soft Resolute-red pill
++    // behind its icon, so it stands out in the bottom bar like the design's red wallet button.
++    private static void maybeStyleAsWalletButton(ListMenuButton button, @Nullable String id) {
++        boolean isWallet = false;
++        for (String walletId : ExtensionActionListMediator.RESOLUTE_WALLET_IDS) {
++            if (walletId.equals(id)) isWallet = true;
++        }
++        // Buttons are recycled between extensions: remember the original background once
++        // and restore it for anything that is not the wallet.
++        if (!(button.getTag() instanceof Drawable[])) {
++            button.setTag(new Drawable[] {button.getBackground()});
++        }
++        Drawable original = ((Drawable[]) button.getTag())[0];
++        if (!isWallet) {
++            button.setBackground(original);
++            return;
++        }
++        float density = button.getResources().getDisplayMetrics().density;
++        GradientDrawable pill = new GradientDrawable();
++        pill.setShape(GradientDrawable.RECTANGLE);
++        pill.setCornerRadius(999 * density);
++        pill.setColor(0x33E10600);
++        pill.setStroke(Math.round(1.5f * density), 0xFFE10600);
++        Drawable glow =
++                new InsetDrawable(
++                        pill,
++                        Math.round(4 * density),
++                        Math.round(10 * density),
++                        Math.round(4 * density),
++                        Math.round(10 * density));
++        button.setBackground(
++                original == null ? glow : new LayerDrawable(new Drawable[] {glow, original}));
++    }
+ }

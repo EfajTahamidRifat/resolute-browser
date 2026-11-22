@@ -1,5 +1,5 @@
 diff --git a/chrome/android/java/src/org/chromium/chrome/browser/tabmodel/TabPersistentStoreImpl.java b/chrome/android/java/src/org/chromium/chrome/browser/tabmodel/TabPersistentStoreImpl.java
-index bc449d6..449f26a 100644
+index bc449d6..780b160 100644
 --- a/chrome/android/java/src/org/chromium/chrome/browser/tabmodel/TabPersistentStoreImpl.java
 +++ b/chrome/android/java/src/org/chromium/chrome/browser/tabmodel/TabPersistentStoreImpl.java
 @@ -725,6 +725,10 @@ public class TabPersistentStoreImpl implements TabPersistentStore {
@@ -29,7 +29,7 @@ index bc449d6..449f26a 100644
          @Nullable Tab tab = null;
          if (maybeRestoreBackgroundTab(
                  tabToRestore, restoredIndex, tabState, isIncognito, setAsActive)) {
-@@ -931,9 +944,12 @@ public class TabPersistentStoreImpl implements TabPersistentStore {
+@@ -931,9 +944,16 @@ public class TabPersistentStoreImpl implements TabPersistentStore {
                      recordingTabCreator.recordFallbackTab(tabToRestore.id, tabToRestore.url);
                  }
              }
@@ -38,7 +38,11 @@ index bc449d6..449f26a 100644
 -            params.setInitiatorOrigin(Origin.createOpaqueOrigin());
 +            LoadUrlParams params =
 +                    new LoadUrlParams(isResoluteHome ? "chrome://newtab/" : tabToRestore.url);
-+            if (!isResoluteHome) {
++            // Resolute: browser pages (chrome://, e.g. the new tab page, which turns into Resolute
++            // Home) are reopened as the browser's own navigation, not as one from an unknown web
++            // page: from such a page, opening Resolute Home was blocked after a restart
++            // ("... is blocked", E2E runs 45035269793, 45039886872).
++            if (!isResoluteHome && !tabToRestore.url.startsWith("chrome://")) {
 +                params.setIsRendererInitiated(true);
 +                params.setInitiatorOrigin(Origin.createOpaqueOrigin());
 +            }

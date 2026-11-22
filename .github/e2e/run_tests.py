@@ -849,7 +849,30 @@ def t_home_rebuild():
     splash = f"Splash Screen {PKG}" in adb("shell", "dumpsys", "window", "windows")
     ok = all(PKG in w for _, w in steps) and not splash
     detail = "; ".join(f"{n}: {w or 'NO FOCUSED WINDOW'}" for n, w in steps)
-    return ok, f"{detail}; still on start-up screen: {splash}", png
+    # Report only: what the restored Resolute Home tab shows. Runs 45035269793 and 45039886872
+    # showed "aaddcaaa... is blocked" after the restart; reload it once to see whether a later
+    # try works, and save Resolute Home's load log (patch 0031).
+    home_info = "no Resolute Home tab"
+    try:
+        time.sleep(10)
+        targets = cdp_targets()
+        (OUT / "14-after-targets.json").write_text(json.dumps(targets, indent=1))
+        home = next((t for t in targets if RESOLUTE_HOME in t.get("url", "")), None)
+        if home is not None:
+            title = home.get("title", "")
+            home_info = f"Resolute Home tab title: {title!r}"
+            if "blocked" in title.lower() or "aaddcaaa" in title:
+                cdp_send(home, [("Page.reload", {})])
+                time.sleep(8)
+                shot("14-after-reload")
+                again = next((t for t in cdp_targets() if t.get("id") == home.get("id")), {})
+                home_info += f"; after one reload: {again.get('title', '')!r}"
+    except Exception as e:  # noqa: BLE001
+        home_info = f"Resolute Home check failed: {e}"
+    loads = [line for line in adb("logcat", "-d", "-v", "time").splitlines()
+             if "Resolute Home load" in line]
+    (OUT / "14-home-load.txt").write_text("\n".join(loads))
+    return ok, f"{detail}; still on start-up screen: {splash}; {home_info}", png
 
 
 @test("15-tabs-and-workspaces")

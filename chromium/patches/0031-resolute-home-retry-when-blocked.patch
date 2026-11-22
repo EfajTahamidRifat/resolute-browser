@@ -1,5 +1,5 @@
 diff --git a/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java b/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java
-index 18ea36a..d2238ab 100644
+index 18ea36a..0ee7694 100644
 --- a/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java
 +++ b/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java
 @@ -124,7 +124,9 @@ import org.chromium.components.omnibox.OmniboxFocusReason;
@@ -24,7 +24,7 @@ index 18ea36a..d2238ab 100644
                                              }));
              ExtensionsUrlOverrideRegistry.addNtpOverrideEnabledObserver(
                      mResoluteHomeReadyObserver);
-@@ -1177,6 +1176,37 @@ public class NewTabPage
+@@ -1177,6 +1176,46 @@ public class NewTabPage
  
      // NativePage overrides
  
@@ -43,6 +43,14 @@ index 18ea36a..d2238ab 100644
 +                        public void onDidFinishNavigationInPrimaryMainFrame(
 +                                Tab observedTab, NavigationHandle navigation) {
 +                            observedTab.removeObserver(this);
++                            Log.i(
++                                    TAG,
++                                    "Resolute Home load: error %d, committed %b, url %s, retries"
++                                            + " left %d",
++                                    navigation.errorCode(),
++                                    navigation.hasCommitted(),
++                                    navigation.getUrl().getSpec(),
++                                    retriesLeft);
 +                            if (navigation.errorCode() != NetError.ERR_BLOCKED_BY_CLIENT) return;
 +                            PostTask.postDelayedTask(
 +                                    TaskTraits.UI_DEFAULT,
@@ -54,6 +62,7 @@ index 18ea36a..d2238ab 100644
 +                        }
 +                    });
 +        }
++        Log.i(TAG, "Resolute Home load: start, retries left %d", retriesLeft);
 +        LoadUrlParams params = new LoadUrlParams("chrome://newtab/");
 +        params.setShouldReplaceCurrentEntry(true);
 +        tab.loadUrl(params);

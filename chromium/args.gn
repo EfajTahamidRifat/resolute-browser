@@ -56,4 +56,4 @@ chrome_public_manifest_package = "com.resolute.browser"
 # (Chromium 159 has no built-in override; android_override_version_code did
 # nothing). 2026-11-20:
 # 815401874-815401886 used (815401877-815401886 auto-uploaded to alpha 2026-11-22).
-resolute_version_code = "815401888"
+resolute_version_code = "815401889"

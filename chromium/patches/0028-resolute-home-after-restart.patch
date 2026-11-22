@@ -1,0 +1,56 @@
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java b/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java
+index 6ae5e25..18ea36a 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java
+@@ -520,10 +520,10 @@ public class NewTabPage
+                 };
+         mTab.addObserver(mTabObserver);
+ 
+-        // Resolute: on the very first launch this native page is shown because Resolute Home (a
+-        // built-in extension, patch 0008) has not registered its new tab override yet. Switch to
+-        // it as soon as it has; on every later start the override is already known and this
+-        // native page is not used. (Loading the override before it was registered froze the app.)
++        // Resolute: at every start of the app this native page is shown until Resolute Home (a
++        // built-in extension, patch 0008) has registered its new tab override in this run (patch
++        // 0028). Switch to it as soon as it has. (Loading the override before it was registered
++        // froze the app.)
+         if (!mTab.isOffTheRecord() && !UrlOverrideUtils.isNtpOverrideEnabled()) {
+             mResoluteHomeReadyObserver =
+                     () ->
+diff --git a/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/ExtensionsUrlOverrideRegistry.java b/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/ExtensionsUrlOverrideRegistry.java
+index 2a5ec35..f424a3a 100644
+--- a/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/ExtensionsUrlOverrideRegistry.java
++++ b/chrome/browser/url_constants/android/java/src/org/chromium/chrome/browser/url_constants/ExtensionsUrlOverrideRegistry.java
+@@ -27,6 +27,14 @@ public class ExtensionsUrlOverrideRegistry {
+     private static final CopyOnWriteArrayList<Runnable> sNtpOverrideEnabledObservers =
+             new CopyOnWriteArrayList<>();
+ 
++    // Resolute (patch 0028): true once the extension system has reported the NTP override in
++    // this run of the app. The saved preference alone is not trusted at start-up: after a
++    // restart it said "overridden" before Resolute Home had loaded, so the restored Resolute
++    // Home tab loaded too early and the app stayed on the start-up screen ("isn't responding",
++    // E2E runs 45024187419, 45025351418). Until the report arrives the native new tab page is
++    // shown, and patch 0008 switches it to Resolute Home (the same path as the first launch).
++    private static boolean sNtpOverrideReportedThisRun;
++
+     // Prevent instantiation.
+     private ExtensionsUrlOverrideRegistry() {}
+ 
+@@ -42,7 +50,8 @@ public class ExtensionsUrlOverrideRegistry {
+ 
+     /** Returns true if an extension has overridden the NTP page. */
+     public static boolean getNtpOverrideEnabled() {
+-        return getPrefs().readBoolean(buildKey(EXTENSIONS_NTP_URL_OVERRIDE_ENABLED), false);
++        return sNtpOverrideReportedThisRun
++                && getPrefs().readBoolean(buildKey(EXTENSIONS_NTP_URL_OVERRIDE_ENABLED), false);
+     }
+ 
+     /** Returns true if extensions can override pages in incognito mode for incognito mode. */
+@@ -77,6 +86,7 @@ public class ExtensionsUrlOverrideRegistry {
+     /** Sets if an extension has overridden the NTP page. */
+     public static void setNtpOverrideEnabled(boolean status) {
+         boolean wasEnabled = getNtpOverrideEnabled();
++        sNtpOverrideReportedThisRun = status;
+         getPrefs().writeBoolean(buildKey(EXTENSIONS_NTP_URL_OVERRIDE_ENABLED), status);
+         if (status && !wasEnabled) {
+             for (Runnable observer : sNtpOverrideEnabledObservers) observer.run();

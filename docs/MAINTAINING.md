@@ -366,6 +366,17 @@ Before the first public release:
    in the workflow file. The workflow refuses `production`. No billing on that
    project, ever. The first upload of a new app must be done by hand in Play
    Console; the API can only update an existing app.
+   **Store screenshots (2026-11-22):** run **E2E test** with `store_shots` on;
+   `.github/e2e/store_shots.py` takes 5 shots on a 1080x1920 phone (Resolute
+   Home with the tour closed, a dapp with the wallet button, the extensions menu,
+   the tab screen, the app menu) and `branding/play/frame_shots.py` (Playwright)
+   puts them in the Resolute frame (`branding/play/screenshot_frame.html`; captions
+   in `SHOTS`), saved to `runs/<id>/store/framed/` on `e2e-results`. Then run
+   **Sign Play release** with `screenshots_run` = that run ID (and `run_id`
+   empty for screenshots only): it replaces the en-US phone screenshots. This
+   needs the extra Play permission **"Manage store presence"** for the upload
+   account (owner grants it in Users and permissions); without it the step
+   fails with 403 and nothing changes.
    **Who can use the upload account (2026-11-22):** (1) Google only accepts
    GitHub Actions tokens from this repo's `main` branch (forks and pull
    requests are refused); (2) only people with write access to the repo can
@@ -935,6 +946,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-22: 815401889 (x64 45027453079, arm64 45027459781): E2E **5/15** (45030947026): the app froze at test 03 (black screen, then 'isn't responding'), and after the restart Resolute Home showed "aaddcaa... is blocked". The old build 815401888 froze the same way in run 45027313523, after passing 4 times earlier today. Logcat: the emulator now rebuilds the screen ~13 s after every launch, and the rebuilt screen recreates the tab from Resolute Home's own address ("Failed to restore TabState ... creating Tab with last known URL"). **Not uploaded** (arm64 signed, but not sent to Play). Patch 0030 reopens such tabs as a new tab page. Next build **815401890**.
 - 2026-11-22: 815401890 (x64 45032409838, arm64 45032416053): E2E **15/15** (45035269793). No freeze any more; "Make Resolute default" right under the icon row; Workspaces wording; tab cards dark with a red outline on the open tab. Left: after the restart, Resolute Home showed "... is blocked" (patch 0031). Uploaded to alpha (sign run 45036363671) because the version on Play freezes in the same case. Next build **815401891**: patch 0031.
 - 2026-11-22: 815401891 (x64 45036497702, arm64 45036506232): E2E 15/15 (45039886872), but after the restart Resolute Home still showed "... is blocked" 20 s later, so the retry alone did not fix it (not a timing problem, or the retry never ran). **Not uploaded** (nothing new for testers). Next build **815401892**: 0030 also reopens restored `chrome://` pages as browser-initiated; 0031 logs each try; test 14 reports the restored Resolute Home tab's title, reloads it once (`14-after-reload.png`) and saves the log lines.
+- 2026-11-22: Owner asked to update the Play screenshots from GitHub Actions. Added: new `store_shots.py` (5 current screens), `branding/play/frame_shots.py` + `screenshot_frame.html` (frame from the first listing images, phone made smaller so the bottom toolbar shows), framing step in `e2e-test.yml`, `screenshots_run` input in `sign-release.yml` (replaces the en-US phone screenshots). Needs "Manage store presence" for the upload account.
 
 Add a line here after every build or release.
 

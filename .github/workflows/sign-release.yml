@@ -8,14 +8,19 @@
 # Workload Identity Federation: no key file; Google only accepts workflows from
 # this repo's main branch. Never upload to "production" from here until the
 # owner decides (see docs/MAINTAINING.md section 7).
+# With "screenshots_run" set (an E2E test run made with store_shots), the store
+# listing's phone screenshots are replaced by that run's framed screenshots
+# (needs the "Manage store presence" permission for the upload account).
+# run_id may then be left empty to change only the screenshots.
 name: Sign Play release
 
 on:
   workflow_dispatch:
     inputs:
       run_id:
-        description: "Build Chromium APK run ID (arm64) that produced the .aab"
-        required: true
+        description: "Build Chromium APK run ID (arm64) that produced the .aab (empty = screenshots only)"
+        required: false
+        default: ""
       track:
         description: "Upload to this Play track (alpha = closed test). Empty = sign only."
         required: false
@@ -24,6 +29,10 @@ on:
         description: "What's new (shown to testers, en-US)"
         required: false
         default: "Improvements and fixes."
+      screenshots_run:
+        description: "E2E test run ID (made with store_shots) whose framed screenshots replace the Play listing's phone screenshots"
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -41,6 +50,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Download the build
+        if: inputs.run_id != ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -50,6 +60,7 @@ jobs:
           test -f build/resolute-chromium-arm64.aab
 
       - name: Sign the .aab with the upload key
+        if: inputs.run_id != ''
         env:
           KS_B64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
           KS_PASS: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
@@ -69,6 +80,7 @@ jobs:
           rm -f "$ks"
 
       - name: Check signature, package and version
+        if: inputs.run_id != ''
         run: |
           set -eu
           jarsigner -verify out/resolute-play-arm64.aab | tail -1
@@ -95,6 +107,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Keep the signed bundle
+        if: inputs.run_id != ''
         uses: actions/upload-artifact@v7
         with:
           name: resolute-play-arm64
@@ -109,8 +122,27 @@ jobs:
             production) echo "Production uploads are not allowed from this workflow yet."; exit 1;;
           esac
 
+      - name: Get the store screenshots
+        if: inputs.screenshots_run != ''
+        env:
+          RUN: ${{ inputs.screenshots_run }}
+        run: |
+          set -eu
+          case "$RUN" in *[!0-9]*|'') echo "screenshots_run must be a run ID"; exit 1;; esac
+          git clone -q --depth 1 --branch e2e-results --filter=blob:none --sparse \
+            "https://github.com/${{ github.repository }}" results
+          git -C results sparse-checkout set "runs/$RUN/store/framed"
+          mkdir -p shots
+          cp results/runs/$RUN/store/framed/*.png shots/
+          ls -l shots
+          n=$(ls shots/*.png | wc -l)
+          [ "$n" -ge 2 ] && [ "$n" -le 8 ] || { echo "Play needs 2 to 8 phone screenshots, found $n"; exit 1; }
+          for f in shots/*.png; do
+            python3 -c "import struct,sys; d=open(sys.argv[1],'rb').read(24); w,h=struct.unpack('>II',d[16:24]); print(sys.argv[1],w,h); sys.exit(0 if (w,h)==(1080,1920) else 1)" "$f"
+          done
+
       - name: Sign in to Google (no key file)
-        if: inputs.track != ''
+        if: inputs.track != '' || inputs.screenshots_run != ''
         id: gauth
         uses: google-github-actions/auth@v2
         with:
@@ -120,7 +152,7 @@ jobs:
           access_token_scopes: https://www.googleapis.com/auth/androidpublisher
 
       - name: Upload to Google Play
-        if: inputs.track != ''
+        if: inputs.track != '' && inputs.run_id != ''
         env:
           TOKEN: ${{ steps.gauth.outputs.access_token }}
           TRACK: ${{ inputs.track }}
@@ -142,3 +174,28 @@ jobs:
             -d "$body" "$api/edits/$edit/tracks/$TRACK" | jq -c .
           curl -sS --fail-with-body "${auth[@]}" -X POST "$api/edits/$edit:commit" | jq -c .
           echo "Uploaded versionCode $code to the $TRACK track." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Replace the store screenshots on Google Play
+        if: inputs.screenshots_run != ''
+        env:
+          TOKEN: ${{ steps.gauth.outputs.access_token }}
+          LANG_CODE: en-US
+        run: |
+          set -euo pipefail
+          api="https://androidpublisher.googleapis.com/androidpublisher/v3/applications/$PACKAGE"
+          up="https://androidpublisher.googleapis.com/upload/androidpublisher/v3/applications/$PACKAGE"
+          auth=(-H "Authorization: Bearer $TOKEN")
+          edit=$(curl -sS --fail-with-body "${auth[@]}" -X POST "$api/edits" | jq -r .id)
+          echo "Edit $edit: replacing $LANG_CODE phone screenshots"
+          langs=$(curl -sS --fail-with-body "${auth[@]}" "$api/edits/$edit/listings" | jq -r '.listings[].language')
+          echo "Store listing languages: $langs"
+          echo "$langs" | grep -qx "$LANG_CODE" || { echo "No $LANG_CODE store listing; set LANG_CODE"; exit 1; }
+          curl -sS --fail-with-body "${auth[@]}" -X DELETE \
+            "$api/edits/$edit/listings/$LANG_CODE/phoneScreenshots" | jq -c '.deleted | length'
+          for f in $(ls shots/*.png | sort); do
+            curl -sS --fail-with-body "${auth[@]}" -X POST -H "Content-Type: image/png" \
+              --data-binary @"$f" \
+              "$up/edits/$edit/listings/$LANG_CODE/phoneScreenshots?uploadType=media" | jq -c '.image.id'
+          done
+          curl -sS --fail-with-body "${auth[@]}" -X POST "$api/edits/$edit:commit" | jq -c .
+          echo "Replaced the Play phone screenshots with run ${{ inputs.screenshots_run }}'s framed screenshots." >> "$GITHUB_STEP_SUMMARY"

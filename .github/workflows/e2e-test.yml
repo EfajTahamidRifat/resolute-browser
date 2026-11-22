@@ -67,6 +67,19 @@ jobs:
             python3 .github/e2e/run_tests.py "$RUNNER_TEMP/resolute.apk" "$GITHUB_WORKSPACE/e2e-out" || echo "some tests failed" > "$GITHUB_WORKSPACE/e2e-out/FAILED"
             if [ "${{ inputs.store_shots }}" = "true" ]; then python3 .github/e2e/store_shots.py "$GITHUB_WORKSPACE/e2e-out" || true; fi
 
+      - name: Frame the store screenshots
+        if: always() && inputs.store_shots
+        run: |
+          python3 -m pip install --user --quiet playwright
+          python3 -m playwright install --with-deps chromium > /dev/null
+          python3 branding/play/frame_shots.py e2e-out/store e2e-out/store/framed
+          ls -l e2e-out/store/framed
+          {
+            echo "## Store screenshots"
+            echo "Framed for Google Play in \`runs/${{ github.run_id }}/store/framed/\` on the e2e-results branch."
+            echo "To send them to Play: run **Sign Play release** with screenshots_run = ${{ github.run_id }}."
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Job summary
         if: always()
         run: cat e2e-out/report.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || echo "No report produced" >> "$GITHUB_STEP_SUMMARY"

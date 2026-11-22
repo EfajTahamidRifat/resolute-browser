@@ -1,0 +1,54 @@
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/tabbed_mode/TabbedAppMenuPropertiesDelegate.java b/chrome/android/java/src/org/chromium/chrome/browser/tabbed_mode/TabbedAppMenuPropertiesDelegate.java
+index b1da848..9aada02 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/tabbed_mode/TabbedAppMenuPropertiesDelegate.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/tabbed_mode/TabbedAppMenuPropertiesDelegate.java
+@@ -336,6 +336,19 @@ public class TabbedAppMenuPropertiesDelegate extends AppMenuPropertiesDelegateIm
+                                     R.id.icon_row_menu_id, iconModels, isMenuIconAtStart())));
+         }
+ 
++        // Resolute (patch 0020): Quick menu. The one-tap switches (desktop site, dark pages,
++        // reader mode) sit right under the icon row instead of near the bottom of the menu.
++        ListItem rdsListItem =
++                maybeBuildRequestDesktopSiteListItem(
++                        currentTab, isNativePage, shouldShowIconBeforeItem());
++        if (rdsListItem != null) modelList.add(rdsListItem);
++        if (shouldShowAutoDarkItem(currentTab, isNativePage)) {
++            modelList.add(buildAutoDarkItem(currentTab, isNativePage, shouldShowIconBeforeItem()));
++        }
++        if (mMoreToolsItemBuilder.shouldShowReaderModeItem(currentTab)) {
++            modelList.add(buildReaderModeItem(currentTab, shouldShowIconBeforeItem()));
++        }
++
+         mUpdateMenuItemVisible = shouldShowUpdateMenuItem();
+         Profile profile = getProfileFromTabModel();
+         if (mUpdateMenuItemVisible) {
+@@ -499,11 +512,6 @@ public class TabbedAppMenuPropertiesDelegate extends AppMenuPropertiesDelegateIm
+             observeAndMaybeAddReadAloud(modelList, currentTab);
+         }
+ 
+-        // Reader mode
+-        if (mMoreToolsItemBuilder.shouldShowReaderModeItem(currentTab)) {
+-            modelList.add(buildReaderModeItem(currentTab, shouldShowIconBeforeItem));
+-        }
+-
+         // Open with ...
+         if (shouldShowOpenWithItem(currentTab)) {
+             modelList.add(buildOpenWithItem(currentTab, shouldShowIconBeforeItem));
+@@ -521,17 +529,6 @@ public class TabbedAppMenuPropertiesDelegate extends AppMenuPropertiesDelegateIm
+             modelList.add(buildOpenInAppItem());
+         }
+ 
+-        // RDS
+-        ListItem rdsListItem =
+-                maybeBuildRequestDesktopSiteListItem(
+-                        currentTab, isNativePage, shouldShowIconBeforeItem);
+-        if (rdsListItem != null) modelList.add(rdsListItem);
+-
+-        // Auto Dark
+-        if (shouldShowAutoDarkItem(currentTab, isNativePage)) {
+-            modelList.add(buildAutoDarkItem(currentTab, isNativePage, shouldShowIconBeforeItem));
+-        }
+-
+         // Paint Preview
+         if (mSaveAndShareItemBuilder.shouldShowPaintPreview(isNativePage, currentTab)) {
+             modelList.add(mSaveAndShareItemBuilder.buildPaintPreviewItem(shouldShowIconBeforeItem));

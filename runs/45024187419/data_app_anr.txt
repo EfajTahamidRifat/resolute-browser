@@ -1,0 +1,2497 @@
+Drop box contents: 43 entries
+Max entries: 1000
+Low priority rate limit period: 2000 ms
+Low priority tags: {data_app_wtf, keymaster, system_server_wtf, system_app_strictmode, system_app_wtf, system_server_strictmode, data_app_strictmode, netstats}
+Searching for: data_app_anr
+
+========================================
+2026-11-22 13:01:17 data_app_anr (compressed text, 20653 bytes)
+Process: com.resolute.browser
+PID: 8282
+UID: 10192
+Frozen: false
+Flags: 0x20e83e44
+Package: com.resolute.browser v815401888 (158.0.8127.22)
+Foreground: Yes
+Process-Runtime: 44264
+Activity: com.resolute.browser/com.google.android.apps.chrome.Main
+ErrorId: 4a46e65f-1c28-4243-865b-71be8e673a81
+Build: google/sdk_gphone64_x86_64/emu64xa:14/UE1A.230829.050/12077443:userdebug/dev-keys
+Loading-Progress: 1.0
+Dropped-Count: 0
+
+----- Output from /proc/pressure/memory -----
+some avg10=0.03 avg60=0.60 avg300=0.89 total=8237468
+full avg10=0.00 avg60=0.06 avg300=0.06 total=983332
+----- End output from /proc/pressure/memory -----
+----- Output from /proc/pressure/cpu -----
+some avg10=3.20 avg60=8.13 avg300=14.63 total=115129923
+full avg10=0.00 avg60=0.00 avg300=0.00 total=0
+----- End output from /proc/pressure/cpu -----
+----- Output from /proc/pressure/io -----
+some avg10=0.01 avg60=0.25 avg300=0.57 total=6477325
+full avg10=0.00 avg60=0.05 avg300=0.01 total=783263
+----- End output from /proc/pressure/io -----
+
+CPU usage from 101446ms to -2ms ago (2026-11-22 12:59:35.560 to 2026-11-22 13:01:17.008) with 99% awake:
+  2.2% 521/system_server: 1.3% user + 0.8% kernel / faults: 10138 minor 217 major
+  1% 5554/com.google.android.gms.persistent: 0.8% user + 0.2% kernel / faults: 27188 minor 5 major
+  1% 390/android.hardware.graphics.composer3-service.ranchu: 0% user + 0.9% kernel / faults: 2 minor 1 major
+  0.9% 1826/com.google.android.googlequicksearchbox:search: 0.7% user + 0.1% kernel / faults: 29716 minor 382 major
+  0.7% 1086/com.google.android.apps.nexuslauncher: 0.5% user + 0.2% kernel / faults: 20059 minor 1431 major
+  0.7% 403/surfaceflinger: 0.3% user + 0.3% kernel / faults: 261 minor 1 major
+  0.7% 379/android.hardware.sensors-service.multihal: 0.3% user + 0.4% kernel
+  0.7% 839/com.android.systemui: 0.5% user + 0.1% kernel / faults: 19272 minor 102 major
+  0.3% 459/logcat: 0% user + 0.3% kernel
+  0.3% 7864/kworker/1:0-virtio_vsock: 0% user + 0.3% kernel
+16% TOTAL: 10% user + 6.1% kernel + 0.1% iowait + 0.4% irq + 0.1% softirq
+Subject: Input dispatching timed out (Application does not have a focused window)
+RssHwmKb: 436364
+RssKb: 387544
+RssAnonKb: 140104
+RssShmemKb: 9484
+VmSwapKb: 0
+
+
+--- CriticalEventLog ---
+capacity: 20
+timestamp_ms: 1795352477010
+window_ms: 300000
+
+----- dumping pid: 8282 at 431602
+
+----- pid 8282 at 2026-11-22 13:01:16.999044696+0000 -----
+Cmd line: com.resolute.browser
+Build fingerprint: 'google/sdk_gphone64_x86_64/emu64xa:14/UE1A.230829.050/12077443:userdebug/dev-keys'
+ABI: 'x86_64'
+Build type: optimized
+suspend all histogram:	Sum: 31.097ms 99% C.I. 0.002ms-29.388ms Avg: 2.591ms Max: 31.079ms
+DALVIK THREADS (31):
+"main" prio=5 tid=1 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x72113478 self=0x709de29f9b20
+  | sysTid=8282 nice=-10 cgrp=top-app sched=0/0 handle=0x709f9bca64f8
+  | state=S schedstat=( 1297401131 628563487 9261 ) utm=99 stm=30 core=1 HZ=100
+  | stack=0x7ffdfde46000-0x7ffdfde48000 stackSize=8188KB
+  | held mutexes=
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 003cf3eb  /apex/com.android.art/lib64/libart.so (art::ConditionVariable::WaitHoldingLocks+107) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #02 pc 006082cb  /apex/com.android.art/lib64/libart.so (art::JNI<false>::CallObjectMethodV+523) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #03 pc 000dee44  /system/lib64/libandroid_runtime.so (_JNIEnv::CallObjectMethod+164) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #04 pc 00142b3e  /system/lib64/libandroid_runtime.so (android::NativeDisplayEventReceiver::dispatchVsync+46) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #05 pc 00118526  /system/lib64/libgui.so (android::DisplayEventDispatcher::handleEvent+470) (BuildId: d4ca860e89075dece3ed37c3c094027e)
+  native: #06 pc 0000fb84  /system/lib64/libutils.so (android::Looper::pollOnce+532) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #07 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.app.ActivityThread.main(ActivityThread.java:8177)
+  at java.lang.reflect.Method.invoke(Native method)
+  at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:552)
+  at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:971)
+
+"FinalizerDaemon" daemon prio=5 tid=9 Waiting
+  | group="system" sCount=1 ucsCount=0 flags=1 obj=0x13f40330 self=0x709de2a1c760
+  | sysTid=8292 nice=4 cgrp=top-app sched=0/0 handle=0x709c79d00cf0
+  | state=S schedstat=( 2044939 318985 3 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c79bfe000-0x709c79c00000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Object.wait(Native method)
+  - waiting on <0x0c2ac74e> (a java.lang.Object)
+  at java.lang.Object.wait(Object.java:386)
+  at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:210)
+  - locked <0x0c2ac74e> (a java.lang.Object)
+  at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:231)
+  at java.lang.Daemons$FinalizerDaemon.runInternal(Daemons.java:309)
+  at java.lang.Daemons$Daemon.run(Daemons.java:145)
+  at java.lang.Thread.run(Thread.java:1012)
+
+"ReferenceQueueDaemon" daemon prio=5 tid=10 Waiting
+  | group="system" sCount=1 ucsCount=0 flags=1 obj=0x13f403a8 self=0x709de29fd2c0
+  | sysTid=8291 nice=4 cgrp=top-app sched=0/0 handle=0x709c79e09cf0
+  | state=S schedstat=( 759881 434636 4 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c79d07000-0x709c79d09000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Object.wait(Native method)
+  - waiting on <0x0b44d06f> (a java.lang.Class<java.lang.ref.ReferenceQueue>)
+  at java.lang.Object.wait(Object.java:386)
+  at java.lang.Object.wait(Object.java:524)
+  at java.lang.Daemons$ReferenceQueueDaemon.runInternal(Daemons.java:239)
+  - locked <0x0b44d06f> (a java.lang.Class<java.lang.ref.ReferenceQueue>)
+  at java.lang.Daemons$Daemon.run(Daemons.java:145)
+  at java.lang.Thread.run(Thread.java:1012)
+
+"FinalizerWatchdogDaemon" daemon prio=5 tid=11 Waiting
+  | group="system" sCount=1 ucsCount=0 flags=1 obj=0x13f40420 self=0x709de2a26e40
+  | sysTid=8293 nice=4 cgrp=top-app sched=0/0 handle=0x709c79bf7cf0
+  | state=S schedstat=( 199332 3314140 7 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c79af5000-0x709c79af7000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Object.wait(Native method)
+  - waiting on <0x08a8c17c> (a java.lang.Daemons$FinalizerWatchdogDaemon)
+  at java.lang.Object.wait(Object.java:386)
+  at java.lang.Object.wait(Object.java:524)
+  at java.lang.Daemons$FinalizerWatchdogDaemon.sleepUntilNeeded(Daemons.java:428)
+  - locked <0x08a8c17c> (a java.lang.Daemons$FinalizerWatchdogDaemon)
+  at java.lang.Daemons$FinalizerWatchdogDaemon.runInternal(Daemons.java:408)
+  at java.lang.Daemons$Daemon.run(Daemons.java:145)
+  at java.lang.Thread.run(Thread.java:1012)
+
+"binder:8282_5" prio=5 tid=2 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x12f40020 self=0x709de2a5cc70
+  | sysTid=8547 nice=0 cgrp=top-app sched=0/0 handle=0x709cafd7acf0
+  | state=S schedstat=( 98436 22739429 2 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709cafc84000-0x709cafc86000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b8517  /apex/com.android.runtime/lib64/bionic/libc.so (__ioctl+7) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006b428  /apex/com.android.runtime/lib64/bionic/libc.so (ioctl+216) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000892eb  /system/lib64/libbinder.so (android::IPCThreadState::joinThreadPool+363) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #03 pc 00089177  /system/lib64/libbinder.so (android::PoolThread::threadLoop+23) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #04 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #05 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"Signal Catcher" daemon prio=10 tid=4 Runnable
+  | group="system" sCount=0 ucsCount=0 flags=0 obj=0x13f401c8 self=0x709de29f7f50
+  | sysTid=8286 nice=-20 cgrp=top-app sched=0/0 handle=0x709cc802bcf0
+  | state=R schedstat=( 85656 4963110 3 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709cc7f35000-0x709cc7f37000 stackSize=987KB
+  | held mutexes= "mutator lock"(shared held)
+  native: #00 pc 0071d1fc  /apex/com.android.art/lib64/libart.so (art::DumpNativeStack+204) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #01 pc 0085befa  /apex/com.android.art/lib64/libart.so (art::Thread::DumpStack const+346) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #02 pc 0087d2fb  /apex/com.android.art/lib64/libart.so (art::DumpCheckpoint::Run+1163) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #03 pc 00876a44  /apex/com.android.art/lib64/libart.so (art::ThreadList::RunCheckpoint+980) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #04 pc 008758f6  /apex/com.android.art/lib64/libart.so (art::ThreadList::Dump+1782) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #05 pc 00875174  /apex/com.android.art/lib64/libart.so (art::ThreadList::DumpForSigQuit+1620) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #06 pc 0080e03d  /apex/com.android.art/lib64/libart.so (art::Runtime::DumpForSigQuit+45) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #07 pc 00830ba9  /apex/com.android.art/lib64/libart.so (art::SignalCatcher::HandleSigQuit+2201) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #08 pc 0082f955  /apex/com.android.art/lib64/libart.so (art::SignalCatcher::Run+565) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #09 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #10 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"ADB-JDWP Connection Control Thread" daemon prio=0 tid=5 WaitingInMainDebuggerLoop
+  | group="system" sCount=1 ucsCount=0 flags=1 obj=0x13f40240 self=0x709de2a1e330
+  | sysTid=8288 nice=-20 cgrp=top-app sched=0/0 handle=0x709cc7e31cf0
+  | state=S schedstat=( 162831 372448 2 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709cc7d3b000-0x709cc7d3d000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b95da  /apex/com.android.runtime/lib64/bionic/libc.so (__ppoll+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006daba  /apex/com.android.runtime/lib64/bionic/libc.so (poll+74) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 0000b601  /apex/com.android.art/lib64/libadbconnection.so (adbconnection::AdbConnectionState::RunPollLoop+833) (BuildId: 00b98692de2230b124260270cb1358f8)
+  native: #03 pc 00009bc0  /apex/com.android.art/lib64/libadbconnection.so (adbconnection::CallbackFunction+1616) (BuildId: 00b98692de2230b124260270cb1358f8)
+  native: #04 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #05 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"perfetto_hprof_listener" prio=10 tid=6 Native (still starting up)
+  | group="" sCount=1 ucsCount=0 flags=1 obj=0x0 self=0x709de2a1ab90
+  | sysTid=8287 nice=-20 cgrp=top-app sched=0/0 handle=0x709cc7f2ecf0
+  | state=S schedstat=( 50435 1181209 2 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709cc7e38000-0x709cc7e3a000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b81f5  /apex/com.android.runtime/lib64/bionic/libc.so (read+5) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 00025ed0  /apex/com.android.art/lib64/libperfetto_hprof.so (void* std::__1::__thread_proxy<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct> >, ArtPlugin_Initialize::$_7> >+320) (BuildId: 74025fc0dddb40cf0858a907fd2f6003)
+  native: #02 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"Jit thread pool worker thread 0" daemon prio=5 tid=7 Native
+  | group="system" sCount=1 ucsCount=0 flags=1 obj=0x13f402b8 self=0x709de2a236a0
+  | sysTid=8289 nice=9 cgrp=top-app sched=0/0 handle=0x709cba1fbcf0
+  | state=S schedstat=( 24033473 115209373 62 ) utm=1 stm=1 core=1 HZ=100
+  | stack=0x709cba0fd000-0x709cba0ff000 stackSize=1019KB
+  | held mutexes=
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 003cf3eb  /apex/com.android.art/lib64/libart.so (art::ConditionVariable::WaitHoldingLocks+107) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #02 pc 0087f227  /apex/com.android.art/lib64/libart.so (art::ThreadPool::GetTask+103) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #03 pc 0087e4e1  /apex/com.android.art/lib64/libart.so (art::ThreadPoolWorker::Run+113) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #04 pc 0087df78  /apex/com.android.art/lib64/libart.so (art::ThreadPoolWorker::Callback+152) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #05 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #06 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"HeapTaskDaemon" daemon prio=5 tid=8 WaitingForTaskProcessor
+  | group="system" sCount=1 ucsCount=0 flags=1 obj=0x13f412c0 self=0x709de29f6380
+  | sysTid=8290 nice=4 cgrp=top-app sched=0/0 handle=0x709c79f12cf0
+  | state=S schedstat=( 20351539 880283 12 ) utm=1 stm=0 core=1 HZ=100
+  | stack=0x709c79e10000-0x709c79e12000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 003cf3eb  /apex/com.android.art/lib64/libart.so (art::ConditionVariable::WaitHoldingLocks+107) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #02 pc 00542b01  /apex/com.android.art/lib64/libart.so (art::gc::TaskProcessor::GetTask+465) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #03 pc 00543313  /apex/com.android.art/lib64/libart.so (art::gc::TaskProcessor::RunAllTasks+67) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  at dalvik.system.VMRuntime.runHeapTasks(Native method)
+  at java.lang.Daemons$HeapTaskDaemon.runInternal(Daemons.java:687)
+  at java.lang.Daemons$Daemon.run(Daemons.java:145)
+  at java.lang.Thread.run(Thread.java:1012)
+
+"binder:8282_1" prio=5 tid=12 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40498 self=0x709de2a25270
+  | sysTid=8294 nice=0 cgrp=top-app sched=0/0 handle=0x709c799f0cf0
+  | state=S schedstat=( 3562273 58832116 102 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c798fa000-0x709c798fc000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b8517  /apex/com.android.runtime/lib64/bionic/libc.so (__ioctl+7) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006b428  /apex/com.android.runtime/lib64/bionic/libc.so (ioctl+216) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000892eb  /system/lib64/libbinder.so (android::IPCThreadState::joinThreadPool+363) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #03 pc 00089177  /system/lib64/libbinder.so (android::PoolThread::threadLoop+23) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #04 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #05 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"binder:8282_2" prio=5 tid=13 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40510 self=0x709de2a21ad0
+  | sysTid=8295 nice=0 cgrp=top-app sched=0/0 handle=0x709c798f3cf0
+  | state=S schedstat=( 4785221 91147705 130 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c797fd000-0x709c797ff000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b8517  /apex/com.android.runtime/lib64/bionic/libc.so (__ioctl+7) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006b428  /apex/com.android.runtime/lib64/bionic/libc.so (ioctl+216) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000892eb  /system/lib64/libbinder.so (android::IPCThreadState::joinThreadPool+363) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #03 pc 00089177  /system/lib64/libbinder.so (android::PoolThread::threadLoop+23) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #04 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #05 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"binder:8282_3" prio=5 tid=14 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40588 self=0x709de2a2a5e0
+  | sysTid=8296 nice=0 cgrp=top-app sched=0/0 handle=0x709c797f6cf0
+  | state=S schedstat=( 825027 24596626 30 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c79700000-0x709c79702000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b8517  /apex/com.android.runtime/lib64/bionic/libc.so (__ioctl+7) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006b428  /apex/com.android.runtime/lib64/bionic/libc.so (ioctl+216) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000892eb  /system/lib64/libbinder.so (android::IPCThreadState::joinThreadPool+363) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #03 pc 00089177  /system/lib64/libbinder.so (android::PoolThread::threadLoop+23) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #04 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #05 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"Profile Saver" daemon prio=5 tid=15 Native
+  | group="system" sCount=1 ucsCount=0 flags=1 obj=0x13f40600 self=0x709de2a28a10
+  | sysTid=8297 nice=9 cgrp=top-app sched=0/0 handle=0x709c795fccf0
+  | state=S schedstat=( 3278233 2136861 7 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c79506000-0x709c79508000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 003cf3eb  /apex/com.android.art/lib64/libart.so (art::ConditionVariable::WaitHoldingLocks+107) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #02 pc 005b87b1  /apex/com.android.art/lib64/libart.so (art::ProfileSaver::Run+657) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #03 pc 005be541  /apex/com.android.art/lib64/libart.so (art::ProfileSaver::RunProfileSaverThread+177) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #04 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #05 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"ThreadPoolForeg" prio=5 tid=18 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f409f8 self=0x709de2a34cc0
+  | sysTid=8307 nice=0 cgrp=top-app sched=0/0 handle=0x709cb925dcf0
+  | state=S schedstat=( 188571453 598036860 1412 ) utm=13 stm=5 core=0 HZ=100
+  | stack=0x709cb9167000-0x709cb9169000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08acef6d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08b24545  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08aadfa9  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08aaed16  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08aaeb15  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08aaea41  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"queued-work-looper" prio=5 tid=19 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f408a0 self=0x709de2a2f950
+  | sysTid=8304 nice=-2 cgrp=top-app sched=0/0 handle=0x709cb9f12cf0
+  | state=S schedstat=( 7403021 13872443 53 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709cb9e10000-0x709cb9e12000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"ThreadPoolForeg" prio=5 tid=20 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40980 self=0x709de2a2c1b0
+  | sysTid=8306 nice=0 cgrp=top-app sched=0/0 handle=0x709cb935acf0
+  | state=S schedstat=( 279259043 858075175 1876 ) utm=17 stm=10 core=0 HZ=100
+  | stack=0x709cb9264000-0x709cb9266000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08acef6d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08b24545  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08aadfa9  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08aaed16  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08aaeb15  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08aaea41  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"RenderThread" daemon prio=7 tid=23 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40a70 self=0x709de2a3a030
+  | sysTid=8323 nice=-10 cgrp=top-app sched=0/0 handle=0x709cb8b5acf0
+  | state=S schedstat=( 75217453 105476137 2665 ) utm=4 stm=3 core=1 HZ=100
+  | stack=0x709cb8a64000-0x709cb8a66000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00453d05  /system/lib64/libhwui.so (android::uirenderer::renderthread::RenderThread::threadLoop+261) (BuildId: 428825c8c10bbbc19334086c16db5553)
+  native: #03 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #04 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #05 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"Chrome_ProcessLauncherThread" prio=5 tid=24 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40ae8 self=0x709de2a40f70
+  | sysTid=8324 nice=0 cgrp=top-app sched=0/0 handle=0x709cb8a5dcf0
+  | state=S schedstat=( 22656934 235698702 179 ) utm=1 stm=0 core=1 HZ=100
+  | stack=0x709cb895b000-0x709cb895d000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"Chrome_IOThread" prio=7 tid=25 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40bc8 self=0x709de2a49a80
+  | sysTid=8340 nice=-4 cgrp=top-app sched=0/0 handle=0x709cb7041cf0
+  | state=S schedstat=( 138426564 548204536 4144 ) utm=7 stm=6 core=1 HZ=100
+  | stack=0x709cb6f4b000-0x709cb6f4d000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 08b21f5d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #02 pc 08b21c51  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #03 pc 08a904dc  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08a4b738  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 04b0d438  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08ab93a3  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #09 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"ThreadPoolForeg" prio=5 tid=26 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40c40 self=0x709de2a4b650
+  | sysTid=8310 nice=0 cgrp=top-app sched=0/0 handle=0x709cb8f66cf0
+  | state=S schedstat=( 84135739 391388482 602 ) utm=4 stm=3 core=0 HZ=100
+  | stack=0x709cb8e70000-0x709cb8e72000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08acef6d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08b24545  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08aadfa9  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08aaed16  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08aaeb15  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08aaea41  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"ThreadPoolForeg" prio=5 tid=27 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40cb8 self=0x709de2a4edf0
+  | sysTid=8311 nice=0 cgrp=top-app sched=0/0 handle=0x709cb8e69cf0
+  | state=S schedstat=( 36849823 354497875 439 ) utm=1 stm=2 core=0 HZ=100
+  | stack=0x709cb8d73000-0x709cb8d75000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08acef6d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08b24545  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08aadfa9  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08aaed16  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08aaeb15  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08aaea41  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"ThreadPoolForeg" prio=5 tid=28 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40d30 self=0x709de2a509c0
+  | sysTid=8345 nice=0 cgrp=top-app sched=0/0 handle=0x709cb14fecf0
+  | state=S schedstat=( 29701804 361904525 254 ) utm=1 stm=1 core=0 HZ=100
+  | stack=0x709cb1408000-0x709cb140a000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08acef6d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08b24545  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08aadfa9  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08aaed16  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08aaeb15  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08aaea41  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"ThreadPoolSingl" prio=5 tid=29 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40da8 self=0x709de2a4d220
+  | sysTid=8349 nice=0 cgrp=top-app sched=0/0 handle=0x709cb1207cf0
+  | state=S schedstat=( 8861911 66642987 163 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709cb1111000-0x709cb1113000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08acef6d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08b24545  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08aadfa9  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08aaed16  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08aaeb35  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08aaea70  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"ThreadPoolSingl" prio=5 tid=30 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40e20 self=0x709de2a54160
+  | sysTid=8365 nice=0 cgrp=top-app sched=0/0 handle=0x709cb110acf0
+  | state=S schedstat=( 847027 11488853 17 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709cb1014000-0x709cb1016000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08acef6d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08b24545  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08aadfa9  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08aaed16  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08aaeb55  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08aaea7a  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"CameraAvailabilityObserver_ObservationThread" prio=5 tid=31 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40eb8 self=0x709de2a57900
+  | sysTid=8367 nice=0 cgrp=top-app sched=0/0 handle=0x709cb100dcf0
+  | state=S schedstat=( 127374 12640674 5 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709cb0f0b000-0x709cb0f0d000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"AudioThread" prio=5 tid=32 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f40f98 self=0x709de2a63bb0
+  | sysTid=8346 nice=0 cgrp=top-app sched=0/0 handle=0x709cb1401cf0
+  | state=S schedstat=( 2834842 39105495 46 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709cb130b000-0x709cb130d000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc3a2  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_wait+50) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08b244f0  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a18513  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08a904dc  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08a4b738  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08ab9104  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08ab93a3  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"AudioPortEventHandler" prio=5 tid=33 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f41010 self=0x709de2a65780
+  | sysTid=8394 nice=0 cgrp=top-app sched=0/0 handle=0x709cb0a0acf0
+  | state=S schedstat=( 191785 26969630 5 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709cb0908000-0x709cb090a000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"NetworkService" prio=7 tid=34 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f410f0 self=0x709de2a60410
+  | sysTid=8343 nice=-4 cgrp=top-app sched=0/0 handle=0x709cb19fbcf0
+  | state=S schedstat=( 61000711 327863287 899 ) utm=2 stm=3 core=1 HZ=100
+  | stack=0x709cb1905000-0x709cb1907000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 08b21f5d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #02 pc 08b21c51  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #03 pc 08a904dc  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08a4b738  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08ab9104  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08ab93a3  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #09 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"NetworkStatusListener" prio=5 tid=35 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f41168 self=0x709de2a73600
+  | sysTid=8448 nice=0 cgrp=top-app sched=0/0 handle=0x709cb0781cf0
+  | state=S schedstat=( 5375179 27421870 33 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709cb067f000-0x709cb0681000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"binder:8282_4" prio=5 tid=36 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13f41248 self=0x709de2a78970
+  | sysTid=8451 nice=0 cgrp=top-app sched=0/0 handle=0x709cb0274cf0
+  | state=S schedstat=( 6959441 78327216 174 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709cb017e000-0x709cb0180000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b8517  /apex/com.android.runtime/lib64/bionic/libc.so (__ioctl+7) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006b428  /apex/com.android.runtime/lib64/bionic/libc.so (ioctl+216) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000892eb  /system/lib64/libbinder.so (android::IPCThreadState::joinThreadPool+363) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #03 pc 00089177  /system/lib64/libbinder.so (android::PoolThread::threadLoop+23) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #04 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #05 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"ThreadPoolServi" prio=5 (not attached)
+  | sysTid=8305 nice=0 cgrp=top-app
+  | state=S schedstat=( 1894441 1082272 38 ) utm=0 stm=0 core=1 HZ=100
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 08b21f5d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #02 pc 08b21c51  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #03 pc 08a904dc  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08a4b738  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a9eb54  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08ab93a3  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #09 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+
+"ThreadPoolPrese" prio=7 (not attached)
+  | sysTid=8308 nice=-4 cgrp=top-app
+  | state=S schedstat=( 127615 64797 5 ) utm=0 stm=0 core=0 HZ=100
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08acef6d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08b24545  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08aadfa9  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08aaed16  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08aaeb15  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08aaea41  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+
+"ThreadPoolAudio" prio=7 (not attached)
+  | sysTid=8309 nice=-4 cgrp=top-app
+  | state=S schedstat=( 100518 2089856 6 ) utm=0 stm=0 core=0 HZ=100
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08acef6d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08b24545  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08aadfa9  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08aaed16  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08aaeb15  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08aaea41  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+
+"PerfettoTrace" prio=5 (not attached)
+  | sysTid=8339 nice=0 cgrp=top-app
+  | state=S schedstat=( 704969 897092 17 ) utm=0 stm=0 core=1 HZ=100
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 08b21f5d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #02 pc 08b21c51  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #03 pc 08a904dc  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08a4b738  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08ab9104  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08ab93a3  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #09 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+
+"MemoryInfra" prio=5 (not attached)
+  | sysTid=8341 nice=0 cgrp=top-app
+  | state=S schedstat=( 370477 4326727 16 ) utm=0 stm=0 core=0 HZ=100
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc3a2  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_wait+50) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08b244f0  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a18513  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08a904dc  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08a4b738  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08ab9104  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08ab93a3  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+
+"ThreadPoolSingl" prio=5 (not attached)
+  | sysTid=8342 nice=0 cgrp=top-app
+  | state=S schedstat=( 235796 26183 5 ) utm=0 stm=0 core=1 HZ=100
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08acef6d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08b24545  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08aadfa9  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08aaed16  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08aaeb35  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08aaea70  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+
+"ThreadPoolForeg" prio=5 (not attached)
+  | sysTid=8344 nice=0 cgrp=top-app
+  | state=S schedstat=( 61222273 451817422 336 ) utm=3 stm=2 core=0 HZ=100
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08acef6d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08b24545  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08aadfa9  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08aaed16  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08aaeb15  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08aaea41  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+
+"VideoCaptureThr" prio=5 (not attached)
+  | sysTid=8347 nice=0 cgrp=top-app
+  | state=S schedstat=( 98097 7383221 3 ) utm=0 stm=0 core=1 HZ=100
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc3a2  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_wait+50) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08b244f0  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a18513  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08a904dc  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08a4b738  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08ab9104  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08ab93a3  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+
+"ThreadPoolForeg" prio=5 (not attached)
+  | sysTid=8370 nice=0 cgrp=top-app
+  | state=S schedstat=( 429963 37330148 14 ) utm=0 stm=0 core=0 HZ=100
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08acef6d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08b24545  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08aadfa9  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08aaed16  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08aaeb15  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08aaea41  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+
+"ThreadPoolForeg" prio=5 (not attached)
+  | sysTid=8371 nice=0 cgrp=top-app
+  | state=S schedstat=( 1060992 10564787 4 ) utm=0 stm=0 core=1 HZ=100
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 08acef6d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #04 pc 08b24545  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #05 pc 08a6c329  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #06 pc 08aadfa9  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #07 pc 08aaed16  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #08 pc 08aaeb15  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #09 pc 08aaea41  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #10 pc 08acf84d  /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk (offset 35bc000) (???) (BuildId: 07c1eb17cb9d4de567a07a08a57a73f396000848)
+  native: #11 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #12 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+
+"binder:8282_4" prio=5 (not attached)
+  | sysTid=8454 nice=0 cgrp=top-app
+  | state=S schedstat=( 654226 6058051 33 ) utm=0 stm=0 core=0 HZ=100
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc3a2  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_wait+50) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 00052f7e  /system/lib64/libc++.so (std::__1::condition_variable::wait+14) (BuildId: 3324cfa90a3aa967ca9e5c4269b1b7f2)
+  native: #04 pc 001100fe  /system/lib64/libgui.so (android::AsyncWorker::run+110) (BuildId: d4ca860e89075dece3ed37c3c094027e)
+  native: #05 pc 000ee8f1  /system/lib64/libgui.so (void* std::__1::__thread_proxy<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct> >, void , android::AsyncWorker*> >+65) (BuildId: d4ca860e89075dece3ed37c3c094027e)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+
+Zygote loaded classes=24948 post zygote classes=4075
+Dumping registered class loaders
+#0 dalvik.system.PathClassLoader: [], parent #1
+#1 java.lang.BootClassLoader: [], no parent
+#2 dalvik.system.PathClassLoader: [/data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk!classes2.dex:/data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk], parent #1
+#3 jx1: [], parent #2
+#4 dalvik.system.PathClassLoader: [/system_ext/framework/androidx.window.extensions.jar], parent #1
+Done dumping class loaders
+Classes initialized: 0 in 0
+Intern table: 46067 strong; 1084 weak
+JNI: CheckJNI is off; globals=899 (plus 82 weak)
+Libraries: /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk!/lib/x86_64/libchrome.so /data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/base.apk!/lib/x86_64/libchromium_android_linker.so libandroid.so libaudioeffect_jni.so libcompiler_rt.so libframework-connectivity-jni.so libframework-connectivity-tiramisu-jni.so libicu_jni.so libjavacore.so libjavacrypto.so libjnigraphics.so libmedia_jni.so libopenjdk.so librs_jni.so librtp_jni.so libsoundpool.so libstats_jni.so libwebviewchromium_loader.so (18)
+Heap: 37% free, 8305KB/12MB; 234316 objects
+Image spaces:
+/data/user/0/com.resolute.browser/cache/oat_primary/x86_64/base.art
+/system/framework/x86_64/boot.art
+/system/framework/x86_64/boot-core-libart.art
+/system/framework/x86_64/boot-okhttp.art
+/system/framework/x86_64/boot-bouncycastle.art
+/system/framework/x86_64/boot-apache-xml.art
+/system/framework/x86_64/boot-framework.art
+/system/framework/x86_64/boot-framework-graphics.art
+/system/framework/x86_64/boot-ext.art
+/system/framework/x86_64/boot-telephony-common.art
+/system/framework/x86_64/boot-voip-common.art
+/system/framework/x86_64/boot-ims-common.art
+/system/framework/x86_64/boot-core-icu4j.art
+/system/framework/x86_64/boot-framework-adservices.art
+Dumping cumulative Gc timings
+Start Dumping Averages for 1 iterations for concurrent copying
+Process mark stacks and References:	Sum: 8.289ms Avg: 8.289ms
+MarkingPhase:	Sum: 4.471ms Avg: 4.471ms
+VisitConcurrentRoots:	Sum: 2.192ms Avg: 2.192ms
+ScanImmuneSpaces:	Sum: 1.874ms Avg: 1.874ms
+ClearFromSpace:	Sum: 1.113ms Avg: 1.113ms
+EnqueueFinalizerReferences:	Sum: 779us Avg: 779us
+SweepLargeObjects:	Sum: 291us Avg: 291us
+GrayAllDirtyImmuneObjects:	Sum: 181us Avg: 181us
+SweepSystemWeaks:	Sum: 106us Avg: 106us
+CaptureThreadRootsForMarking:	Sum: 104us Avg: 104us
+ScanCardsForSpace:	Sum: 88us Avg: 88us
+ProcessReferences:	Sum: 86us Avg: 86us
+VisitNonThreadRoots:	Sum: 74us Avg: 74us
+FlipOtherThreads:	Sum: 65us Avg: 65us
+InitializePhase:	Sum: 54us Avg: 54us
+ForwardSoftReferences:	Sum: 54us Avg: 54us
+MarkZygoteLargeObjects:	Sum: 20us Avg: 20us
+RecordFree:	Sum: 17us Avg: 17us
+SweepAllocSpace:	Sum: 16us Avg: 16us
+MarkStackAsLive:	Sum: 15us Avg: 15us
+(Paused)GrayAllNewlyDirtyImmuneObjects:	Sum: 8us Avg: 8us
+CopyingPhase:	Sum: 8us Avg: 8us
+SwapBitmaps:	Sum: 5us Avg: 5us
+ThreadListFlip:	Sum: 5us Avg: 5us
+(Paused)ClearCards:	Sum: 3us Avg: 3us
+ReclaimPhase:	Sum: 3us Avg: 3us
+EmptyRBMarkBitStack:	Sum: 3us Avg: 3us
+ResumeRunnableThreads:	Sum: 1us Avg: 1us
+(Paused)SetFromSpace:	Sum: 1us Avg: 1us
+UnBindBitmaps:	Sum: 1us Avg: 1us
+Sweep:	Sum: 1us Avg: 1us
+ResumeOtherThreads:	Sum: 0 Avg: 0
+FlipThreadRoots:	Sum: 0 Avg: 0
+(Paused)FlipCallback:	Sum: 0 Avg: 0
+Done Dumping Averages
+concurrent copying paused:	Sum: 28us 99% C.I. 7us-21us Avg: 14us Max: 21us
+concurrent copying freed-bytes: Avg: 10MB Max: 10MB Min: 10MB
+Freed-bytes histogram: 10240:1
+concurrent copying total time: 19.928ms mean time: 19.928ms
+concurrent copying freed: 165066 objects with total size 10MB
+concurrent copying throughput: 8.68768e+06/s / 550MB/s  per cpu-time: 576832421/s / 550MB/s
+concurrent copying tracing throughput: 249MB/s  per cpu-time: 249MB/s
+Average major GC reclaim bytes ratio 1.59118 over 1 GC cycles
+Average major GC copied live bytes ratio 0.65073 over 5 major GCs
+Cumulative bytes moved 28499248
+Cumulative objects moved 572601
+Peak regions allocated 78 (19MB) / 768 (192MB)
+Total madvise time 2.566ms
+Average minor GC reclaim bytes ratio -nan over 0 GC cycles
+Average minor GC copied live bytes ratio -nan over 0 minor GCs
+Cumulative bytes moved 0
+Cumulative objects moved 0
+Peak regions allocated 78 (19MB) / 768 (192MB)
+Total time spent in GC: 19.928ms
+Mean GC size throughput: 524MB/s per cpu-time: 529MB/s
+Mean GC object throughput: 8.28312e+06 objects/s
+Total number of allocations 399382
+Total bytes allocated 18MB
+Total bytes freed 10MB
+Free memory 4905KB
+Free memory until GC 4905KB
+Free memory until OOME 183MB
+Total memory 12MB
+Max memory 192MB
+Zygote space size 6284KB
+Total mutator paused time: 28us
+Total time waiting for GC to complete: 1.130us
+Total GC count: 1
+Total GC time: 19.928ms
+Total blocking GC count: 0
+Total blocking GC time: 0
+Total pre-OOME GC count: 0
+Histogram of GC count per 10000 ms: 0:1
+Histogram of blocking GC count per 10000 ms: 0:1
+Native bytes total: 22080343 registered: 843111
+Total native bytes at last GC: 21573015
+/data/app/~~pDcYaqQjoV2Z0NNduZU72Q==/com.resolute.browser-xGyro3P_kqoPzNXFAFhFPw==/oat/x86_64/base.odex: verify
+/system_ext/framework/oat/x86_64/androidx.window.extensions.odex: verify
+/system/framework/oat/x86_64/android.hidl.base-V1.0-java.odex: verify
+/system_ext/framework/oat/x86_64/androidx.window.sidecar.odex: verify
+/system/framework/oat/x86_64/android.test.base.odex: verify
+/system/framework/oat/x86_64/android.hidl.manager-V1.0-java.odex: verify
+Current JIT code cache size (used / resident): 56KB / 68KB
+Current JIT data cache size (used / resident): 35KB / 40KB
+Zygote JIT code cache size (at point of fork): 1KB / 32KB
+Zygote JIT data cache size (at point of fork): 1KB / 32KB
+Current JIT mini-debug-info size: 10032B
+Current JIT capacity: 256KB
+Current number of JIT JNI stub entries: 0
+Current number of JIT code cache entries: 21
+Total number of JIT baseline compilations: 21
+Total number of JIT optimized compilations: 0
+Total number of JIT compilations for on stack replacement: 0
+Total number of JIT code cache collections: 2
+Memory used for stack maps: Avg: 701B Max: 3256B Min: 32B
+Memory used for compiled code: Avg: 3779B Max: 15KB Min: 245B
+Memory used for profiling info: Avg: 794B Max: 3120B Min: 24B
+Start Dumping Averages for 25 iterations for JIT timings
+Compiling baseline:	Sum: 21.719ms Avg: 868.760us
+Code cache collection:	Sum: 10.877ms Avg: 435.080us
+TrimMaps:	Sum: 1.735ms Avg: 69.400us
+Compiling optimized:	Sum: 1ms Avg: 40us
+Done Dumping Averages
+Memory used for compilation: Avg: 354KB Max: 2029KB Min: 16KB
+ProfileSaver total_bytes_written=0
+ProfileSaver total_number_of_writes=0
+ProfileSaver total_number_of_code_cache_queries=0
+ProfileSaver total_number_of_skipped_writes=0
+ProfileSaver total_number_of_failed_writes=0
+ProfileSaver total_ms_of_sleep=4956
+ProfileSaver total_ms_of_work=0
+ProfileSaver total_number_of_hot_spikes=0
+ProfileSaver total_number_of_wake_ups=0
+
+*** ART internal metrics ***
+  Metadata:
+    timestamp_since_start_ms: 43799
+  Metrics:
+    ClassLoadingTotalTime: count = 199851
+    ClassVerificationTotalTime: count = 0
+    ClassVerificationCount: count = 0
+    WorldStopTimeDuringGCAvg: count = 29
+    YoungGcCount: count = 0
+    FullGcCount: count = 1
+    TotalBytesAllocated: count = 17035280
+    TotalGcCollectionTime: count = 20
+    YoungGcThroughputAvg: count = 0
+    FullGcThroughputAvg: count = 444
+    YoungGcTracingThroughputAvg: count = 0
+    FullGcTracingThroughputAvg: count = 236
+    JitMethodCompileTotalTime: count = 97885
+    JitMethodCompileCount: count = 21
+    YoungGcCollectionTime: range = 0...60000, buckets: 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+    FullGcCollectionTime: range = 0...60000, buckets: 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+    YoungGcThroughput: range = 0...10000, buckets: 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+    FullGcThroughput: range = 0...10000, buckets: 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+    YoungGcTracingThroughput: range = 0...10000, buckets: 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+    FullGcTracingThroughput: range = 0...10000, buckets: 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+    GcWorldStopTime: count = 29
+    GcWorldStopCount: count = 1
+    YoungGcScannedBytes: count = 0
+    YoungGcFreedBytes: count = 0
+    YoungGcDuration: count = 0
+    FullGcScannedBytes: count = 4963875
+    FullGcFreedBytes: count = 9784264
+    FullGcDuration: count = 20
+    GcWorldStopTimeDelta: count = 29
+    GcWorldStopCountDelta: count = 1
+    YoungGcScannedBytesDelta: count = 0
+    YoungGcFreedBytesDelta: count = 0
+    YoungGcDurationDelta: count = 0
+    FullGcScannedBytesDelta: count = 4963875
+    FullGcFreedBytesDelta: count = 9784264
+    FullGcDurationDelta: count = 20
+    JitMethodCompileTotalTimeDelta: count = 97885
+    JitMethodCompileCountDelta: count = 21
+    ClassVerificationTotalTimeDelta: count = 0
+    ClassVerificationCountDelta: count = 0
+    ClassLoadingTotalTimeDelta: count = 199389
+    TotalBytesAllocatedDelta: count = 17035280
+    TotalGcCollectionTimeDelta: count = 20
+    YoungGcCountDelta: count = 0
+    FullGcCountDelta: count = 1
+*** Done dumping ART internal metrics ***
+
+----- end 8282 -----
+
+----- Waiting Channels: pid 8282 at 2026-11-22 13:01:16.997822486+0000 -----
+Cmd line: com.resolute.browser
+
+sysTid=8282      do_epoll_wait
+sysTid=8286      do_sigtimedwait
+sysTid=8287      pipe_read
+sysTid=8288      do_sys_poll
+sysTid=8289      futex_wait
+sysTid=8290      futex_wait
+sysTid=8291      futex_wait
+sysTid=8292      futex_wait
+sysTid=8293      futex_wait
+sysTid=8294      binder_ioctl_write_read
+sysTid=8295      binder_ioctl_write_read
+sysTid=8296      binder_ioctl_write_read
+sysTid=8297      futex_wait
+sysTid=8304      do_epoll_wait
+sysTid=8305      do_epoll_wait
+sysTid=8306      futex_wait
+sysTid=8307      futex_wait
+sysTid=8308      futex_wait
+sysTid=8309      futex_wait
+sysTid=8310      futex_wait
+sysTid=8311      futex_wait
+sysTid=8323      do_epoll_wait
+sysTid=8324      do_epoll_wait
+sysTid=8339      do_epoll_wait
+sysTid=8340      do_epoll_wait
+sysTid=8341      futex_wait
+sysTid=8342      futex_wait
+sysTid=8343      do_epoll_wait
+sysTid=8344      futex_wait
+sysTid=8345      futex_wait
+sysTid=8346      futex_wait
+sysTid=8347      futex_wait
+sysTid=8349      futex_wait
+sysTid=8365      futex_wait
+sysTid=8367      do_epoll_wait
+sysTid=8370      futex_wait
+sysTid=8371      futex_wait
+sysTid=8394      do_epoll_wait
+sysTid=8448      do_epoll_wait
+sysTid=8451      binder_ioctl_write_read
+sysTid=8454      futex_wait
+sysTid=8547      binder_ioctl_write_read
+
+----- end 8282 -----
+
+DurationsV5: 431599,2,0,0,19,8,0,0,3,0,0,0,0,0,0,3,72,0,1,50,2,1,1,2,0
+
+----- dumping pid: 521 at 431674
+
+----- pid 521 at 2026-11-22 13:01:17.072130636+0000 -----
+Cmd line: system_server
+Build fingerprint: 'google/sdk_gphone64_x86_64/emu64xa:14/UE1A.230829.050/12077443:userdebug/dev-keys'
+ABI: 'x86_64'
+Build type: optimized
+suspend all histogram:	Sum: 40.303ms 99% C.I. 2.654us-6717.439us Avg: 239.898us Max: 31079us
+DALVIK THREADS (203):
+"ReferenceQueueDaemon" daemon prio=5 tid=6 Waiting
+  | group="system" sCount=1 ucsCount=0 flags=1 obj=0x13340420 self=0x709de29f6380
+  | sysTid=531 nice=4 cgrp=foreground sched=0/0 handle=0x709c79f12cf0
+  | state=S schedstat=( 60692749 654713818 2579 ) utm=3 stm=2 core=0 HZ=100
+  | stack=0x709c79e10000-0x709c79e12000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Object.wait(Native method)
+  - waiting on <0x0d46f74f> (a java.lang.Class<java.lang.ref.ReferenceQueue>)
+  at java.lang.Object.wait(Object.java:386)
+  at java.lang.Object.wait(Object.java:524)
+  at java.lang.Daemons$ReferenceQueueDaemon.runInternal(Daemons.java:239)
+  - locked <0x0d46f74f> (a java.lang.Class<java.lang.ref.ReferenceQueue>)
+  at java.lang.Daemons$Daemon.run(Daemons.java:145)
+  at java.lang.Thread.run(Thread.java:1012)
+
+"FinalizerDaemon" daemon prio=5 tid=7 Waiting
+  | group="system" sCount=1 ucsCount=0 flags=1 obj=0x13340498 self=0x709de29fb6f0
+  | sysTid=532 nice=4 cgrp=foreground sched=0/0 handle=0x709c78ffbcf0
+  | state=S schedstat=( 119297722 434889691 485 ) utm=7 stm=4 core=0 HZ=100
+  | stack=0x709c78ef9000-0x709c78efb000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Object.wait(Native method)
+  - waiting on <0x0cab8edc> (a java.lang.Object)
+  at java.lang.Object.wait(Object.java:386)
+  at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:210)
+  - locked <0x0cab8edc> (a java.lang.Object)
+  at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:231)
+  at java.lang.Daemons$FinalizerDaemon.runInternal(Daemons.java:309)
+  at java.lang.Daemons$Daemon.run(Daemons.java:145)
+  at java.lang.Thread.run(Thread.java:1012)
+
+"FinalizerWatchdogDaemon" daemon prio=5 tid=8 Waiting
+  | group="system" sCount=1 ucsCount=0 flags=1 obj=0x13340510 self=0x709de2a1c760
+  | sysTid=533 nice=4 cgrp=foreground sched=0/0 handle=0x709c78c4ccf0
+  | state=S schedstat=( 840197 41009154 40 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c78b4a000-0x709c78b4c000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Object.wait(Native method)
+  - waiting on <0x04bb0be5> (a java.lang.Daemons$FinalizerWatchdogDaemon)
+  at java.lang.Object.wait(Object.java:386)
+  at java.lang.Object.wait(Object.java:524)
+  at java.lang.Daemons$FinalizerWatchdogDaemon.sleepUntilNeeded(Daemons.java:428)
+  - locked <0x04bb0be5> (a java.lang.Daemons$FinalizerWatchdogDaemon)
+  at java.lang.Daemons$FinalizerWatchdogDaemon.runInternal(Daemons.java:408)
+  at java.lang.Daemons$Daemon.run(Daemons.java:145)
+  at java.lang.Thread.run(Thread.java:1012)
+
+"Thread-2" prio=5 tid=11 Sleeping
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13340678 self=0x709de2a26e40
+  | sysTid=536 nice=0 cgrp=foreground sched=0/0 handle=0x709c53654cf0
+  | state=S schedstat=( 608266 44413226 4 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c53552000-0x709c53554000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Thread.sleep(Native method)
+  - sleeping on <0x096206ba> (a java.lang.Object)
+  at java.lang.Thread.sleep(Thread.java:450)
+  - locked <0x096206ba> (a java.lang.Object)
+  at java.lang.Thread.sleep(Thread.java:355)
+  at com.android.server.SystemServer.lambda$spawnFdLeakCheckThread$0(SystemServer.java:642)
+  at com.android.server.SystemServer.$r8$lambda$v-psNxxn04XSmew8NxqdyfW0MfY(SystemServer.java:0)
+  at com.android.server.SystemServer$$ExternalSyntheticLambda1.run(R8$$SyntheticClass:0)
+  at java.lang.Thread.run(Thread.java:1012)
+
+"AdbDebuggingManager" prio=5 tid=19 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x151c06e0 self=0x709de2b0c580
+  | sysTid=1532 nice=0 cgrp=foreground sched=0/0 handle=0x709c4f8bccf0
+  | state=S schedstat=( 155586 408889 1 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c4f7ba000-0x709c4f7bc000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b90f5  /apex/com.android.runtime/lib64/bionic/libc.so (__recvmsg+5) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006f094  /apex/com.android.runtime/lib64/bionic/libc.so (recvmsg+36) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 00015def  /system/lib64/libbase.so (android::base::ReceiveFileDescriptorVector+447) (BuildId: c3f6769c408e5854d9df375be4d35b19)
+  native: #03 pc 001827f5  /system/lib64/libandroid_runtime.so (android::socket_read_all+85) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #04 pc 0018208c  /system/lib64/libandroid_runtime.so (android::socket_readba+284) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.net.LocalSocketImpl.readba_native(Native method)
+  at android.net.LocalSocketImpl.-$$Nest$mreadba_native(unavailable:0)
+  at android.net.LocalSocketImpl$SocketInputStream.read(LocalSocketImpl.java:110)
+  - locked <0x0847d29d> (a java.lang.Object)
+  at android.net.LocalSocketImpl$SocketInputStream.read(LocalSocketImpl.java:96)
+  at com.android.server.adb.AdbDebuggingManager$AdbDebuggingThread.listenToSocket(AdbDebuggingManager.java:454)
+  at com.android.server.adb.AdbDebuggingManager$AdbDebuggingThread.run(AdbDebuggingManager.java:422)
+
+"watchdog" prio=5 tid=20 TimedWaiting
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13340ea8 self=0x709de2a34cc0
+  | sysTid=544 nice=0 cgrp=foreground sched=0/0 handle=0x709c4f9c5cf0
+  | state=S schedstat=( 1455642 29299046 21 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c4f8c3000-0x709c4f8c5000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Object.wait(Native method)
+  - waiting on <0x0aa5b96b> (a java.lang.Object)
+  at java.lang.Object.wait(Object.java:386)
+  at com.android.server.Watchdog.run(Watchdog.java:778)
+  - locked <0x0aa5b96b> (a java.lang.Object)
+  at com.android.server.Watchdog.$r8$lambda$ebqYimzN4BRUARz1m88JBS6pZ8I(Watchdog.java:0)
+  at com.android.server.Watchdog$$ExternalSyntheticLambda0.run(R8$$SyntheticClass:0)
+  at java.lang.Thread.run(Thread.java:1012)
+
+"CpuTracker" prio=5 tid=33 TimedWaiting
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341998 self=0x709de2a4b650
+  | sysTid=558 nice=0 cgrp=foreground sched=0/0 handle=0x709c4ea49cf0
+  | state=S schedstat=( 27764595 105910210 81 ) utm=1 stm=1 core=0 HZ=100
+  | stack=0x709c4e947000-0x709c4e949000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Object.wait(Native method)
+  - waiting on <0x0ad0bcc8> (a com.android.server.am.AppProfiler$ProcessCpuThread)
+  at java.lang.Object.wait(Object.java:386)
+  at com.android.server.am.AppProfiler$ProcessCpuThread.run(AppProfiler.java:2169)
+  - locked <0x0ad0bcc8> (a com.android.server.am.AppProfiler$ProcessCpuThread)
+
+"Thread-8" prio=5 tid=64 Waiting
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec2398 self=0x709de2a7c110
+  | sysTid=614 nice=-8 cgrp=foreground sched=0/0 handle=0x709c4cbcfcf0
+  | state=S schedstat=( 81098 0 1 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c4cacd000-0x709c4cacf000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Object.wait(Native method)
+  - waiting on <0x0f158161> (a java.lang.Object)
+  at java.lang.Object.wait(Object.java:386)
+  at java.lang.Object.wait(Object.java:524)
+  at com.android.server.vibrator.VibrationThread.waitForVibrationRequest(VibrationThread.java:210)
+  - locked <0x0f158161> (a java.lang.Object)
+  at com.android.server.vibrator.VibrationThread.run(VibrationThread.java:146)
+
+"LazyTaskWriterThread" prio=5 tid=69 Waiting
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec3110 self=0x709de2aab000
+  | sysTid=620 nice=10 cgrp=top-app sched=0/0 handle=0x709c4c266cf0
+  | state=S schedstat=( 65592 0 1 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c4c164000-0x709c4c166000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Object.wait(Native method)
+  - waiting on <0x0b99d486> (a com.android.server.wm.PersisterQueue)
+  at java.lang.Object.wait(Object.java:386)
+  at java.lang.Object.wait(Object.java:524)
+  at com.android.server.wm.PersisterQueue.processNextItem(PersisterQueue.java:226)
+  - locked <0x0b99d486> (a com.android.server.wm.PersisterQueue)
+  at com.android.server.wm.PersisterQueue.-$$Nest$mprocessNextItem(PersisterQueue.java:0)
+  at com.android.server.wm.PersisterQueue$LazyTaskWriterThread.run(PersisterQueue.java:298)
+
+"PhotonicModulator" prio=5 tid=122 Waiting
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x14c41d20 self=0x709de2b08de0
+  | sysTid=815 nice=0 cgrp=foreground sched=0/0 handle=0x709c48450cf0
+  | state=S schedstat=( 310082 7041155 9 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4834e000-0x709c48350000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Object.wait(Native method)
+  - waiting on <0x04e48147> (a java.lang.Object)
+  at java.lang.Object.wait(Object.java:386)
+  at java.lang.Object.wait(Object.java:524)
+  at com.android.server.display.DisplayPowerState$PhotonicModulator.run(DisplayPowerState.java:512)
+  - locked <0x04e48147> (a java.lang.Object)
+
+"TaskSnapshotPersister" prio=5 tid=132 Waiting
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x14090320 self=0x709de2b0a9b0
+  | sysTid=820 nice=10 cgrp=foreground sched=0/0 handle=0x709c479f6cf0
+  | state=S schedstat=( 18875140 241932693 171 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c478f4000-0x709c478f6000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Object.wait(Native method)
+  - waiting on <0x0898dd74> (a java.lang.Object)
+  at java.lang.Object.wait(Object.java:386)
+  at java.lang.Object.wait(Object.java:524)
+  at com.android.server.wm.SnapshotPersistQueue$1.run(SnapshotPersistQueue.java:179)
+  - locked <0x0898dd74> (a java.lang.Object)
+
+"LazyTaskWriterThread" prio=5 tid=276 Waiting
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x15a021b8 self=0x709de2c3ace0
+  | sysTid=3206 nice=10 cgrp=foreground sched=0/0 handle=0x709c3cac0cf0
+  | state=S schedstat=( 20709869 274182820 137 ) utm=2 stm=0 core=1 HZ=100
+  | stack=0x709c3c9be000-0x709c3c9c0000 stackSize=1035KB
+  | held mutexes=
+  at java.lang.Object.wait(Native method)
+  - waiting on <0x0b2eb312> (a com.android.server.wm.PersisterQueue)
+  at java.lang.Object.wait(Object.java:386)
+  at java.lang.Object.wait(Object.java:524)
+  at com.android.server.wm.PersisterQueue.processNextItem(PersisterQueue.java:226)
+  - locked <0x0b2eb312> (a com.android.server.wm.PersisterQueue)
+  at com.android.server.wm.PersisterQueue.-$$Nest$mprocessNextItem(PersisterQueue.java:0)
+  at com.android.server.wm.PersisterQueue$LazyTaskWriterThread.run(PersisterQueue.java:298)
+
+"main" prio=5 tid=1 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x72113478 self=0x709de29f9b20
+  | sysTid=521 nice=-2 cgrp=foreground sched=0/0 handle=0x709f9bca64f8
+  | state=S schedstat=( 6538911472 8120173958 37549 ) utm=484 stm=169 core=0 HZ=100
+  | stack=0x7ffdfde46000-0x7ffdfde48000 stackSize=8188KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at com.android.server.SystemServer.run(SystemServer.java:970)
+  at com.android.server.SystemServer.main(SystemServer.java:664)
+  at java.lang.reflect.Method.invoke(Native method)
+  at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:552)
+  at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:949)
+
+"Signal Catcher" daemon prio=10 tid=2 Runnable
+  | group="system" sCount=0 ucsCount=0 flags=0 obj=0x13340330 self=0x709de29f7f50
+  | sysTid=527 nice=-20 cgrp=foreground sched=0/0 handle=0x709cc802bcf0
+  | state=R schedstat=( 340832 82366 5 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709cc7f35000-0x709cc7f37000 stackSize=987KB
+  | held mutexes= "mutator lock"(shared held)
+  native: #00 pc 0071d1fc  /apex/com.android.art/lib64/libart.so (art::DumpNativeStack+204) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #01 pc 0085befa  /apex/com.android.art/lib64/libart.so (art::Thread::DumpStack const+346) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #02 pc 0087d2fb  /apex/com.android.art/lib64/libart.so (art::DumpCheckpoint::Run+1163) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #03 pc 00876a44  /apex/com.android.art/lib64/libart.so (art::ThreadList::RunCheckpoint+980) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #04 pc 008758f6  /apex/com.android.art/lib64/libart.so (art::ThreadList::Dump+1782) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #05 pc 00875174  /apex/com.android.art/lib64/libart.so (art::ThreadList::DumpForSigQuit+1620) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #06 pc 0080e03d  /apex/com.android.art/lib64/libart.so (art::Runtime::DumpForSigQuit+45) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #07 pc 00830ba9  /apex/com.android.art/lib64/libart.so (art::SignalCatcher::HandleSigQuit+2201) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #08 pc 0082f955  /apex/com.android.art/lib64/libart.so (art::SignalCatcher::Run+565) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #09 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #10 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"perfetto_hprof_listener" prio=10 tid=3 Native (still starting up)
+  | group="" sCount=1 ucsCount=0 flags=1 obj=0x0 self=0x709de29fee90
+  | sysTid=528 nice=-20 cgrp=foreground sched=0/0 handle=0x709cc7f2ecf0
+  | state=S schedstat=( 168385 0 3 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709cc7e38000-0x709cc7e3a000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b81f5  /apex/com.android.runtime/lib64/bionic/libc.so (read+5) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 00025ed0  /apex/com.android.art/lib64/libperfetto_hprof.so (void* std::__1::__thread_proxy<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct> >, ArtPlugin_Initialize::$_7> >+320) (BuildId: 74025fc0dddb40cf0858a907fd2f6003)
+  native: #02 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"Jit thread pool worker thread 0" daemon prio=5 tid=4 Native
+  | group="system" sCount=1 ucsCount=0 flags=1 obj=0x133403a8 self=0x709de2a1e330
+  | sysTid=529 nice=9 cgrp=foreground sched=0/0 handle=0x709cc7e31cf0
+  | state=S schedstat=( 64706666 718785521 350 ) utm=3 stm=2 core=0 HZ=100
+  | stack=0x709cc7d33000-0x709cc7d35000 stackSize=1019KB
+  | held mutexes=
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 003cf3eb  /apex/com.android.art/lib64/libart.so (art::ConditionVariable::WaitHoldingLocks+107) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #02 pc 0087f227  /apex/com.android.art/lib64/libart.so (art::ThreadPool::GetTask+103) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #03 pc 0087e4e1  /apex/com.android.art/lib64/libart.so (art::ThreadPoolWorker::Run+113) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #04 pc 0087df78  /apex/com.android.art/lib64/libart.so (art::ThreadPoolWorker::Callback+152) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #05 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #06 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"HeapTaskDaemon" daemon prio=5 tid=5 WaitingForTaskProcessor
+  | group="system" sCount=1 ucsCount=0 flags=1 obj=0x13342b08 self=0x709de29fd2c0
+  | sysTid=530 nice=4 cgrp=foreground sched=0/0 handle=0x709cba1fbcf0
+  | state=S schedstat=( 1550020566 9431739440 3218 ) utm=135 stm=19 core=0 HZ=100
+  | stack=0x709cba0f9000-0x709cba0fb000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 003cf3eb  /apex/com.android.art/lib64/libart.so (art::ConditionVariable::WaitHoldingLocks+107) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #02 pc 00542b01  /apex/com.android.art/lib64/libart.so (art::gc::TaskProcessor::GetTask+465) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #03 pc 00543313  /apex/com.android.art/lib64/libart.so (art::gc::TaskProcessor::RunAllTasks+67) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  at dalvik.system.VMRuntime.runHeapTasks(Native method)
+  at java.lang.Daemons$HeapTaskDaemon.runInternal(Daemons.java:687)
+  at java.lang.Daemons$Daemon.run(Daemons.java:145)
+  at java.lang.Thread.run(Thread.java:1012)
+
+"binder:521_1" prio=5 tid=9 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13340588 self=0x709de2a1ab90
+  | sysTid=534 nice=0 cgrp=foreground sched=0/0 handle=0x709c781edcf0
+  | state=S schedstat=( 638331408 4200140563 13367 ) utm=46 stm=16 core=1 HZ=100
+  | stack=0x709c780f7000-0x709c780f9000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b8517  /apex/com.android.runtime/lib64/bionic/libc.so (__ioctl+7) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006b428  /apex/com.android.runtime/lib64/bionic/libc.so (ioctl+216) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000892eb  /system/lib64/libbinder.so (android::IPCThreadState::joinThreadPool+363) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #03 pc 00089177  /system/lib64/libbinder.so (android::PoolThread::threadLoop+23) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #04 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #05 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"binder:521_2" prio=5 tid=10 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13340600 self=0x709de2a236a0
+  | sysTid=535 nice=0 cgrp=foreground sched=0/0 handle=0x709c6f991cf0
+  | state=S schedstat=( 1097566437 6972255278 21325 ) utm=85 stm=24 core=1 HZ=100
+  | stack=0x709c6f89b000-0x709c6f89d000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b8517  /apex/com.android.runtime/lib64/bionic/libc.so (__ioctl+7) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006b428  /apex/com.android.runtime/lib64/bionic/libc.so (ioctl+216) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000892eb  /system/lib64/libbinder.so (android::IPCThreadState::joinThreadPool+363) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #03 pc 00089177  /system/lib64/libbinder.so (android::PoolThread::threadLoop+23) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #04 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #05 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"watchdog.monitor" prio=5 tid=12 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13340710 self=0x709de2a25270
+  | sysTid=537 nice=0 cgrp=foreground sched=0/0 handle=0x709c503fbcf0
+  | state=S schedstat=( 4470554 7698113 71 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c502f9000-0x709c502fb000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"android.fg" prio=5 tid=13 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x133407f0 self=0x709de2a21ad0
+  | sysTid=538 nice=0 cgrp=foreground sched=0/0 handle=0x709c4fffbcf0
+  | state=S schedstat=( 473348616 4621830644 10867 ) utm=38 stm=8 core=1 HZ=100
+  | stack=0x709c4fef9000-0x709c4fefb000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"android.ui" prio=5 tid=14 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x133408d0 self=0x709de2a28a10
+  | sysTid=539 nice=-2 cgrp=top-app sched=0/0 handle=0x709c4fef2cf0
+  | state=S schedstat=( 729009829 4390351798 19626 ) utm=52 stm=19 core=1 HZ=100
+  | stack=0x709c4fdf0000-0x709c4fdf2000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+  at com.android.server.UiThread.run(UiThread.java:45)
+
+"android.io" prio=5 tid=15 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x133409b0 self=0x709de2a2a5e0
+  | sysTid=540 nice=0 cgrp=foreground sched=0/0 handle=0x709c4fde9cf0
+  | state=S schedstat=( 87664808 583534608 709 ) utm=5 stm=3 core=0 HZ=100
+  | stack=0x709c4fce7000-0x709c4fce9000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"android.display" prio=5 tid=16 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13340a90 self=0x709de2a2c1b0
+  | sysTid=541 nice=-3 cgrp=top-app sched=0/0 handle=0x709c4fce0cf0
+  | state=S schedstat=( 417220002 1819782840 3924 ) utm=28 stm=13 core=1 HZ=100
+  | stack=0x709c4fbde000-0x709c4fbe0000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"android.anim" prio=5 tid=17 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13340b70 self=0x709de2a2dd80
+  | sysTid=542 nice=-4 cgrp=top-app sched=0/0 handle=0x709c4fbd7cf0
+  | state=S schedstat=( 289344797 2683510373 3113 ) utm=22 stm=6 core=0 HZ=100
+  | stack=0x709c4fad5000-0x709c4fad7000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"android.anim.lf" prio=5 tid=18 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13340c50 self=0x709de2a330f0
+  | sysTid=543 nice=-4 cgrp=top-app sched=0/0 handle=0x709c4facecf0
+  | state=S schedstat=( 5360264 85462262 87 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4f9cc000-0x709c4f9ce000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"PowerStatsService" prio=5 tid=21 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13340f38 self=0x709de2a2f950
+  | sysTid=546 nice=0 cgrp=foreground sched=0/0 handle=0x709c4f7b3cf0
+  | state=S schedstat=( 901189 19825937 19 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4f6b1000-0x709c4f6b3000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"android.bg" prio=5 tid=22 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341018 self=0x709de2a36890
+  | sysTid=547 nice=10 cgrp=foreground sched=0/0 handle=0x709c4f5accf0
+  | state=S schedstat=( 1456524034 28010738027 10862 ) utm=56 stm=88 core=1 HZ=100
+  | stack=0x709c4f4aa000-0x709c4f4ac000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"ActivityManager" prio=5 tid=23 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x133410f8 self=0x709de2a38460
+  | sysTid=548 nice=-2 cgrp=foreground sched=0/0 handle=0x709c4f4a3cf0
+  | state=S schedstat=( 1851855994 13036975978 32601 ) utm=136 stm=48 core=0 HZ=100
+  | stack=0x709c4f3a1000-0x709c4f3a3000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"ActivityManager:procStart" prio=5 tid=24 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x133411d8 self=0x709de2a3a030
+  | sysTid=549 nice=-2 cgrp=foreground sched=0/0 handle=0x709c4f39acf0
+  | state=S schedstat=( 99026812 992659368 1504 ) utm=5 stm=4 core=1 HZ=100
+  | stack=0x709c4f298000-0x709c4f29a000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"ActivityManager:kill" prio=5 tid=25 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x133412b8 self=0x709de2a3bc00
+  | sysTid=550 nice=10 cgrp=foreground sched=0/0 handle=0x709c4f291cf0
+  | state=S schedstat=( 14962894 436553034 266 ) utm=1 stm=0 core=1 HZ=100
+  | stack=0x709c4f18f000-0x709c4f191000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"ActivityManager:killHandler" prio=5 tid=26 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341398 self=0x709de2a42b40
+  | sysTid=551 nice=10 cgrp=foreground sched=0/0 handle=0x709c4f188cf0
+  | state=S schedstat=( 10908888 359051861 244 ) utm=1 stm=0 core=1 HZ=100
+  | stack=0x709c4f086000-0x709c4f088000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"OomAdjuster" prio=5 tid=27 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341478 self=0x709de2a3f3a0
+  | sysTid=553 nice=-10 cgrp=foreground sched=0/0 handle=0x709c4ef76cf0
+  | state=S schedstat=( 387930513 1638305333 6711 ) utm=7 stm=31 core=1 HZ=100
+  | stack=0x709c4ee74000-0x709c4ee76000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 003cf3eb  /apex/com.android.art/lib64/libart.so (art::ConditionVariable::WaitHoldingLocks+107) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #02 pc 0091d90f  /apex/com.android.art/lib64/libart.so (artJniMethodEnd+431) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  native: #03 pc 003762e7  /apex/com.android.art/lib64/libart.so (art_jni_method_end+23) (BuildId: b6dc79e02101ea00827a35a55ab6597a)
+  at android.os.Process.setProcessGroup(Native method)
+  at com.android.server.am.OomAdjuster.lambda$new$0(OomAdjuster.java:448)
+  at com.android.server.am.OomAdjuster.$r8$lambda$G9qaeCQ1bE6cG3uK32c_XCnZvYk(OomAdjuster.java:0)
+  at com.android.server.am.OomAdjuster$$ExternalSyntheticLambda3.handleMessage(R8$$SyntheticClass:0)
+  at android.os.Handler.dispatchMessage(Handler.java:102)
+  at android.os.Looper.loopOnce(Looper.java:205)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"batterystats-handler" prio=5 tid=28 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341558 self=0x709de2a40f70
+  | sysTid=554 nice=0 cgrp=foreground sched=0/0 handle=0x709c4ee6dcf0
+  | state=S schedstat=( 416229531 5305908255 17352 ) utm=30 stm=11 core=1 HZ=100
+  | stack=0x709c4ed6b000-0x709c4ed6d000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"Thread-3" prio=5 tid=29 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341638 self=0x709de2a3d7d0
+  | sysTid=552 nice=0 cgrp=foreground sched=0/0 handle=0x709c4f07fcf0
+  | state=S schedstat=( 3004176 176530548 208 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4ef7d000-0x709c4ef7f000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000a2429  /system/lib64/libandroid_servers.so (android::android_server_am_LowMemDetector_waitForPressure+121) (BuildId: 46cffa741de9d39af3d328eb11b1c31f)
+  at com.android.server.am.LowMemDetector.waitForPressure(Native method)
+  at com.android.server.am.LowMemDetector.-$$Nest$mwaitForPressure(LowMemDetector.java:0)
+  at com.android.server.am.LowMemDetector$LowMemThread.run(LowMemDetector.java:97)
+
+"bgres-controller" prio=5 tid=30 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x133416d0 self=0x709de2a462e0
+  | sysTid=556 nice=10 cgrp=foreground sched=0/0 handle=0x709c4ec5bcf0
+  | state=S schedstat=( 135298689 4216609063 3930 ) utm=8 stm=4 core=0 HZ=100
+  | stack=0x709c4eb59000-0x709c4eb5b000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"FileObserver" prio=5 tid=31 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x133417b0 self=0x709de2a49a80
+  | sysTid=557 nice=0 cgrp=foreground sched=0/0 handle=0x709c4eb52cf0
+  | state=S schedstat=( 7455305 79006493 372 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4ea50000-0x709c4ea52000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b81f5  /apex/com.android.runtime/lib64/bionic/libc.so (read+5) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 001d00b0  /system/lib64/libandroid_runtime.so (android::android_os_fileobserver_observe+96) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.FileObserver$ObserverThread.observe(Native method)
+  at android.os.FileObserver$ObserverThread.run(FileObserver.java:116)
+
+"batterystats-worker" prio=5 tid=32 TimedWaiting
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341830 self=0x709de2a47eb0
+  | sysTid=555 nice=0 cgrp=foreground sched=0/0 handle=0x709c4ed64cf0
+  | state=S schedstat=( 120599007 237449334 340 ) utm=6 stm=5 core=1 HZ=100
+  | stack=0x709c4ec62000-0x709c4ec64000 stackSize=1035KB
+  | held mutexes=
+  at jdk.internal.misc.Unsafe.park(Native method)
+  - waiting on an unknown object
+  at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+  at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1188)
+  at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:905)
+  at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1071)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1131)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+  at com.android.server.power.stats.BatteryExternalStatsWorker.lambda$new$0(BatteryExternalStatsWorker.java:95)
+  at com.android.server.power.stats.BatteryExternalStatsWorker.$r8$lambda$ic2_V0rVX0RMY0n1EJJuh4y9Rq4(BatteryExternalStatsWorker.java:0)
+  at com.android.server.power.stats.BatteryExternalStatsWorker$$ExternalSyntheticLambda3.run(R8$$SyntheticClass:0)
+  at java.lang.Thread.run(Thread.java:1012)
+
+"CriticalEventLogIO" prio=5 tid=34 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341a20 self=0x709de2a4edf0
+  | sysTid=559 nice=0 cgrp=foreground sched=0/0 handle=0x709c4e940cf0
+  | state=S schedstat=( 816978 16303224 9 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4e83e000-0x709c4e840000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"DataLoaderManager" prio=5 tid=35 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341b00 self=0x709de2a509c0
+  | sysTid=560 nice=0 cgrp=foreground sched=0/0 handle=0x709c4e837cf0
+  | state=S schedstat=( 94950 1094638 2 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4e735000-0x709c4e737000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"PowerManagerService" prio=5 tid=36 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341be0 self=0x709de2a4d220
+  | sysTid=565 nice=-4 cgrp=foreground sched=0/0 handle=0x709c4e33acf0
+  | state=S schedstat=( 70381332 920296605 5795 ) utm=4 stm=2 core=1 HZ=100
+  | stack=0x709c4e238000-0x709c4e23a000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"Thread-4" prio=6 tid=37 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341cc0 self=0x709de2a55d30
+  | sysTid=564 nice=-2 cgrp=foreground sched=0/0 handle=0x709c4e437cf0
+  | state=S schedstat=( 152364 15348308 1 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4e341000-0x709c4e343000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 00010c32  /system/lib64/libutils.so (android::Looper::pollAll+482) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 0009e88a  /system/lib64/service.incremental.so (void* std::__1::__thread_proxy<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct> >, android::incremental::IncrementalService::IncrementalService::$_1> >+74) (BuildId: 70ba37762f8940f24c44de5055368e73)
+  native: #03 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #04 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"Thread-5" prio=6 tid=38 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341d38 self=0x709de2a52590
+  | sysTid=563 nice=-2 cgrp=foreground sched=0/0 handle=0x709c4e534cf0
+  | state=S schedstat=( 45478 15525345 1 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4e43e000-0x709c4e440000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc3a2  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_wait+50) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 0003ce4e  /apex/com.android.os.statsd/lib64/libstatspull.so (std::__1::condition_variable::wait+14) (BuildId: 415ac527420983d97093ab1486119d00)
+  native: #04 pc 000986cf  /system/lib64/service.incremental.so (android::incremental::IncrementalService::runJobProcessing+159) (BuildId: 70ba37762f8940f24c44de5055368e73)
+  native: #05 pc 0009e802  /system/lib64/service.incremental.so (void* std::__1::__thread_proxy<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct> >, android::incremental::IncrementalService::IncrementalService::$_0> >+50) (BuildId: 70ba37762f8940f24c44de5055368e73)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"Thread-6" prio=6 tid=39 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341db0 self=0x709de2a5b0a0
+  | sysTid=562 nice=-2 cgrp=foreground sched=0/0 handle=0x709c4e631cf0
+  | state=S schedstat=( 35507 15597586 1 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4e53b000-0x709c4e53d000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 0003cee4  /apex/com.android.os.statsd/lib64/libstatspull.so (std::__1::condition_variable::__do_timed_wait+100) (BuildId: 415ac527420983d97093ab1486119d00)
+  native: #04 pc 000abf4f  /system/lib64/service.incremental.so (android::incremental::RealTimedQueueWrapper::runTimers+319) (BuildId: 70ba37762f8940f24c44de5055368e73)
+  native: #05 pc 000abdd1  /system/lib64/service.incremental.so (void* std::__1::__thread_proxy<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct> >, android::incremental::RealTimedQueueWrapper::RealTimedQueueWrapper::'lambda'> >+49) (BuildId: 70ba37762f8940f24c44de5055368e73)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"BatteryStats_wakeupReason" prio=5 tid=40 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341e28 self=0x709de2a54160
+  | sysTid=566 nice=-2 cgrp=foreground sched=0/0 handle=0x709c4e231cf0
+  | state=S schedstat=( 113490 6414664 3 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4e12f000-0x709c4e131000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 0006f71d  /apex/com.android.runtime/lib64/bionic/libc.so (sem_wait+93) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 0006d450  /system/lib64/libandroid_servers.so (android::nativeWaitWakeup+368) (BuildId: 46cffa741de9d39af3d328eb11b1c31f)
+  at com.android.server.am.BatteryStatsService.nativeWaitWakeup(Native method)
+  at com.android.server.am.BatteryStatsService.-$$Nest$smnativeWaitWakeup(BatteryStatsService.java:0)
+  at com.android.server.am.BatteryStatsService$WakeupReasonThread.waitWakeup(BatteryStatsService.java:2540)
+  at com.android.server.am.BatteryStatsService$WakeupReasonThread.run(BatteryStatsService.java:2516)
+
+"Thread-7" prio=6 tid=41 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341ef0 self=0x709de2a5cc70
+  | sysTid=561 nice=-2 cgrp=foreground sched=0/0 handle=0x709c4e72ecf0
+  | state=S schedstat=( 70360 22799521 3 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4e638000-0x709c4e63a000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 0005db98  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+24) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000624a0  /apex/com.android.runtime/lib64/bionic/libc.so (__futex_wait_ex+144) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000cc42b  /apex/com.android.runtime/lib64/bionic/libc.so (pthread_cond_timedwait+91) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #03 pc 0003cee4  /apex/com.android.os.statsd/lib64/libstatspull.so (std::__1::condition_variable::__do_timed_wait+100) (BuildId: 415ac527420983d97093ab1486119d00)
+  native: #04 pc 000abf4f  /system/lib64/service.incremental.so (android::incremental::RealTimedQueueWrapper::runTimers+319) (BuildId: 70ba37762f8940f24c44de5055368e73)
+  native: #05 pc 000abdd1  /system/lib64/service.incremental.so (void* std::__1::__thread_proxy<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct> >, android::incremental::RealTimedQueueWrapper::RealTimedQueueWrapper::'lambda'> >+49) (BuildId: 70ba37762f8940f24c44de5055368e73)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"PackageManagerBg" prio=5 tid=42 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13341f68 self=0x709de2a5e840
+  | sysTid=569 nice=10 cgrp=foreground sched=0/0 handle=0x709c4e128cf0
+  | state=S schedstat=( 537915353 7113808670 1129 ) utm=45 stm=7 core=1 HZ=100
+  | stack=0x709c4e026000-0x709c4e028000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"PermissionManager" prio=5 tid=43 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13342048 self=0x709de2a63bb0
+  | sysTid=570 nice=10 cgrp=foreground sched=0/0 handle=0x709c4e01fcf0
+  | state=S schedstat=( 364344 1574144 11 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4df1d000-0x709c4df1f000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"DefaultPermGrantPolicy" prio=5 tid=44 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13342128 self=0x709de2a65780
+  | sysTid=571 nice=10 cgrp=foreground sched=0/0 handle=0x709c4df16cf0
+  | state=S schedstat=( 135498 1232232 3 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4de14000-0x709c4de16000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"PackageManager" prio=5 tid=45 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13342208 self=0x709de2a60410
+  | sysTid=572 nice=0 cgrp=foreground sched=0/0 handle=0x709c4de0dcf0
+  | state=S schedstat=( 263342782 3384205043 4797 ) utm=20 stm=5 core=1 HZ=100
+  | stack=0x709c4dd0b000-0x709c4dd0d000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"binder:521_10" prio=5 tid=46 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x140c6918 self=0x709de2a6e290
+  | sysTid=2140 nice=0 cgrp=foreground sched=0/0 handle=0x709c41668cf0
+  | state=S schedstat=( 396638665 2673710790 7684 ) utm=30 stm=8 core=1 HZ=100
+  | stack=0x709c41572000-0x709c41574000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b8517  /apex/com.android.runtime/lib64/bionic/libc.so (__ioctl+7) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006b428  /apex/com.android.runtime/lib64/bionic/libc.so (ioctl+216) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000892eb  /system/lib64/libbinder.so (android::IPCThreadState::joinThreadPool+363) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #03 pc 00089177  /system/lib64/libbinder.so (android::PoolThread::threadLoop+23) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #04 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #05 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"RedirectListenerHandler" prio=5 tid=47 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x151c07c0 self=0x709de2a9b5b0
+  | sysTid=1534 nice=0 cgrp=foreground sched=0/0 handle=0x709c4ce48cf0
+  | state=S schedstat=( 109238 588707 1 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c4cd46000-0x709c4cd48000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"PackageInstaller" prio=5 tid=48 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13342938 self=0x709de2a9d180
+  | sysTid=591 nice=0 cgrp=foreground sched=0/0 handle=0x709c4c569cf0
+  | state=S schedstat=( 952904052 3922116657 2742 ) utm=85 stm=9 core=1 HZ=100
+  | stack=0x709c4c467000-0x709c4c469000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"binder:521_3" prio=5 tid=49 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13342a18 self=0x709de2a90ed0
+  | sysTid=592 nice=0 cgrp=foreground sched=0/0 handle=0x709c4c460cf0
+  | state=S schedstat=( 582950285 5593568745 11993 ) utm=40 stm=17 core=1 HZ=100
+  | stack=0x709c4c36a000-0x709c4c36c000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b8517  /apex/com.android.runtime/lib64/bionic/libc.so (__ioctl+7) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006b428  /apex/com.android.runtime/lib64/bionic/libc.so (ioctl+216) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000892eb  /system/lib64/libbinder.so (android::IPCThreadState::joinThreadPool+363) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #03 pc 00089177  /system/lib64/libbinder.so (android::PoolThread::threadLoop+23) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #04 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #05 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"binder:521_4" prio=5 tid=50 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13342a90 self=0x709de2a96240
+  | sysTid=593 nice=0 cgrp=foreground sched=0/0 handle=0x709c4c363cf0
+  | state=S schedstat=( 529705760 4441892624 11582 ) utm=35 stm=17 core=1 HZ=100
+  | stack=0x709c4c26d000-0x709c4c26f000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b8517  /apex/com.android.runtime/lib64/bionic/libc.so (__ioctl+7) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006b428  /apex/com.android.runtime/lib64/bionic/libc.so (ioctl+216) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 000892eb  /system/lib64/libbinder.so (android::IPCThreadState::joinThreadPool+363) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #03 pc 00089177  /system/lib64/libbinder.so (android::PoolThread::threadLoop+23) (BuildId: 404ed6308cc41e47e1246a91ff68e31e)
+  native: #04 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #05 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"OverlayManager" prio=5 tid=51 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec1990 self=0x709de2a999e0
+  | sysTid=595 nice=0 cgrp=foreground sched=0/0 handle=0x709c4dbfbcf0
+  | state=S schedstat=( 9795339 163320213 139 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4daf9000-0x709c4dafb000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"SensorEventAckReceiver" prio=10 tid=52 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec1a70 self=0x709de2a68f20
+  | sysTid=602 nice=-8 cgrp=foreground sched=0/0 handle=0x709c4daf2cf0
+  | state=S schedstat=( 125485 170711 2 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c4d9fc000-0x709c4d9fe000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 0002ef23  /system/lib64/libsensorservice.so (android::SensorService::SensorEventAckReceiver::threadLoop+179) (BuildId: f284ae495def6faa9d72cb4b25e50ee3)
+  native: #03 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #04 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #05 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #06 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"SensorService" prio=10 tid=53 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec1ae8 self=0x709de2a8d730
+  | sysTid=603 nice=-8 cgrp=foreground sched=1073741825/10 handle=0x709c4d9f5cf0
+  | state=S schedstat=( 486079043 30795020 10710 ) utm=21 stm=26 core=0 HZ=100
+  | stack=0x709c4d8ff000-0x709c4d901000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 0005db96  /apex/com.android.runtime/lib64/bionic/libc.so (syscall+22) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000028da  /system/lib64/libfmq.so (android::hardware::EventFlag::waitHelper+298) (BuildId: 6789da9681b59784b60afedc98e54667)
+  native: #02 pc 00033b74  /system/lib64/libsensorservice.so (android::AidlSensorHalWrapper::pollFmq+100) (BuildId: f284ae495def6faa9d72cb4b25e50ee3)
+  native: #03 pc 00026148  /system/lib64/libsensorservice.so (android::SensorDevice::poll+88) (BuildId: f284ae495def6faa9d72cb4b25e50ee3)
+  native: #04 pc 0002340c  /system/lib64/libsensorservice.so (android::SensorService::threadLoop+332) (BuildId: f284ae495def6faa9d72cb4b25e50ee3)
+  native: #05 pc 00054cd9  /system/lib64/libsensorservice.so (non-virtual thunk to android::SensorService::threadLoop+9) (BuildId: f284ae495def6faa9d72cb4b25e50ee3)
+  native: #06 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #07 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #08 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #09 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"HealthServiceBinder" prio=5 tid=54 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec1b60 self=0x709de2a97e10
+  | sysTid=604 nice=0 cgrp=foreground sched=0/0 handle=0x709c4d8f8cf0
+  | state=S schedstat=( 105523 136991 3 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4d7f6000-0x709c4d7f8000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"appscheduling.default" prio=5 tid=55 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec1c40 self=0x709de2a92aa0
+  | sysTid=605 nice=0 cgrp=foreground sched=0/0 handle=0x709c4d7efcf0
+  | state=S schedstat=( 343479702 2840952479 5806 ) utm=30 stm=3 core=1 HZ=100
+  | stack=0x709c4d6ed000-0x709c4d6ef000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"RollbackPackageHealthObserver" prio=5 tid=56 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec1d20 self=0x709de2a883c0
+  | sysTid=606 nice=0 cgrp=foreground sched=0/0 handle=0x709c4d6e6cf0
+  | state=S schedstat=( 277379 84067 4 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4d5e4000-0x709c4d5e6000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"RollbackManagerServiceHandler" prio=5 tid=57 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec1e00 self=0x709de2a8f300
+  | sysTid=607 nice=0 cgrp=foreground sched=0/0 handle=0x709c4d5ddcf0
+  | state=S schedstat=( 2409992 44902704 118 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c4d4db000-0x709c4d4dd000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"NativeTombstoneManager:tombstoneWatcher" prio=5 tid=58 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec1ee0 self=0x709de2a7dce0
+  | sysTid=608 nice=10 cgrp=foreground sched=0/0 handle=0x709c4d4d4cf0
+  | state=S schedstat=( 994174 14310553 36 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c4d3d2000-0x709c4d3d4000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"CpuMonitorService" prio=5 tid=59 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec1fc0 self=0x709de2a8bb60
+  | sysTid=609 nice=10 cgrp=foreground sched=0/0 handle=0x709c4d3cbcf0
+  | state=S schedstat=( 6244589 9156377 13 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4d2c9000-0x709c4d2cb000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"AccountManagerService" prio=5 tid=60 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec20a0 self=0x709de2a867f0
+  | sysTid=610 nice=-2 cgrp=foreground sched=0/0 handle=0x709c4d2c2cf0
+  | state=S schedstat=( 1850288 30102396 80 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4d1c0000-0x709c4d1c2000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"SettingsProvider" prio=5 tid=61 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec2180 self=0x709de2a83050
+  | sysTid=611 nice=10 cgrp=foreground sched=0/0 handle=0x709c4d0c5cf0
+  | state=S schedstat=( 80493364 1630614644 791 ) utm=4 stm=3 core=1 HZ=100
+  | stack=0x709c4cfc3000-0x709c4cfc5000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"CachedAppOptimizerThread" prio=5 tid=62 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x158cbd48 self=0x709de2a81480
+  | sysTid=612 nice=2 cgrp=foreground sched=0/0 handle=0x709c4cfbccf0
+  | state=S schedstat=( 1176424909 2269730902 2557 ) utm=5 stm=112 core=0 HZ=100
+  | stack=0x709c4ceba000-0x709c4cebc000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"com.android.permission.util.ForegroundThread" prio=5 tid=63 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec22b8 self=0x709de2a89f90
+  | sysTid=613 nice=0 cgrp=foreground sched=0/0 handle=0x709c4ccd8cf0
+  | state=S schedstat=( 80102414 325857318 429 ) utm=6 stm=1 core=0 HZ=100
+  | stack=0x709c4cbd6000-0x709c4cbd8000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"tare" prio=5 tid=65 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec2648 self=0x709de2a76da0
+  | sysTid=615 nice=0 cgrp=foreground sched=0/0 handle=0x709c4cac6cf0
+  | state=S schedstat=( 3401579 1102341 16 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c4c9c4000-0x709c4c9c6000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"AlarmManager" prio=5 tid=66 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec2728 self=0x709de2a57900
+  | sysTid=616 nice=0 cgrp=foreground sched=0/0 handle=0x709c4c9bdcf0
+  | state=S schedstat=( 20225795 176996229 131 ) utm=2 stm=0 core=0 HZ=100
+  | stack=0x709c4c8bb000-0x709c4c8bd000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 000031be  /system/lib64/libalarm_jni.so (android::android_server_alarm_AlarmManagerService_waitForAlarm+126) (BuildId: f27e775c5e4afa962ecc8e29e51ddf26)
+  at com.android.server.alarm.AlarmManagerService.waitForAlarm(Native method)
+  at com.android.server.alarm.AlarmManagerService.-$$Nest$smwaitForAlarm(AlarmManagerService.java:0)
+  at com.android.server.alarm.AlarmManagerService$Injector.waitForAlarm(AlarmManagerService.java:4630)
+  at com.android.server.alarm.AlarmManagerService$AlarmThread.run(AlarmManagerService.java:4745)
+
+"pool-2-thread-1" prio=5 tid=67 Waiting
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec2ec0 self=0x709de2aa0920
+  | sysTid=618 nice=0 cgrp=foreground sched=0/0 handle=0x709c4c7b7cf0
+  | state=S schedstat=( 10671751 117177312 468 ) utm=1 stm=0 core=0 HZ=100
+  | stack=0x709c4c6b5000-0x709c4c6b7000 stackSize=1035KB
+  | held mutexes=
+  at jdk.internal.misc.Unsafe.park(Native method)
+  - waiting on an unknown object
+  at java.util.concurrent.locks.LockSupport.park(LockSupport.java:341)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode.block(AbstractQueuedSynchronizer.java:506)
+  at java.util.concurrent.ForkJoinPool.unmanagedBlock(ForkJoinPool.java:3466)
+  at java.util.concurrent.ForkJoinPool.managedBlock(ForkJoinPool.java:3437)
+  at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1623)
+  at java.util.concurrent.LinkedBlockingQueue.take(LinkedBlockingQueue.java:435)
+  at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1071)
+  at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1131)
+  at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+  at java.lang.Thread.run(Thread.java:1012)
+
+"CameraService_proxy" prio=5 tid=68 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec3030 self=0x709de2aacbd0
+  | sysTid=619 nice=-4 cgrp=foreground sched=0/0 handle=0x709c4c6aecf0
+  | state=S schedstat=( 185677 2596977 2 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4c5ac000-0x709c4c5ae000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"AccessibilityTracing" prio=5 tid=70 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec31b8 self=0x709de2aa9430
+  | sysTid=621 nice=0 cgrp=top-app sched=0/0 handle=0x709c4c15dcf0
+  | state=S schedstat=( 104211 0 1 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c4c05b000-0x709c4c05d000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"HwBinder:521_1" prio=5 tid=71 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec3298 self=0x709de2ab3b10
+  | sysTid=622 nice=-2 cgrp=foreground sched=0/0 handle=0x709c4c054cf0
+  | state=S schedstat=( 1098669 5051956 58 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4bf5e000-0x709c4bf60000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b8517  /apex/com.android.runtime/lib64/bionic/libc.so (__ioctl+7) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006b428  /apex/com.android.runtime/lib64/bionic/libc.so (ioctl+216) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 00066c3b  /system/lib64/libhidlbase.so (android::hardware::IPCThreadState::joinThreadPool+251) (BuildId: bcc1a842af2693f2005758616f192b1b)
+  native: #03 pc 00071e87  /system/lib64/libhidlbase.so (android::hardware::PoolThread::threadLoop+23) (BuildId: bcc1a842af2693f2005758616f192b1b)
+  native: #04 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #05 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"BluetoothManagerService" prio=5 tid=72 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec3310 self=0x709de2ab0370
+  | sysTid=626 nice=0 cgrp=foreground sched=0/0 handle=0x709c4aae3cf0
+  | state=S schedstat=( 6697149 33764294 137 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4a9e1000-0x709c4a9e3000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"HwBinder:521_2" prio=5 tid=73 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec33f0 self=0x709de2ab1f40
+  | sysTid=625 nice=-2 cgrp=foreground sched=0/0 handle=0x709c4abe0cf0
+  | state=S schedstat=( 2276445 5602332 93 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4aaea000-0x709c4aaec000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b8517  /apex/com.android.runtime/lib64/bionic/libc.so (__ioctl+7) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0006b428  /apex/com.android.runtime/lib64/bionic/libc.so (ioctl+216) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #02 pc 00066c3b  /system/lib64/libhidlbase.so (android::hardware::IPCThreadState::joinThreadPool+251) (BuildId: bcc1a842af2693f2005758616f192b1b)
+  native: #03 pc 00071e87  /system/lib64/libhidlbase.so (android::hardware::PoolThread::threadLoop+23) (BuildId: bcc1a842af2693f2005758616f192b1b)
+  native: #04 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #05 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"InputDispatcher" prio=10 tid=74 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec3468 self=0x709de2abc620
+  | sysTid=623 nice=-8 cgrp=foreground sched=0/0 handle=0x709c4aed2cf0
+  | state=S schedstat=( 27432664 782611670 874 ) utm=1 stm=0 core=0 HZ=100
+  | stack=0x709c4addc000-0x709c4adde000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 0000b582  /system/lib64/libinputflinger_base.so (android::::InputThreadImpl::threadLoop+18) (BuildId: 6b42543e00cc567bd8ef6151522bf9d7)
+  native: #03 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #04 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #05 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #06 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"InputReader" prio=10 tid=75 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec34e0 self=0x709de2ab72b0
+  | sysTid=624 nice=-8 cgrp=foreground sched=0/0 handle=0x709c4acddcf0
+  | state=S schedstat=( 99906912 289462880 596 ) utm=7 stm=2 core=1 HZ=100
+  | stack=0x709c4abe7000-0x709c4abe9000 stackSize=987KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 00081636  /system/lib64/libinputreader.so (android::EventHub::getEvents+3270) (BuildId: 478ea3d3ca7dea0005b01d34f1904c62)
+  native: #02 pc 000a5aa1  /system/lib64/libinputreader.so (android::InputReader::loopOnce+257) (BuildId: 478ea3d3ca7dea0005b01d34f1904c62)
+  native: #03 pc 0000b582  /system/lib64/libinputflinger_base.so (android::::InputThreadImpl::threadLoop+18) (BuildId: 6b42543e00cc567bd8ef6151522bf9d7)
+  native: #04 pc 000105b2  /system/lib64/libutils.so (android::Thread::_threadLoop+210) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #05 pc 000ebe72  /system/lib64/libandroid_runtime.so (android::AndroidRuntime::javaThreadShell+146) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  native: #06 pc 000cd06a  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start+58) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #07 pc 00062d88  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+56) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  (no managed stack frames)
+
+"NetworkWatchlistService" prio=5 tid=76 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec0030 self=0x709de2ab56e0
+  | sysTid=627 nice=10 cgrp=foreground sched=0/0 handle=0x709c4a9dacf0
+  | state=S schedstat=( 6223151267 2050440675 6144 ) utm=517 stm=104 core=0 HZ=100
+  | stack=0x709c4a8d8000-0x709c4a8da000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"AppIntegrityManagerServiceHandler" prio=5 tid=77 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec3558 self=0x709de2ab8e80
+  | sysTid=628 nice=0 cgrp=foreground sched=0/0 handle=0x709c4a8d1cf0
+  | state=S schedstat=( 10171224 135749281 47 ) utm=1 stm=0 core=0 HZ=100
+  | stack=0x709c4a7cf000-0x709c4a7d1000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"android.imms" prio=5 tid=78 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec3638 self=0x709de2ac3560
+  | sysTid=629 nice=-2 cgrp=foreground sched=0/0 handle=0x709c4a7c8cf0
+  | state=S schedstat=( 10666763 164422102 156 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4a6c6000-0x709c4a6c8000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"FlashNotificationThread" prio=5 tid=79 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec3718 self=0x709de2ac1990
+  | sysTid=630 nice=0 cgrp=foreground sched=0/0 handle=0x709c4a6bfcf0
+  | state=S schedstat=( 82061 239336 2 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4a5bd000-0x709c4a5bf000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"FlashNotifController" prio=5 tid=80 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec37f8 self=0x709de2aca4a0
+  | sysTid=631 nice=0 cgrp=foreground sched=0/0 handle=0x709c4a5b6cf0
+  | state=S schedstat=( 341974 3026029 15 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4a4b4000-0x709c4a4b6000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"StorageManagerService" prio=5 tid=81 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec38d8 self=0x709de2ac88d0
+  | sysTid=633 nice=0 cgrp=foreground sched=0/0 handle=0x709c4a4adcf0
+  | state=S schedstat=( 8938732 105030362 196 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c4a3ab000-0x709c4a3ad000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"LocaleManagerService" prio=5 tid=82 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec39b8 self=0x709de2abe1f0
+  | sysTid=634 nice=10 cgrp=foreground sched=0/0 handle=0x709c4a3a4cf0
+  | state=S schedstat=( 1285530 46458732 68 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4a2a2000-0x709c4a2a4000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"LockSettingsService" prio=5 tid=83 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13e00c10 self=0x709de2a7f8b0
+  | sysTid=757 nice=10 cgrp=foreground sched=0/0 handle=0x709c4bf57cf0
+  | state=S schedstat=( 219278 8127387 5 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4be55000-0x709c4be57000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"com.android.permission.jarjar.com.android.modules.utils.BackgroundThread" prio=5 tid=84 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13ec41b0 self=0x709de2a94670
+  | sysTid=642 nice=10 cgrp=foreground sched=0/0 handle=0x709c4a037cf0
+  | state=S schedstat=( 19069705 726756330 241 ) utm=0 stm=1 core=0 HZ=100
+  | stack=0x709c49f35000-0x709c49f37000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"NetworkStats" prio=5 tid=85 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13e00cf0 self=0x709de2a84c20
+  | sysTid=758 nice=0 cgrp=foreground sched=0/0 handle=0x709c4bbdacf0
+  | state=S schedstat=( 255984652 1450353406 2762 ) utm=19 stm=6 core=1 HZ=100
+  | stack=0x709c4bad8000-0x709c4bada000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"NetworkPolicy" prio=5 tid=86 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13e00dd0 self=0x709de2ac5130
+  | sysTid=760 nice=0 cgrp=foreground sched=0/0 handle=0x709c4b9d4cf0
+  | state=S schedstat=( 125288123 1102483574 1641 ) utm=9 stm=2 core=1 HZ=100
+  | stack=0x709c4b8d2000-0x709c4b8d4000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"NetworkPolicy.uid" prio=5 tid=87 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13e00eb0 self=0x709de2ad13e0
+  | sysTid=761 nice=-2 cgrp=foreground sched=0/0 handle=0x709c4b8cbcf0
+  | state=S schedstat=( 143061627 527280844 916 ) utm=7 stm=7 core=1 HZ=100
+  | stack=0x709c4b7c9000-0x709c4b7cb000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+  at com.android.server.ServiceThread.run(ServiceThread.java:46)
+
+"WifiHandlerThread" prio=5 tid=88 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13e00f90 self=0x709de2abaa50
+  | sysTid=762 nice=0 cgrp=foreground sched=0/0 handle=0x709c4b7c2cf0
+  | state=S schedstat=( 203888701 2371050563 2564 ) utm=12 stm=7 core=1 HZ=100
+  | stack=0x709c4b6c0000-0x709c4b6c2000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"PasspointProvisionerHandlerThread" prio=5 tid=89 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13e01070 self=0x709de2acdc40
+  | sysTid=765 nice=0 cgrp=foreground sched=0/0 handle=0x709c4b369cf0
+  | state=S schedstat=( 12489284 42582788 35 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4b267000-0x709c4b269000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"WifiP2pService" prio=5 tid=90 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13e01150 self=0x709de2acf810
+  | sysTid=764 nice=0 cgrp=foreground sched=0/0 handle=0x709c4b472cf0
+  | state=S schedstat=( 956907 2550092 13 ) utm=0 stm=0 core=0 HZ=100
+  | stack=0x709c4b370000-0x709c4b372000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"WifiDiagnostics" prio=5 tid=91 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13e01230 self=0x709de2ac6d00
+  | sysTid=763 nice=0 cgrp=foreground sched=0/0 handle=0x709c4b57bcf0
+  | state=S schedstat=( 31599 2378103 1 ) utm=0 stm=0 core=1 HZ=100
+  | stack=0x709c4b479000-0x709c4b47b000 stackSize=1035KB
+  | held mutexes=
+  native: #00 pc 000b94da  /apex/com.android.runtime/lib64/bionic/libc.so (__epoll_pwait+10) (BuildId: fa337969c798946280caa45e2d71a2e7)
+  native: #01 pc 0000fa9f  /system/lib64/libutils.so (android::Looper::pollOnce+303) (BuildId: c777bd164e6d4a5c070cb5e2d9bb92e0)
+  native: #02 pc 00179ea3  /system/lib64/libandroid_runtime.so (android::android_os_MessageQueue_nativePollOnce+35) (BuildId: 58f47cb2665b829aa74415f458f1922a)
+  at android.os.MessageQueue.nativePollOnce(Native method)
+  at android.os.MessageQueue.next(MessageQueue.java:335)
+  at android.os.Looper.loopOnce(Looper.java:162)
+  at android.os.Looper.loop(Looper.java:294)
+  at android.os.HandlerThread.run(HandlerThread.java:67)
+
+"WifiScanningService" prio=5 tid=92 Native
+  | group="main" sCount=1 ucsCount=0 flags=1 obj=0x13e01310 self=0x709de2abfdc0
+  | sysTid=766 nice=0 cgrp=foreground sched=0/0 handle=0x709c4b260cf0
+  | state=S schedstat=( 20101631 52
+
+[[TRUNCATED]]
+

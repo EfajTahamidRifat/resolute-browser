@@ -903,6 +903,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-22: 815401883 auto-uploaded (Sign Play release 44977076124). Next build 815401884: patch 0021 (wallet button step 1).
 - 2026-11-22: 815401884 (x64 44981788254 rc12, arm64 44981799491 p24): E2E **14/14** (44984700147), MetaMask button in the bottom bar. **Auto-uploaded to alpha.** On the 320 px emulator the address pill shrinks to a few letters; real phones (~400 dp) have more room. Next: wallet button red circle (step 2).
 - 2026-11-22: 815401884 auto-uploaded (Sign Play release 44985550876). Next build 815401885: patch 0022 (red wallet pill).
+- 2026-11-22: 815401885 (x64 44990054425 rc13, arm64 44990066142 p25): E2E **14/14** (44992302237), red ring and glow around the MetaMask button. **Auto-uploaded to alpha.** Wallet button done; next: tabs and workspaces.
 
 Add a line here after every build or release.
 

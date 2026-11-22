@@ -1,0 +1,27 @@
+diff --git a/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java b/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java
+index 04f6011..d4c4555 100644
+--- a/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java
++++ b/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java
+@@ -543,6 +543,22 @@ class AppMenu implements OnKeyListener {
+         // anchorView is out of the visible screen area. See https://crbug.com/392698392.
+         mTempLocation[1] = Math.max(mTempLocation[1], 0);
+ 
++        // Resolute (patch 0025): with the two-row toolbar (patch 0023) the menu button is on the
++        // lower row; anchor the sheet to the top of the whole toolbar so it opens above both rows
++        // instead of covering the address bar.
++        if (isFromBottomBar) {
++            View v = anchorView;
++            while (v.getParent() instanceof View) {
++                v = (View) v.getParent();
++                if ("ToolbarPhone".equals(v.getClass().getSimpleName())) {
++                    int[] toolbarLocation = new int[2];
++                    v.getLocationOnScreen(toolbarLocation);
++                    mTempLocation[1] = Math.max(toolbarLocation[1], 0);
++                    break;
++                }
++            }
++        }
++
+         int anchorViewOffset =
+                 Math.min(
+                         Math.abs(mTempLocation[1] - visibleDisplayFrame.top),

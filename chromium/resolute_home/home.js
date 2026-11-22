@@ -174,7 +174,7 @@ function render() {
         });
       } else {
         hit.type = 'button';
-        hit.addEventListener('click', () => openTour(0));
+        hit.addEventListener('click', () => openTour(0, true));
       }
       hit.append(...parts);
       li.appendChild(hit);
@@ -396,12 +396,16 @@ function showSlide(i) {
   for (let k = 0; k < dots.length; k++) dots[k].className = k === tour.i ? 'on' : '';
   $('tour-next').textContent = tour.i === tour.n - 1 ? 'Start exploring' : 'Next';
 }
-function openTour(i) {
+function openTour(i, byUser) {
   tour.opener = document.activeElement;
   $('tour').hidden = false;
   document.body.classList.add('touring');
   showSlide(i);
-  $('tour-next').focus();
+  // Move keyboard focus only when the person opened the tour. When it opens by itself on
+  // the first launch, a focus call while Android was rebuilding the browser screen left
+  // the app frozen ("isn't responding"; E2E bisect 2026-11-22: froze from the build that
+  // added the tour, rc5).
+  if (byUser) $('tour-next').focus();
 }
 async function closeTour(finished) {
   $('tour').hidden = true;

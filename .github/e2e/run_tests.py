@@ -843,9 +843,19 @@ def t_tabs():
     """Opens the tab switcher (screenshot for the design check) and its menu. The menu text is
     checked for "workspace" (branding step 5 renames tab groups to Workspaces): report only."""
     open_url("https://example.com/")
-    time.sleep(6)
-    xml = ui_dump("15-toolbar")
-    m = re.search(r'resource-id="[^"]*:id/tab_switcher_button"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', xml)
+    # Test 14 has just restarted the app: wait until the toolbar is on screen (the first
+    # try took the screenshot during the start-up screen, run 45024187419).
+    rx = r'resource-id="[^"]*:id/tab_switcher_button"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"'
+    m, xml = None, ""
+    for _ in range(20):
+        xml = ui_dump()
+        m = re.search(rx, xml)
+        if m:
+            break
+        dismiss_popups(xml)
+        time.sleep(3)
+    (OUT / "15-toolbar.xml").write_text(xml)
+    time.sleep(3)
     if not m:
         return False, "no tab switcher button on the toolbar", shot("15-toolbar")
     x1, y1, x2, y2 = map(int, m.groups())

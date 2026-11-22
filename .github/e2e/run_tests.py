@@ -819,6 +819,15 @@ def t_home_rebuild():
     After each, the browser window must still get focus and Resolute Home must show.
     Runs 44487088816/44488598178/44491509069 froze ('isn't responding', no focused window)
     after such a rebuild."""
+    # Test 15 left example.com open; the restart must happen with Resolute Home open, the
+    # case that used to hang on the start-up screen.
+    first = next((t for t in cdp_targets() if t.get("type") == "page"), None)
+    if first is not None:
+        try:
+            cdp_send(first, [("Target.createTarget", {"url": "chrome://newtab/"})])
+        except Exception as e:  # noqa: BLE001
+            print(f"createTarget: {e}", flush=True)
+    time.sleep(8)
     steps = []
     adb("shell", "settings", "put", "system", "font_scale", "1.15")
     time.sleep(12)
@@ -834,8 +843,13 @@ def t_home_rebuild():
     time.sleep(20)
     steps.append(("restart", focused_window()))
     png = shot("14-restart")
-    ok = all(PKG in w for _, w in steps)
-    return ok, "; ".join(f"{n}: {w or 'NO FOCUSED WINDOW'}" for n, w in steps), png
+    # Android asking for focus is not enough: in runs up to 45025351418 the app stayed on
+    # the start-up screen after this restart (Resolute Home loaded before it was registered;
+    # patch 0028). Fail while Android still shows the start-up ("Splash Screen") window.
+    splash = f"Splash Screen {PKG}" in adb("shell", "dumpsys", "window", "windows")
+    ok = all(PKG in w for _, w in steps) and not splash
+    detail = "; ".join(f"{n}: {w or 'NO FOCUSED WINDOW'}" for n, w in steps)
+    return ok, f"{detail}; still on start-up screen: {splash}", png
 
 
 @test("15-tabs-and-workspaces")
@@ -843,8 +857,8 @@ def t_tabs():
     """Opens the tab switcher (screenshot for the design check) and its menu. The menu text is
     checked for "workspace" (branding step 5 renames tab groups to Workspaces): report only."""
     open_url("https://example.com/")
-    # Test 14 has just restarted the app: wait until the toolbar is on screen (the first
-    # try took the screenshot during the start-up screen, run 45024187419).
+    # Runs before test 14 (which restarts the app): after that restart the emulator stays on
+    # the start-up screen (runs 45024187419, 45025351418). Still waits for the toolbar.
     rx = r'resource-id="[^"]*:id/tab_switcher_button"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"'
     m, xml = None, ""
     for _ in range(20):
@@ -887,7 +901,7 @@ def main():
     adb("shell", "settings", "put", "global", "transition_animation_scale", "0")
     adb("shell", "settings", "put", "global", "animator_duration_scale", "0")
     for t in (t_install, t_launch, t_example, t_wiki, t_ublock, t_metamask, t_listed,
-              t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup, t_open_extension, t_home, t_home_rebuild, t_tabs):
+              t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup, t_open_extension, t_home, t_tabs, t_home_rebuild):
         t()
     (OUT / "logcat.txt").write_text(adb("logcat", "-d", "-v", "time", timeout=300))
     # "App isn't responding" and crash reports, with the stack of every thread. Android keeps

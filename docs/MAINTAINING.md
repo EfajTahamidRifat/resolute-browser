@@ -918,6 +918,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-22: 815401887 third try (x64 45012832263 rc18, arm64 45012847544 p30): E2E **14/14** (45015889457), menu sheet ends above the address bar row. **Auto-uploaded to alpha.**
 - 2026-11-22: Next build 815401888: patch 0026 ("Make Resolute default" menu item). Owner chose option A for tabs: restyle Chromium's tab switcher, tab groups become "Workspaces" (next).
 - 2026-11-22: 815401888 (x64 45021263892, arm64 45021270660): E2E **14/14** (45023846089). The menu item sits below the fold, so the test could not see it; branch `workspaces-wip` moves it under the icon row. **Auto-uploaded to alpha** (sign run 45024785169).
+- 2026-11-22: **Open problem: start-up screen after a restart.** E2E test 15 (tab switcher, runs 45024187419 and 45025351418) ran right after test 14's force-stop + relaunch and found the app still on the start-up screen; 40 s later Android reported "isn't responding" (no focused window; main thread idle; `data_app_anr.txt` in run 45025351418). Looking back, `14-restart.png` shows the start-up screen in nearly every run since 2026-11-19 (test 14 only checks that Android *asked* for focus, so it passed). Not yet known whether real phones are affected or only the emulator (its graphics are emulated). Owner asked to check on his phone: swipe Resolute away from recent apps, open it again. Test 15 now runs before test 14. Next: make test 14 fail when the screen stays on the start-up screen, and find the cause.
 
 Add a line here after every build or release.
 

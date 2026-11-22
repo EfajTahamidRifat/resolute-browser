@@ -897,6 +897,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-22: 815401882 first try (x64 44964136994, arm64 44964148457): E2E 14/14 but menu still 256 px of 320 (bottom address bar is not `isFromBottomBar`). **Not uploaded.** 0019 now sets `isFromBottomBar` when controls are at the bottom; rebuilding 815401882.
 - 2026-11-22: 815401882 rebuild (x64 44967813198 rc10, arm64 44967827683 p22): E2E **14/14** (44970537629), app menu 284 of 320 px, opens above the bottom bar with even margins. **Auto-uploaded to alpha.** Next: Quick menu step 2 (28 dp corners, toggle row).
 - 2026-11-22: Next build 815401883: patch 0020 (Quick menu switches first).
+- 2026-11-22: 815401883 (x64 44973181221 rc11, arm64 44973193223 p23): E2E **14/14** (44976141895). **Auto-uploaded to alpha.** E2E opens the menu on Resolute Home, where the page switches are hidden; to do: open it on a web page too, so the switch order is checked.
 
 Add a line here after every build or release.
 

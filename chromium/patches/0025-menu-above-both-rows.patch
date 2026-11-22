@@ -1,5 +1,5 @@
 diff --git a/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java b/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java
-index 04f6011..f7c2422 100644
+index 04f6011..176f125 100644
 --- a/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java
 +++ b/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java
 @@ -543,6 +543,23 @@ class AppMenu implements OnKeyListener {
@@ -26,3 +26,24 @@ index 04f6011..f7c2422 100644
          int anchorViewOffset =
                  Math.min(
                          Math.abs(mTempLocation[1] - visibleDisplayFrame.top),
+@@ -746,6 +763,20 @@ class AppMenu implements OnKeyListener {
+         anchorView.getLocationInWindow(tempLocation);
+         int anchorViewX = tempLocation[0];
+         int anchorViewY = tempLocation[1];
++        // Resolute (patch 0025): place a bottom-bar menu above the whole two-row toolbar (the
++        // first parent clearly taller than the menu button's row), not just above the button.
++        if (isFromBottomBar && !isByPermanentButton) {
++            View v = anchorView;
++            while (v.getParent() instanceof View) {
++                v = (View) v.getParent();
++                if (v.getHeight() >= anchorView.getHeight() * 3 / 2) {
++                    int[] toolbarLocation = new int[2];
++                    v.getLocationInWindow(toolbarLocation);
++                    anchorViewY = toolbarLocation[1];
++                    break;
++                }
++            }
++        }
+ 
+         int[] offsets = new int[2];
+         // If we have a hardware menu button, locate the app menu closer to the estimated

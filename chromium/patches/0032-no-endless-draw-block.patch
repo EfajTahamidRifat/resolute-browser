@@ -1,0 +1,60 @@
+Resolute: never leave the browser screen undrawn after Android rebuilds it.
+
+Chromium blocks drawing until the first tab is ready. With Resolute Home as the new
+tab page the native NTP may never be created, and after a rebuild the first frame may
+never come, so the window stayed undrawn ("isn't responding"). Treat the extension
+NTP like the WebUI one and unblock after 2 s at most.
+
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java b/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java
+index 9ff0add..c0ed2f1 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java
+@@ -662,6 +662,9 @@ public class ChromeTabbedActivity extends ChromeActivity implements PreAttachInt
+     private final MainIntentBehaviorMetrics mMainIntentMetrics;
+     private final AppLaunchDrawBlocker mAppLaunchDrawBlocker;
+ 
++    /** Resolute: longest time the screen may stay undrawn while the first tab gets ready. */
++    private static final long RESOLUTE_DRAW_BLOCK_MAX_MS = 2000;
++
+     private MultiInstanceManager mMultiInstanceManager;
+     private @Nullable TabUndoBarController mUndoBarPopupController;
+     private @MonotonicNonNull LayoutManagerChrome mLayoutManager;
+@@ -2821,7 +2824,11 @@ public class ChromeTabbedActivity extends ChromeActivity implements PreAttachInt
+             if (!mPendingInitialTabCreation) {
+                 Tab currentTab = getActivityTab();
+                 boolean isTabNtp = isTabRegularNtp(currentTab);
+-                boolean isTabWebUiNtp = UrlOverrideUtils.isWebUiNtpOverrideEnabled();
++                // Resolute: Resolute Home (an extension new tab page) replaces the native NTP,
++                // so the native page may never be created; do not wait for it.
++                boolean isTabWebUiNtp =
++                        UrlOverrideUtils.isWebUiNtpOverrideEnabled()
++                                || ExtensionsUrlOverrideRegistry.getNtpOverrideEnabled();
+                 assumeNonNull(currentTab);
+                 if (isTabNtp && !currentTab.isNativePage() && !isTabWebUiNtp) {
+                     // This will be a NTP, but the native page hasn't been created yet. Need to wait
+@@ -2836,6 +2843,12 @@ public class ChromeTabbedActivity extends ChromeActivity implements PreAttachInt
+                                     mAppLaunchDrawBlocker.onActiveTabAvailable();
+                                 }
+                             });
++                    // Resolute: never keep the screen undrawn for good (it froze with "isn't
++                    // responding" when the page changed before the native NTP was made).
++                    PostTask.postDelayedTask(
++                            TaskTraits.UI_DEFAULT,
++                            mAppLaunchDrawBlocker::onActiveTabAvailable,
++                            RESOLUTE_DRAW_BLOCK_MAX_MS);
+                 } else {
+                     mAppLaunchDrawBlocker.onActiveTabAvailable();
+                 }
+@@ -2849,6 +2862,12 @@ public class ChromeTabbedActivity extends ChromeActivity implements PreAttachInt
+                                             cvh.addDidSwapBuffersCallback(
+                                                     mAppLaunchDrawBlocker
+                                                             ::onActiveTabAvailableForRecreation));
++                    // Resolute: if the first frame never comes after Android rebuilds the
++                    // screen, show the screen anyway instead of freezing.
++                    PostTask.postDelayedTask(
++                            TaskTraits.UI_DEFAULT,
++                            mAppLaunchDrawBlocker::onActiveTabAvailableForRecreation,
++                            RESOLUTE_DRAW_BLOCK_MAX_MS);
+                 } else {
+                     mAppLaunchDrawBlocker.onActiveTabAvailableForRecreation();
+                 }

@@ -1,0 +1,174 @@
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/ToolbarPhone.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/ToolbarPhone.java
+index 5c44a56..6d3166d 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/ToolbarPhone.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/top/ToolbarPhone.java
+@@ -44,6 +44,7 @@ import android.view.ViewDebug;
+ import android.view.ViewGroup;
+ import android.view.ViewOutlineProvider;
+ import android.view.ViewStub;
++import android.widget.ImageButton;
+ import android.widget.ImageView;
+ 
+ import androidx.annotation.ColorInt;
+@@ -131,6 +132,12 @@ import java.util.function.Supplier;
+ @NullMarked
+ public class ToolbarPhone extends ToolbarLayout
+         implements OmniboxSuggestionsDropdownScrollListener, ToolbarDataProvider.Observer {
++    // Resolute (patch 0023): two-row toolbar. The address bar has the whole top row; home,
++    // bookmark star, wallet, extensions, tabs and menu sit on the row below it.
++    private static final boolean RESOLUTE_TWO_ROW = true;
++    private static final int RESOLUTE_TWO_ROW_HEIGHT_DP = 104;
++    private @Nullable ImageButton mResoluteBookmarkButton;
++
+     /** The amount of time transitioning from one theme color to another should take in ms. */
+     public static final long THEME_COLOR_TRANSITION_DURATION = 250;
+ 
+@@ -384,6 +391,7 @@ public class ToolbarPhone extends ToolbarLayout
+             super.onFinishInflate();
+ 
+             mToolbarButtonsContainer = findViewById(R.id.toolbar_buttons);
++            mResoluteBookmarkButton = findViewById(R.id.resolute_bookmark_button);
+             mHomeButton = findViewById(R.id.home_button);
+             mToolbarBackButton = findViewById(R.id.back_button);
+ 
+@@ -858,6 +866,7 @@ public class ToolbarPhone extends ToolbarLayout
+      *     the toolbar.
+      */
+     private int getViewBoundsLeftOfLocationBar(@VisualState int visualState) {
++        if (RESOLUTE_TWO_ROW) return mToolbarSidePadding;
+         // Uses getMeasuredWidth()s instead of getLeft() because this is called in onMeasure
+         // and the layout values have not yet been set.
+         if (visualState == VisualState.NEW_TAB_NORMAL && mTabSwitcherState == STATIC_TAB) {
+@@ -896,6 +905,7 @@ public class ToolbarPhone extends ToolbarLayout
+      *     the toolbar.
+      */
+     private int getViewBoundsRightOfLocationBar(@VisualState int visualState) {
++        if (RESOLUTE_TWO_ROW) return getMeasuredWidth() - mToolbarSidePadding;
+         // Uses getMeasuredWidth()s instead of getRight() because this is called in onMeasure
+         // and the layout values have not yet been set.
+         if (visualState == VisualState.NEW_TAB_NORMAL && mTabSwitcherState == STATIC_TAB) {
+@@ -2439,13 +2449,39 @@ public class ToolbarPhone extends ToolbarLayout
+         triggerUrlFocusAnimation(hasFocus);
+     }
+ 
++    /** Resolute (patch 0023): height of the unfocused toolbar (two rows). */
++    private int resoluteToolbarHeight() {
++        if (!RESOLUTE_TWO_ROW) {
++            return getResources().getDimensionPixelSize(R.dimen.toolbar_height_no_shadow);
++        }
++        return Math.round(RESOLUTE_TWO_ROW_HEIGHT_DP * getResources().getDisplayMetrics().density);
++    }
++
++    @Override
++    void setBookmarkClickHandler(@Nullable OnClickListener listener) {
++        if (mResoluteBookmarkButton != null) mResoluteBookmarkButton.setOnClickListener(listener);
++    }
++
++    @Override
++    void updateBookmarkButton(boolean isBookmarked, boolean editingAllowed) {
++        if (mResoluteBookmarkButton == null) return;
++        mResoluteBookmarkButton.setImageResource(
++                isBookmarked ? R.drawable.ic_star_filled_24dp : R.drawable.ic_star_24dp);
++        mResoluteBookmarkButton.setContentDescription(
++                getContext()
++                        .getString(
++                                isBookmarked
++                                        ? R.string.edit_bookmark
++                                        : R.string.accessibility_menu_bookmark));
++        mResoluteBookmarkButton.setEnabled(editingAllowed);
++    }
++
+     private void updateLayoutParamsForMultiline() {
+         var params = getLayoutParams();
+         params.height =
+                 urlHasFocus()
+                         ? LayoutParams.WRAP_CONTENT
+-                        : getResources().getDimensionPixelSize(R.dimen.toolbar_height_no_shadow)
+-                                + mTopPaddingForEdgeToEdgeNtp;
++                        : resoluteToolbarHeight() + mTopPaddingForEdgeToEdgeNtp;
+         setLayoutParams(params);
+     }
+ 
+@@ -3153,9 +3189,7 @@ public class ToolbarPhone extends ToolbarLayout
+         if (urlHasFocus()) {
+             layoutParams.height = LayoutParams.WRAP_CONTENT;
+         } else {
+-            layoutParams.height =
+-                    getResources().getDimensionPixelSize(R.dimen.toolbar_height_no_shadow)
+-                            + mTopPaddingForEdgeToEdgeNtp;
++            layoutParams.height = resoluteToolbarHeight() + mTopPaddingForEdgeToEdgeNtp;
+         }
+         setLayoutParams(layoutParams);
+         setPaddingRelative(
+diff --git a/chrome/browser/ui/android/toolbar/java/res/layout/toolbar_phone.xml b/chrome/browser/ui/android/toolbar/java/res/layout/toolbar_phone.xml
+index a112e07..bda96f1 100644
+--- a/chrome/browser/ui/android/toolbar/java/res/layout/toolbar_phone.xml
++++ b/chrome/browser/ui/android/toolbar/java/res/layout/toolbar_phone.xml
+@@ -11,12 +11,14 @@ found in the LICENSE file.
+     xmlns:tools="http://schemas.android.com/tools"
+     android:id="@+id/toolbar"
+     android:layout_width="match_parent"
+-    android:layout_height="@dimen/toolbar_height_no_shadow"
+-    android:minHeight="@dimen/toolbar_height_no_shadow">
++    android:layout_height="104dp"
++    android:minHeight="104dp">
++    <!-- Resolute (patch 0023): two rows. Address bar on top (full width), buttons below. -->
+ 
+     <org.chromium.chrome.browser.toolbar.home_button.HomeButton
+         android:id="@+id/home_button"
+         style="@style/ToolbarHoverableButton"
++        android:layout_gravity="bottom|start"
+         android:src="@drawable/ic_home_24dp"
+         android:contentDescription="@string/accessibility_toolbar_btn_home"
+         android:tooltipText="@string/accessibility_toolbar_btn_home"
+@@ -53,9 +55,10 @@ found in the LICENSE file.
+     <LinearLayout
+         android:id="@+id/toolbar_buttons"
+         android:orientation="horizontal"
+-        android:layout_width="wrap_content"
++        android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        android:layout_gravity="top|end"
++        android:layout_marginStart="@dimen/toolbar_button_width"
++        android:layout_gravity="bottom|end"
+         android:focusable="false"
+         android:focusableInTouchMode="false">
+ 
+@@ -74,6 +77,19 @@ found in the LICENSE file.
+             android:layout_height="match_parent"
+             android:visibility="gone"/>
+ 
++        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
++
++        <!-- Resolute (patch 0023): bookmark star on phones (ToolbarPhone.updateBookmarkButton). -->
++        <org.chromium.ui.widget.ChromeImageButton
++            android:id="@+id/resolute_bookmark_button"
++            style="@style/ToolbarHoverableButton"
++            android:layout_gravity="center_vertical"
++            android:src="@drawable/ic_star_24dp"
++            android:contentDescription="@string/accessibility_menu_bookmark"
++            app:tint="@color/default_icon_color_tint_list"/>
++
++        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
++
+         <!-- Resolute: the extensions button (puzzle piece) and pinned extensions on phones.
+              Chromium only had this slot in the tablet toolbar, so phones could not open
+              extension popups such as MetaMask's. -->
+@@ -84,6 +100,8 @@ found in the LICENSE file.
+             android:layout_height="match_parent"
+             android:layout_gravity="center_vertical"/>
+ 
++        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
++
+         <org.chromium.chrome.browser.toolbar.top.ToggleTabStackButton
+             android:id="@+id/tab_switcher_button"
+             style="@style/ToolbarHoverableButton"
+@@ -92,6 +110,8 @@ found in the LICENSE file.
+             app:menuMaxWidth="@dimen/tab_switcher_menu_width"
+             app:menuVerticalOverlapAnchor="false"/>
+ 
++        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
++
+         <include layout="@layout/menu_button"/>
+ 
+     </LinearLayout>

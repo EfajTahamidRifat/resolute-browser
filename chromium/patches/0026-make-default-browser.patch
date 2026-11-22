@@ -1,8 +1,53 @@
 diff --git a/chrome/android/java/src/org/chromium/chrome/browser/tabbed_mode/TabbedAppMenuPropertiesDelegate.java b/chrome/android/java/src/org/chromium/chrome/browser/tabbed_mode/TabbedAppMenuPropertiesDelegate.java
-index b1da848..48f8a2b 100644
+index 9aada02..883a120 100644
 --- a/chrome/android/java/src/org/chromium/chrome/browser/tabbed_mode/TabbedAppMenuPropertiesDelegate.java
 +++ b/chrome/android/java/src/org/chromium/chrome/browser/tabbed_mode/TabbedAppMenuPropertiesDelegate.java
-@@ -1561,8 +1561,8 @@ public class TabbedAppMenuPropertiesDelegate extends AppMenuPropertiesDelegateIm
+@@ -336,6 +336,13 @@ public class TabbedAppMenuPropertiesDelegate extends AppMenuPropertiesDelegateIm
+                                     R.id.icon_row_menu_id, iconModels, isMenuIconAtStart())));
+         }
+ 
++        // Resolute (patch 0026): "Make Resolute default" right under the icon row, so people
++        // see it without scrolling. Gone once Resolute is the default browser.
++        if (shouldShowDefaultBrowserPromo()) {
++            RecordUserAction.record("MobileMenuDefaultBrowserPromoShown");
++            modelList.add(buildDefaultBrowserPromoItem());
++        }
++
+         // Resolute (patch 0020): Quick menu. The one-tap switches (desktop site, dark pages,
+         // reader mode) sit right under the icon row instead of near the bottom of the menu.
+         ListItem rdsListItem =
+@@ -570,13 +577,7 @@ public class TabbedAppMenuPropertiesDelegate extends AppMenuPropertiesDelegateIm
+             modelList.add(buildContentFilterHelpCenterMenuItem());
+         }
+ 
+-        // Default browser promo
+-        if (shouldShowDefaultBrowserPromo()) {
+-            RecordUserAction.record("MobileMenuDefaultBrowserPromoShown");
+-
+-            AppMenuItemUtils.maybeAddDividerLine(modelList, R.id.divider_line_id);
+-            modelList.add(buildDefaultBrowserPromoItem());
+-        }
++        // Resolute (patch 0026): default browser item moved under the icon row.
+     }
+ 
+     private void populatePageModeMenuWithSubmenus(
+@@ -760,14 +761,7 @@ public class TabbedAppMenuPropertiesDelegate extends AppMenuPropertiesDelegateIm
+             modelList.add(buildContentFilterHelpCenterMenuItem());
+         }
+ 
+-        // Default browser promo menu item (entry point).
+-        if (shouldShowDefaultBrowserPromo()) {
+-            // Used to track how many people saw the promo.
+-            RecordUserAction.record("MobileMenuDefaultBrowserPromoShown");
+-
+-            AppMenuItemUtils.maybeAddDividerLine(modelList, R.id.divider_line_id);
+-            modelList.add(buildDefaultBrowserPromoItem());
+-        }
++        // Resolute (patch 0026): default browser item moved under the icon row.
+     }
+ 
+     private Runnable buildUpdateStateChangedObserver() {
+@@ -1558,8 +1552,8 @@ public class TabbedAppMenuPropertiesDelegate extends AppMenuPropertiesDelegateIm
      }
  
      private boolean shouldShowDefaultBrowserPromo() {

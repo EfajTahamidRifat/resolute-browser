@@ -1,0 +1,47 @@
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/tabmodel/TabPersistentStoreImpl.java b/chrome/android/java/src/org/chromium/chrome/browser/tabmodel/TabPersistentStoreImpl.java
+index bc449d6..449f26a 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/tabmodel/TabPersistentStoreImpl.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/tabmodel/TabPersistentStoreImpl.java
+@@ -725,6 +725,10 @@ public class TabPersistentStoreImpl implements TabPersistentStore {
+         }
+     }
+ 
++    // Resolute (patch 0030): Resolute Home, the built-in new tab page extension (patch 0008).
++    private static final String RESOLUTE_HOME_URL_PREFIX =
++            "chrome-extension://aaddcaaaojbkjailacplbnladfhcnabm/";
++
+     private void restoreTab(TabRestoreDetails tabToRestore, boolean setAsActive) {
+         // As we do this in startup, and restoring the active tab's state is critical, we permit
+         // this read in the event that the prefetch task is not available. Either:
+@@ -885,6 +889,15 @@ public class TabPersistentStoreImpl implements TabPersistentStore {
+         }
+ 
+         boolean isFromReparenting = isTabReparenting(tabToRestore.id, isIncognito);
++        // Resolute (patch 0030): a tab that showed Resolute Home is saved with Resolute Home's
++        // own address (chrome-extension://...). Loading that address while the app starts, before
++        // the built-in extension has loaded, froze the app or showed "blocked" (E2E runs
++        // 45027313523, 45030947026: the emulator rebuilds the screen ~13 s after launch, which
++        // restores the tabs). Such a tab is reopened as a new tab page instead; patch 0008 turns
++        // it into Resolute Home once the extension is ready.
++        boolean isResoluteHome =
++                tabToRestore.url != null && tabToRestore.url.startsWith(RESOLUTE_HOME_URL_PREFIX);
++        if (isResoluteHome && !isFromReparenting) tabState = null;
+         @Nullable Tab tab = null;
+         if (maybeRestoreBackgroundTab(
+                 tabToRestore, restoredIndex, tabState, isIncognito, setAsActive)) {
+@@ -931,9 +944,12 @@ public class TabPersistentStoreImpl implements TabPersistentStore {
+                     recordingTabCreator.recordFallbackTab(tabToRestore.id, tabToRestore.url);
+                 }
+             }
+-            LoadUrlParams params = new LoadUrlParams(tabToRestore.url);
+-            params.setIsRendererInitiated(true);
+-            params.setInitiatorOrigin(Origin.createOpaqueOrigin());
++            LoadUrlParams params =
++                    new LoadUrlParams(isResoluteHome ? "chrome://newtab/" : tabToRestore.url);
++            if (!isResoluteHome) {
++                params.setIsRendererInitiated(true);
++                params.setInitiatorOrigin(Origin.createOpaqueOrigin());
++            }
+             tab =
+                     tabCreator.createNewTab(
+                             params, TabLaunchType.FROM_RESTORE, /* parent= */ null, restoredIndex);

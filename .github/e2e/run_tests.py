@@ -778,6 +778,7 @@ def t_home():
     wallet_in_bar = bool(re.search(r'resource-id="[^"]*:id/extension_action_list".*?content-desc="[^"]*MetaMask', toolbar, re.S))
     # Quick menu (patch 0019): the menu opened from the bottom bar spans the screen.
     menu_width = None
+    default_item = None
     m = re.search(r'resource-id="[^"]*:id/menu_button"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', toolbar)
     if m:
         x1, y1, x2, y2 = map(int, m.groups())
@@ -788,6 +789,8 @@ def t_home():
         lm = re.search(r'resource-id="[^"]*:id/app_menu_list"[^>]*bounds="\[(\d+),\d+\]\[(\d+),\d+\]"', menu)
         if lm:
             menu_width = int(lm.group(2)) - int(lm.group(1))
+        # Patch 0026: "Make Resolute default" (report only: it may sit below the fold).
+        default_item = "Make Resolute default" in menu
         adb("shell", "input", "keyevent", "BACK")
         time.sleep(1)
     if home is None:
@@ -799,7 +802,7 @@ def t_home():
     except Exception as e:  # noqa: BLE001
         info = f"eval failed: {e}"
     ok = isinstance(info, str) and '"rank":"Level' in info and lined_up and wallet_in_bar
-    return ok, f"new tab: {home.get('url')}; page: {info}; toolbar centres: {centres}; app menu width: {menu_width}; wallet in bar: {wallet_in_bar}", png
+    return ok, f"new tab: {home.get('url')}; page: {info}; toolbar centres: {centres}; app menu width: {menu_width}; default-browser item visible: {default_item}; wallet in bar: {wallet_in_bar}", png
 
 
 def focused_window():

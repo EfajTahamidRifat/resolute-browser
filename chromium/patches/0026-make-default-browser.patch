@@ -1,0 +1,31 @@
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/tabbed_mode/TabbedAppMenuPropertiesDelegate.java b/chrome/android/java/src/org/chromium/chrome/browser/tabbed_mode/TabbedAppMenuPropertiesDelegate.java
+index b1da848..48f8a2b 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/tabbed_mode/TabbedAppMenuPropertiesDelegate.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/tabbed_mode/TabbedAppMenuPropertiesDelegate.java
+@@ -1561,8 +1561,8 @@ public class TabbedAppMenuPropertiesDelegate extends AppMenuPropertiesDelegateIm
+     }
+ 
+     private boolean shouldShowDefaultBrowserPromo() {
+-        return DefaultBrowserPromoUtils.getInstance().shouldShowAppMenuItemEntryPoint()
+-                && ChromeFeatureList.sDefaultBrowserPromoEntryPointShowAppMenu.getValue();
++        // Resolute: show the menu item without Chrome's ShowAppMenu experiment parameter.
++        return DefaultBrowserPromoUtils.getInstance().shouldShowAppMenuItemEntryPoint();
+     }
+ 
+     private ListItem buildDefaultBrowserPromoItem() {
+diff --git a/chrome/browser/ui/android/default_browser_promo/java/src/org/chromium/chrome/browser/ui/default_browser_promo/DefaultBrowserPromoUtils.java b/chrome/browser/ui/android/default_browser_promo/java/src/org/chromium/chrome/browser/ui/default_browser_promo/DefaultBrowserPromoUtils.java
+index 95509bc..70994f7 100644
+--- a/chrome/browser/ui/android/default_browser_promo/java/src/org/chromium/chrome/browser/ui/default_browser_promo/DefaultBrowserPromoUtils.java
++++ b/chrome/browser/ui/android/default_browser_promo/java/src/org/chromium/chrome/browser/ui/default_browser_promo/DefaultBrowserPromoUtils.java
+@@ -343,8 +343,9 @@ public class DefaultBrowserPromoUtils {
+      *     browser. Used by surfaces such as the app menu, in which the menu item doesn't persist.
+      */
+     public boolean shouldShowAppMenuItemEntryPoint() {
+-        return ChromeFeatureList.sDefaultBrowserPromoEntryPoint.isEnabled()
+-                && mStateProvider.shouldShowPromo();
++        // Resolute: always offer "Make Resolute default" while another browser (or none) is the
++        // default, without waiting for Chrome's feature flag or its Chrome-channel criteria.
++        return mStateProvider.getCurrentDefaultBrowserState() != DefaultBrowserState.CHROME_DEFAULT;
+     }
+ 
+     private void openSystemDefaultAppsSettings(Context context) {

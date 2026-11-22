@@ -773,6 +773,9 @@ def t_home():
         if m:
             centres[rid] = (int(m.group(1)) + int(m.group(2))) / 2
     lined_up = len(centres) >= 3 and max(centres.values()) - min(centres.values()) <= 3
+    # Wallet button (patch 0021): MetaMask (installed by test 06) has its own button in the
+    # toolbar, inside the extension action list.
+    wallet_in_bar = bool(re.search(r'resource-id="[^"]*:id/extension_action_list".*?content-desc="[^"]*MetaMask', toolbar, re.S))
     # Quick menu (patch 0019): the menu opened from the bottom bar spans the screen.
     menu_width = None
     m = re.search(r'resource-id="[^"]*:id/menu_button"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', toolbar)
@@ -795,8 +798,8 @@ def t_home():
                               " picks: document.querySelectorAll('.pick').length, url: location.href})")
     except Exception as e:  # noqa: BLE001
         info = f"eval failed: {e}"
-    ok = isinstance(info, str) and '"rank":"Level' in info and lined_up
-    return ok, f"new tab: {home.get('url')}; page: {info}; toolbar centres: {centres}; app menu width: {menu_width}", png
+    ok = isinstance(info, str) and '"rank":"Level' in info and lined_up and wallet_in_bar
+    return ok, f"new tab: {home.get('url')}; page: {info}; toolbar centres: {centres}; app menu width: {menu_width}; wallet in bar: {wallet_in_bar}", png
 
 
 def focused_window():

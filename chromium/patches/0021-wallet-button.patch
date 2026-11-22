@@ -1,0 +1,43 @@
+diff --git a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListMediator.java b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListMediator.java
+index 6b34068..1eb059f 100644
+--- a/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListMediator.java
++++ b/chrome/browser/ui/android/toolbar/java/src/org/chromium/chrome/browser/toolbar/extensions/ExtensionActionListMediator.java
+@@ -57,6 +57,19 @@ import java.util.Set;
+ 
+ @NullMarked
+ class ExtensionActionListMediator implements Destroyable {
++    // Resolute (patch 0021): wallet extensions, in order of preference (same list as
++    // Resolute Home's "Add a wallet" quest).
++    private static final String[] RESOLUTE_WALLET_IDS = {
++        "nkbihfbeogaeaoehlefnkodbefgpgknn", // MetaMask
++        "bfnaelmomeimhlpmgjnjophhpkkoljpa", // Phantom
++        "acmacodkjbdgmoleebolmdjonilkdbch", // Rabby
++        "mcohilncbfahbmgdjkbpemcciiolgcge", // OKX Wallet
++        "hnfanknocfeofbddgcijnmhnfnkdnaad", // Coinbase Wallet
++        "egjidjbpglichdcondbcbdnbeeppgdph", // Trust Wallet
++        "aflkmfhebedbjioipglgcbcmnbpgliof", // Backpack
++        "bhhhlbepdkbapadjdnnojkbgioiodbic", // Solflare
++    };
++
+ 
+     /** A sealed class to guarantee that only either the popup or the context menu is open. */
+     private abstract static sealed class ActionState {
+@@ -272,7 +285,17 @@ class ExtensionActionListMediator implements Destroyable {
+         // squeezed it to one letter). Extensions open from the puzzle menu instead; the
+         // opened extension's icon still pops out while its popup is showing.
+         if (mContext.getResources().getConfiguration().smallestScreenWidthDp < 600) {
+-            pinnedActionIds = new String[0];
++            // Resolute (patch 0021): the one exception is the wallet button. If a known
++            // wallet extension is installed, its icon stays in the bar so the wallet opens
++            // in one tap (UI plan: wallet button in the bottom bar). First match wins.
++            String wallet = null;
++            for (String id : RESOLUTE_WALLET_IDS) {
++                if (allActionIdsSet.contains(id)) {
++                    wallet = id;
++                    break;
++                }
++            }
++            pinnedActionIds = wallet != null ? new String[] {wallet} : new String[0];
+         }
+ 
+         Tab currentTab = mCurrentTabSupplier.get();

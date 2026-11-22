@@ -358,6 +358,15 @@ def t_install():
 @test("02-launch")
 def t_launch():
     adb("shell", "monkey", "-p", PKG, "-c", "android.intent.category.LAUNCHER", "1")
+    # Android rebuilds the browser screen when a setting changes. On the emulator this
+    # sometimes happens by itself ~13 s after the first launch (system app updates), and
+    # every run where it did froze ('isn't responding', runs 45027313523, 45030947026,
+    # 45044893416). Do it on purpose, 8 s after the first launch, so the case is tested
+    # every time.
+    time.sleep(8)
+    adb("shell", "settings", "put", "system", "font_scale", "1.1")
+    time.sleep(6)
+    adb("shell", "settings", "put", "system", "font_scale", "1.0")
     time.sleep(20)
     focus = focused_window()
     first_dump = ui_dump("02-first-screen")
@@ -368,7 +377,7 @@ def t_launch():
     dismiss_popups(first_dump)
     pid = adb("shell", "pidof", PKG).strip()
     first_run = "FirstRun" in focus or "SigninFirstRun" in focus
-    ok = bool(pid) and not first_run
+    ok = bool(pid) and not first_run and PKG in focus
     detail = f"process id {pid or 'none'}; first window: {focus or 'none'}"
     if chrome_words:
         detail += f"; says Chrome: {chrome_words[:5]}"

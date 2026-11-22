@@ -1,0 +1,13 @@
+diff --git a/components/browser_ui/theme/android/java/res/values/colors.xml b/components/browser_ui/theme/android/java/res/values/colors.xml
+index c9a1829..048e1e6 100644
+--- a/components/browser_ui/theme/android/java/res/values/colors.xml
++++ b/components/browser_ui/theme/android/java/res/values/colors.xml
+@@ -8,5 +8,7 @@ found in the LICENSE file.
+ <resources>
+     <!-- This points to a system color resource in API 31+. However, it's unclear what its value is
+          on devices that don't support dynamic colors. -->
+-    <color name="splash_screen_bg">@color/system_neutral1_10</color>
++    <!-- Resolute: the start-up screen is always Resolute dark (the app itself is always dark,
++         but Android draws this screen with the phone's light/dark setting). -->
++    <color name="splash_screen_bg">#0D0D0F</color>
+ </resources>

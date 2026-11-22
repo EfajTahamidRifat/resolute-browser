@@ -913,6 +913,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-22: Next build 815401887: patch 0025 (menu opens above both toolbar rows).
 - 2026-11-22: 815401887 first try (x64 45005303334, arm64 45005314843): E2E 14/14 but the menu still covered the address bar (class-name lookup broken by R8). **Not uploaded.** 0025 now finds the toolbar by height; rebuilding 815401887.
 - 2026-11-22: 815401887 second try (x64 45009048533, arm64 45009063772): menu still over the address bar, because `getPopupPosition()` re-reads the anchor location. **Not uploaded.** 0025 now adjusts there too; rebuilding 815401887.
+- 2026-11-22: 815401887 third try (x64 45012832263 rc18, arm64 45012847544 p30): E2E **14/14** (45015889457), menu sheet ends above the address bar row. **Auto-uploaded to alpha.**
 
 Add a line here after every build or release.
 

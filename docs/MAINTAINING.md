@@ -900,6 +900,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-22: Next build 815401883: patch 0020 (Quick menu switches first).
 - 2026-11-22: 815401883 (x64 44973181221 rc11, arm64 44973193223 p23): E2E **14/14** (44976141895). **Auto-uploaded to alpha.** E2E opens the menu on Resolute Home, where the page switches are hidden; to do: open it on a web page too, so the switch order is checked.
 - 2026-11-22: 815401883 auto-uploaded (Sign Play release 44977076124). Next build 815401884: patch 0021 (wallet button step 1).
+- 2026-11-22: 815401884 (x64 44981788254 rc12, arm64 44981799491 p24): E2E **14/14** (44984700147), MetaMask button in the bottom bar. **Auto-uploaded to alpha.** On the 320 px emulator the address pill shrinks to a few letters; real phones (~400 dp) have more room. Next: wallet button red circle (step 2).
 
 Add a line here after every build or release.
 

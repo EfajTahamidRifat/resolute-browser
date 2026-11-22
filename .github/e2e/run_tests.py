@@ -387,6 +387,28 @@ def t_launch():
         adb("shell", "settings", "put", "system", "font_scale", "1.0")
     time.sleep(20)
     focus = focused_window()
+    # Freeze diagnostics: the frozen runs show a black screen right after the rebuild
+    # and Android later says the app "does not have a focused window". Save what the
+    # window manager and the app think the screen is, while the app still answers.
+    diag = []
+    for title, cmd in (("window windows", ["dumpsys", "window", "windows"]),
+                       ("window focus", ["dumpsys", "window", "-a"]),
+                       ("activity top", ["dumpsys", "activity", "top"]),
+                       ("surfaces", ["dumpsys", "SurfaceFlinger", "--list"])):
+        try:
+            text = adb("shell", *cmd, timeout=60)
+        except Exception as e:  # noqa: BLE001
+            text = f"failed: {e}"
+        if title == "window focus":
+            text = "\n".join(l for l in text.splitlines()
+                             if re.search(r"mCurrentFocus|mFocusedApp|mFocusedWindow|"
+                                          r"mInputMethod|resolute", l))
+        diag.append(f"===== {title} =====\n{text}")
+    pid0 = adb("shell", "pidof", PKG).strip().split(" ")[0]
+    if pid0:
+        diag.append("===== app main thread =====\n" +
+                    adb("shell", "debuggerd", "-j", pid0, timeout=90)[:200000])
+    (OUT / "02-diagnostics.txt").write_text("\n\n".join(diag))
     first_dump = ui_dump("02-first-screen")
     shot("02-first-screen")
     chrome_words = sorted(set(

@@ -894,6 +894,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-22: Theme tokens done (0016-0018). Next: **Quick menu** (canvas 10). Chromium has no bottom-sheet app menu; plan: restyle `AppMenu.show()` (`chrome/browser/ui/android/appmenu/internal/.../AppMenu.java`) when `isFromBottomBar`: popup width = visible display width minus 8 dp margins, 28 dp rounded background, slide-up animation; then a toggle row at the top (desktop site, ad block, dark pages, reader) wired to the existing menu item ids, then the extensions-for-this-site row.
 - 2026-11-22: 815401881 auto-uploaded (Sign Play release 44961207453). Next build 815401882: patch 0019 (full-width menu sheet from the bottom bar).
 - 2026-11-22: 815401882 first try (x64 44964136994, arm64 44964148457): E2E 14/14 but menu still 256 px of 320 (bottom address bar is not `isFromBottomBar`). **Not uploaded.** 0019 now sets `isFromBottomBar` when controls are at the bottom; rebuilding 815401882.
+- 2026-11-22: 815401882 rebuild (x64 44967813198 rc10, arm64 44967827683 p22): E2E **14/14** (44970537629), app menu 284 of 320 px, opens above the bottom bar with even margins. **Auto-uploaded to alpha.** Next: Quick menu step 2 (28 dp corners, toggle row).
 
 Add a line here after every build or release.
 

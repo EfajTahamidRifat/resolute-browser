@@ -1,0 +1,64 @@
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java b/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java
+index 18ea36a..d2238ab 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/ntp/NewTabPage.java
+@@ -124,7 +124,9 @@ import org.chromium.components.omnibox.OmniboxFocusReason;
+ import org.chromium.components.search_engines.TemplateUrlService;
+ import org.chromium.components.search_engines.TemplateUrlService.TemplateUrlServiceObserver;
+ import org.chromium.content_public.browser.LoadUrlParams;
++import org.chromium.content_public.browser.NavigationHandle;
+ import org.chromium.content_public.browser.NavigationController;
++import org.chromium.net.NetError;
+ import org.chromium.ui.base.ActivityResultTracker;
+ import org.chromium.ui.base.DeviceFormFactor;
+ import org.chromium.ui.base.WindowAndroid;
+@@ -532,10 +534,7 @@ public class NewTabPage
+                                     mCallbackController.makeCancelable(
+                                             () -> {
+                                                 if (mIsDestroyed || mTab.isDestroyed()) return;
+-                                                LoadUrlParams params =
+-                                                        new LoadUrlParams("chrome://newtab/");
+-                                                params.setShouldReplaceCurrentEntry(true);
+-                                                mTab.loadUrl(params);
++                                                loadResoluteHome(mTab, RESOLUTE_HOME_RETRIES);
+                                             }));
+             ExtensionsUrlOverrideRegistry.addNtpOverrideEnabledObserver(
+                     mResoluteHomeReadyObserver);
+@@ -1177,6 +1176,37 @@ public class NewTabPage
+ 
+     // NativePage overrides
+ 
++    // Resolute (patch 0031): at start-up the new tab override can be reported a moment before
++    // Resolute Home is ready to open, and the first try then shows "... is blocked"
++    // (ERR_BLOCKED_BY_CLIENT; E2E run 45035269793 after a restart). Try again, up to this many
++    // times, one second apart.
++    private static final int RESOLUTE_HOME_RETRIES = 8;
++
++    /** Resolute: replaces this tab's page with Resolute Home, retrying while it is blocked. */
++    private static void loadResoluteHome(Tab tab, int retriesLeft) {
++        if (retriesLeft > 0) {
++            tab.addObserver(
++                    new TabObserver() {
++                        @Override
++                        public void onDidFinishNavigationInPrimaryMainFrame(
++                                Tab observedTab, NavigationHandle navigation) {
++                            observedTab.removeObserver(this);
++                            if (navigation.errorCode() != NetError.ERR_BLOCKED_BY_CLIENT) return;
++                            PostTask.postDelayedTask(
++                                    TaskTraits.UI_DEFAULT,
++                                    () -> {
++                                        if (observedTab.isDestroyed()) return;
++                                        loadResoluteHome(observedTab, retriesLeft - 1);
++                                    },
++                                    1000);
++                        }
++                    });
++        }
++        LoadUrlParams params = new LoadUrlParams("chrome://newtab/");
++        params.setShouldReplaceCurrentEntry(true);
++        tab.loadUrl(params);
++    }
++
+     @Override
+     @SuppressWarnings("NullAway")
+     public void destroy() {

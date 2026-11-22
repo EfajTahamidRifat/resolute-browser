@@ -1,0 +1,63 @@
+diff --git a/chrome/browser/ui/android/toolbar/java/res/values/dimens.xml b/chrome/browser/ui/android/toolbar/java/res/values/dimens.xml
+index 25f9862..475ca16 100644
+--- a/chrome/browser/ui/android/toolbar/java/res/values/dimens.xml
++++ b/chrome/browser/ui/android/toolbar/java/res/values/dimens.xml
+@@ -144,4 +144,6 @@ found in the LICENSE file.
+     <dimen name="download_progress_ring_stroke_width">2.5dp</dimen>
+     <dimen name="download_progress_ring_badge_radius">7dp</dimen>
+     <dimen name="download_progress_ring_badge_text_size">9dp</dimen>
++    <!-- Resolute (patch 0024): phone toolbar is two rows (patch 0023). -->
++    <dimen name="resolute_toolbar_height">104dp</dimen>
+ </resources>
+diff --git a/chrome/browser/ui/android/toolbar/java/res/values-sw600dp/dimens.xml b/chrome/browser/ui/android/toolbar/java/res/values-sw600dp/dimens.xml
+index aef4cb8..8f991ff 100644
+--- a/chrome/browser/ui/android/toolbar/java/res/values-sw600dp/dimens.xml
++++ b/chrome/browser/ui/android/toolbar/java/res/values-sw600dp/dimens.xml
+@@ -12,4 +12,6 @@ found in the LICENSE file.
+ 
+     <!-- Matches the other toolbar buttons. See crbug.com/543773382. -->
+     <dimen name="signin_button_width">@dimen/toolbar_button_width</dimen>
++    <!-- Resolute (patch 0024): tablets keep the one-row toolbar. -->
++    <dimen name="resolute_toolbar_height">@dimen/toolbar_height_no_shadow</dimen>
+ </resources>
+diff --git a/chrome/browser/ui/android/toolbar/java/res/layout/control_container.xml b/chrome/browser/ui/android/toolbar/java/res/layout/control_container.xml
+index 2dd990b..02571f4 100644
+--- a/chrome/browser/ui/android/toolbar/java/res/layout/control_container.xml
++++ b/chrome/browser/ui/android/toolbar/java/res/layout/control_container.xml
+@@ -22,7 +22,7 @@ found in the LICENSE file.
+             android:layout_width="match_parent"
+             android:layout_marginTop="@dimen/tab_strip_height"
+             android:layout_marginBottom="@dimen/toolbar_hairline_height"
+-            android:layout_height="@dimen/toolbar_height_no_shadow" />
++            android:layout_height="@dimen/resolute_toolbar_height" />
+ 
+         <org.chromium.chrome.browser.toolbar.ToolbarHairlineView
+             android:id="@+id/toolbar_hairline"
+diff --git a/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java b/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java
+index 44e33fe..4fa20ea 100644
+--- a/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java
++++ b/chrome/android/java/src/org/chromium/chrome/browser/ChromeTabbedActivity.java
+@@ -3641,7 +3641,8 @@ public class ChromeTabbedActivity extends ChromeActivity implements PreAttachInt
+ 
+     @Override
+     protected int getToolbarLayoutHeightResId() {
+-        return R.dimen.toolbar_height_no_shadow;
++        // Resolute (patch 0024): two-row phone toolbar (tablets: one row, see values-sw600dp).
++        return R.dimen.resolute_toolbar_height;
+     }
+ 
+     @Override
+diff --git a/chrome/android/java/res/values/dimens.xml b/chrome/android/java/res/values/dimens.xml
+index 953d349..21f0aaf 100644
+--- a/chrome/android/java/res/values/dimens.xml
++++ b/chrome/android/java/res/values/dimens.xml
+@@ -148,7 +148,8 @@ found in the LICENSE file.
+     <dimen name="signin_screen_top_padding">50dp</dimen>
+ 
+     <!-- Should match toolbar_height_no_shadow -->
+-    <dimen name="control_container_height">@dimen/default_action_bar_height</dimen>
++    <!-- Resolute (patch 0024): phones have a two-row toolbar (patch 0023). -->
++    <dimen name="control_container_height">104dp</dimen>
+     <dimen name="custom_tabs_control_container_height">@dimen/default_action_bar_height</dimen>
+ 
+     <!-- Find in Page dimensions -->

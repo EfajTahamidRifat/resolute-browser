@@ -30,6 +30,12 @@ METAMASK = "nkbihfbeogaeaoehlefnkodbefgpgknn"
 # test must see the real first launch (Chrome's welcome slipped through before).
 FLAGS = ("_ --no-default-browser-check --no-first-run "
          "--force-renderer-accessibility --disable-features=SigninPromo")
+# Extra switches for one run (e2e-test.yml input extra_flags), e.g. --disable-fre to test an
+# old build from before patch 0013. Only letters, digits and - = , _ are allowed.
+import os  # noqa: E402
+_extra = os.environ.get("E2E_EXTRA_FLAGS", "").strip()
+if _extra and re.fullmatch(r"[A-Za-z0-9=,_ -]+", _extra):
+    FLAGS += " " + _extra
 
 results = []
 

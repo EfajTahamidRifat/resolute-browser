@@ -15,6 +15,10 @@ on:
         description: "Android API level of the emulator"
         required: false
         default: "34"
+      extra_flags:
+        description: "Extra browser switches for this run only (e.g. --disable-fre for builds before patch 0013)"
+        required: false
+        default: ""
       store_shots:
         description: "Also take Google Play store screenshots on a 1080x1920 phone (slower)"
         type: boolean
@@ -52,6 +56,8 @@ jobs:
       - name: Run tests on emulator
         timeout-minutes: 75
         id: tests
+        env:
+          E2E_EXTRA_FLAGS: ${{ inputs.extra_flags }}
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ inputs.api_level }}

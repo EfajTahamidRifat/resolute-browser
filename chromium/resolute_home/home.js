@@ -497,7 +497,8 @@ $('share-idea').addEventListener('click', async () => {
   }
   render();
   await complete('open');
-  if (!state.toured) openTour(0);
+  // EXPERIMENT (branch exp-no-autotour, never merge): no automatic tour, to test the freeze.
+  // if (!state.toured) openTour(0);
   renderShortcuts();
   loadConfig();
   checkExtensions();

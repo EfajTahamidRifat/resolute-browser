@@ -1,0 +1,92 @@
+[
+  {
+    "test": "01-install",
+    "passed": true,
+    "detail": "Success",
+    "screenshot": null
+  },
+  {
+    "test": "02-launch",
+    "passed": true,
+    "detail": "process id 4521; first window: Window{43c6c93 u0 com.resolute.browser/com.google.android.apps.chrome.Main}; rebuilt with: com.android.internal.display.cutout.emulation.corner",
+    "screenshot": "02-launch.png"
+  },
+  {
+    "test": "03-load-example",
+    "passed": true,
+    "detail": "page title: Example Domain",
+    "screenshot": "03-example.png"
+  },
+  {
+    "test": "04-load-wikipedia",
+    "passed": true,
+    "detail": "page text found",
+    "screenshot": "04-wikipedia.png"
+  },
+  {
+    "test": "05-store-install-ublock-lite",
+    "passed": false,
+    "detail": "clicked 'Add to Chrome' (Desktop site item not found) but no install dialog appeared",
+    "screenshot": "05-ublock-store.png"
+  },
+  {
+    "test": "06-store-install-metamask",
+    "passed": false,
+    "detail": "clicked 'Add to Chrome' (menu button not found) but no install dialog appeared",
+    "screenshot": "06-metamask-store.png"
+  },
+  {
+    "test": "07-extensions-listed",
+    "passed": false,
+    "detail": "uBlock Origin Lite page opens: True; MetaMask running: False",
+    "screenshot": null
+  },
+  {
+    "test": "08-wallet-opens",
+    "passed": false,
+    "detail": "provider: none; result: no provider; screens: com.google.android.apps.chrome.Main; MetaMask pages opened: none",
+    "screenshot": "08-after.png"
+  },
+  {
+    "test": "09-wallet-setup",
+    "passed": false,
+    "detail": "ended on none; clicked: []; last screen buttons: no MetaMask page",
+    "screenshot": "09-wallet.png"
+  },
+  {
+    "test": "10-wallet-approve",
+    "passed": false,
+    "detail": "popup: never opened; screens: com.google.android.apps.chrome.Main; approve clicks: []; dApp: result: no provider",
+    "screenshot": "10-after.png"
+  },
+  {
+    "test": "11-wallet-after-cleanup",
+    "passed": false,
+    "detail": "closed first: []; popup: never opened; approve clicks: []; dApp: result: no provider",
+    "screenshot": "11-after.png"
+  },
+  {
+    "test": "12-open-extension-from-toolbar",
+    "passed": false,
+    "detail": "no Extensions button on the toolbar",
+    "screenshot": "12-toolbar.png"
+  },
+  {
+    "test": "13-resolute-home",
+    "passed": false,
+    "detail": "new tab: chrome://newtab/; page: {\"rank\":\"Level 1 \u00b7 Explorer\",\"quests\":7,\"tour\":true,\"picks\":6,\"url\":\"chrome-extension://aaddcaaaojbkjailacplbnladfhcnabm/index.html\"}; toolbar centres: {}; app menu width: None; default-browser item visible: None; wallet in bar: False",
+    "screenshot": "13-home.png"
+  },
+  {
+    "test": "15-tabs-and-workspaces",
+    "passed": false,
+    "detail": "no tab switcher button on the toolbar",
+    "screenshot": "15-toolbar.png"
+  },
+  {
+    "test": "14-home-survives-rebuild",
+    "passed": false,
+    "detail": "font bigger: Window{43c6c93 u0 com.resolute.browser/com.google.android.apps.chrome.Main}; font normal: Window{43c6c93 u0 com.resolute.browser/com.google.android.apps.chrome.Main}; restart: Window{43c6c93 u0 com.resolute.browser/com.google.android.apps.chrome.Main}; still on start-up screen: True; no Resolute Home tab",
+    "screenshot": "14-restart.png"
+  }
+]

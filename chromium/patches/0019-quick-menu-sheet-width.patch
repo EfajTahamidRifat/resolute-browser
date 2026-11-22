@@ -1,8 +1,19 @@
 diff --git a/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java b/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java
-index 47427d4..43f1739 100644
+index 47427d4..04f6011 100644
 --- a/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java
 +++ b/chrome/browser/ui/android/appmenu/internal/java/src/org/chromium/chrome/browser/ui/appmenu/AppMenu.java
-@@ -474,6 +474,20 @@ class AppMenu implements OnKeyListener {
+@@ -367,6 +367,10 @@ class AppMenu implements OnKeyListener {
+             int reservedTopSpace,
+             FlyoutHandler<AppMenuPopup> flyoutHandler) {
+         mContext = context;
++        // Resolute (patch 0019): Chromium only treats its old bottom toolbar as the "bottom
++        // bar". With the address bar at the bottom (patch 0014) the menu should act the same:
++        // open above the bar as a full-width sheet instead of covering it.
++        isFromBottomBar = isFromBottomBar || controlsPosition == ControlsPosition.BOTTOM;
+         PopupWindow popup = new PopupWindow(context);
+         popup.setFocusable(true);
+         popup.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
+@@ -474,6 +478,20 @@ class AppMenu implements OnKeyListener {
  
          int popupWidth = menuWidth + bgPadding.left + bgPadding.right;
  

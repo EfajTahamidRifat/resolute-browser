@@ -363,10 +363,22 @@ def t_launch():
     # every run where it did froze ('isn't responding', runs 45027313523, 45030947026,
     # 45044893416). Do it on purpose, 8 s after the first launch, so the case is tested
     # every time.
+    # A font size change (tried first, run 45046508346) only relaunches the screen; the
+    # frozen runs had a different rebuild: Android reloaded the app's files ("getPackageInfo()
+    # called with an older ApplicationInfo", after a system app update). Turning a system
+    # overlay on and off does the same to every app.
     time.sleep(8)
-    adb("shell", "settings", "put", "system", "font_scale", "1.1")
-    time.sleep(6)
-    adb("shell", "settings", "put", "system", "font_scale", "1.0")
+    overlays = re.findall(r"(com\.android\.internal\.display\.cutout\.emulation\.\w+)",
+                          adb("shell", "cmd", "overlay", "list", "android"))
+    overlay = overlays[0] if overlays else ""
+    if overlay:
+        adb("shell", "cmd", "overlay", "enable", overlay)
+        time.sleep(6)
+        adb("shell", "cmd", "overlay", "disable", overlay)
+    else:
+        adb("shell", "settings", "put", "system", "font_scale", "1.1")
+        time.sleep(6)
+        adb("shell", "settings", "put", "system", "font_scale", "1.0")
     time.sleep(20)
     focus = focused_window()
     first_dump = ui_dump("02-first-screen")
@@ -378,7 +390,8 @@ def t_launch():
     pid = adb("shell", "pidof", PKG).strip()
     first_run = "FirstRun" in focus or "SigninFirstRun" in focus
     ok = bool(pid) and not first_run and PKG in focus
-    detail = f"process id {pid or 'none'}; first window: {focus or 'none'}"
+    detail = (f"process id {pid or 'none'}; first window: {focus or 'none'}; "
+              f"rebuilt with: {overlay or 'font size'}")
     if chrome_words:
         detail += f"; says Chrome: {chrome_words[:5]}"
     return ok, detail, shot("02-launch")

@@ -819,6 +819,15 @@ def t_home_rebuild():
     After each, the browser window must still get focus and Resolute Home must show.
     Runs 44487088816/44488598178/44491509069 froze ('isn't responding', no focused window)
     after such a rebuild."""
+    # Test 15 left example.com open; the restart must happen with Resolute Home open, the
+    # case that used to hang on the start-up screen.
+    first = next((t for t in cdp_targets() if t.get("type") == "page"), None)
+    if first is not None:
+        try:
+            cdp_send(first, [("Target.createTarget", {"url": "chrome://newtab/"})])
+        except Exception as e:  # noqa: BLE001
+            print(f"createTarget: {e}", flush=True)
+    time.sleep(8)
     steps = []
     adb("shell", "settings", "put", "system", "font_scale", "1.15")
     time.sleep(12)
@@ -834,8 +843,13 @@ def t_home_rebuild():
     time.sleep(20)
     steps.append(("restart", focused_window()))
     png = shot("14-restart")
-    ok = all(PKG in w for _, w in steps)
-    return ok, "; ".join(f"{n}: {w or 'NO FOCUSED WINDOW'}" for n, w in steps), png
+    # Android asking for focus is not enough: in runs up to 45025351418 the app stayed on
+    # the start-up screen after this restart (Resolute Home loaded before it was registered;
+    # patch 0028). Fail while Android still shows the start-up ("Splash Screen") window.
+    splash = f"Splash Screen {PKG}" in adb("shell", "dumpsys", "window", "windows")
+    ok = all(PKG in w for _, w in steps) and not splash
+    detail = "; ".join(f"{n}: {w or 'NO FOCUSED WINDOW'}" for n, w in steps)
+    return ok, f"{detail}; still on start-up screen: {splash}", png
 
 
 @test("15-tabs-and-workspaces")

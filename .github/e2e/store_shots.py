@@ -145,7 +145,7 @@ flags_message_gone()
 
 # 1. Resolute Home, opened with the toolbar's home button (a chrome:// link from
 # outside the app is not opened: run 45042205048 showed the phone's home screen).
-open_url("https://example.com/", 15)
+# Uses the one tab left open (no second Resolute Home tab on the tab screen).
 if tap_id("home_button"):
     time.sleep(12)
     flags_message_gone()
@@ -163,7 +163,8 @@ TIDY_JS = r"""(() => {
   for (const e of document.querySelectorAll('div,section,aside')) {
     const t = e.innerText || '';
     if ((/Get the Uniswap Wallet app/.test(t) || /Trade stocks and bonds/.test(t))
-        && t.length < 400 && e.getBoundingClientRect().height < 700) { e.remove(); n++; }
+        && t.length < 400 && e.getBoundingClientRect().height < 700
+        && e.style.visibility !== 'hidden') { e.style.visibility = 'hidden'; n++; }
   }
   return n;
 })()"""
@@ -203,6 +204,12 @@ if tap_id("menu_button"):
     else:
         back()
 open_url("https://en.wikipedia.org/wiki/Web3", 25)
+wiki = page("wikipedia")
+if wiki is not None:  # the fundraising banner would fill the tab's picture
+    rt.cdp_eval(wiki, "(() => { const s = document.createElement('style'); s.textContent ="
+                " '#siteNotice,#centralNotice,.cn-fundraising,.frb{display:none!important}';"
+                " document.head.appendChild(s); return 1; })()")
+    time.sleep(3)
 if tap_id("tab_switcher_button"):
     time.sleep(6)
     # Chromium's one-time "Your inactive items won't pile up" sheet covers the tabs.

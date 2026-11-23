@@ -593,7 +593,12 @@ Roadmap after the first working APK:
     (first build roughly 2-3 days), Resolute's desktop UI patches (C++ Views /
     WebUI, same design), an updater (GitHub Releases check, or Microsoft Store),
     and code signing (SignPath Foundation for open source, or Microsoft Store).
-    Node Mode returns here as the headline desktop feature.
+    Node Mode returns here as the headline desktop feature (owner asked again
+    2026-11-23, then said skip for now). Notes for later: not in the Play app
+    (proxy/bandwidth sharing only allowed as an app's core purpose; mining banned);
+    on Windows only in the direct-download build (Microsoft Store bans on-device
+    mining, 10.2.6); never mining; opt-in, limits, one-click off; check Bangladesh
+    crypto rules with a lawyer before any token income.
 
 31. **Onboarding and "Meet the makers" (owner request 2026-11-22).** Patch 0013
     removed Chrome's first run, so Resolute shows its own:

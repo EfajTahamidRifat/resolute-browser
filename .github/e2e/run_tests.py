@@ -968,6 +968,27 @@ def t_tabs():
     return opened, f"switcher opened: {opened}; says Workspace: {workspace}; menu: {menu_text[:300]}", png
 
 
+@test("16-shield-blocks-scam-site")
+def t_shield():
+    """Resolute Shield (Resolute Home's background worker) opens its warning page instead of a
+    listed scam site. scam-test.resolute.invalid is always on the list, for tests."""
+    open_url("http://scam-test.resolute.invalid/")
+    warn = None
+    for _ in range(10):
+        time.sleep(3)
+        warn = next((t for t in cdp_targets() if t.get("type") == "page"
+                     and RESOLUTE_HOME in t.get("url", "") and "warning.html" in t.get("url", "")), None)
+        if warn:
+            break
+    png = shot("16-shield")
+    if not warn:
+        pages = [t.get("url", "")[:80] for t in cdp_targets() if t.get("type") == "page"]
+        return False, f"no warning page; pages: {pages[:6]}", png
+    info = cdp_eval(warn, "chrome.storage.local.get('shieldInfo').then(r => JSON.stringify(r.shieldInfo || {}))")
+    title = cdp_eval(warn, "document.getElementById('w-title').textContent")
+    return True, f"warning shown: {title}; shield info: {info}", png
+
+
 def main():
     adb("wait-for-device")
     adb("logcat", "-c")
@@ -975,7 +996,7 @@ def main():
     adb("shell", "settings", "put", "global", "transition_animation_scale", "0")
     adb("shell", "settings", "put", "global", "animator_duration_scale", "0")
     for t in (t_install, t_launch, t_example, t_wiki, t_ublock, t_metamask, t_listed,
-              t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup, t_open_extension, t_home, t_tabs, t_home_rebuild):
+              t_wallet_opens, t_wallet_setup, t_wallet_approve, t_wallet_cleanup, t_open_extension, t_home, t_tabs, t_shield, t_home_rebuild):
         t()
     (OUT / "logcat.txt").write_text(adb("logcat", "-d", "-v", "time", timeout=300))
     # "App isn't responding" and crash reports, with the stack of every thread. Android keeps

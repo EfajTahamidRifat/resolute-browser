@@ -51,6 +51,7 @@ app/                          OLD GeckoView prototype (v0.0.1). Kept for referen
 .github/workflows/build.yml   Builds the GeckoView prototype (minutes, not Chromium).
 
 config/partners.json          Partner links on the Explore page (to be signed)
+config/shield.json            Resolute Shield: own scam-site additions and exceptions
 config/revenue.json           Swap fee settings (public wallet addresses only)
 branding/                     Icons: helmet logo, Play Store icon, Android icon set
 docs/MAINTAINING.md           This file
@@ -517,6 +518,11 @@ link this project to billing. Test Lab postponed if it asks for billing. Later: 
   `icon_site` on a partner sets which site the icon is taken from. To use an
   official brand-kit icon instead, replace the PNG by hand (same file name). Edit, (sign), push: users get it
   without an app update.
+- `config/shield.json` (**Resolute Shield**): Resolute's own `block` list (scam sites
+  to warn about) and `allow` list (sites listed by mistake) on top of MetaMask's
+  phishing list. Domain names only; a domain covers its subdomains; `allow` wins.
+  Phones fetch it with MetaMask's list every 12 hours (`chromium/resolute_home/shield.js`).
+  To unblock a site someone reports, add it to `allow` and push: no app update.
 - `config/revenue.json`: swap fee settings.
 - **To do:** sign both files with an Ed25519 key kept only on the owner's
   computer; the app must reject unsigned files (protects fee wallets if the
@@ -545,7 +551,8 @@ Roadmap after the first working APK:
 1. Branding (name, helmet icon, colours) + own icon set via resource overlay
 2. New bottom toolbar UI
 3. Wallet popup as a Resolute bottom sheet + trust strip
-4. Trust badge + scam-site blocking (public phishing lists, on device)
+4. Trust badge + scam-site blocking (public phishing lists, on device).
+   **Scam-site blocking done 2026-11-23 (Resolute Shield, see status log); trust badge to do.**
 5. Transaction X-ray
 6. Workspaces and new tab switcher
 7. Desktop mode polish (tab strip, split view, shortcuts)
@@ -599,9 +606,12 @@ Roadmap after the first working APK:
     Try desktop site, Open the Quick menu, **Meet the makers** (opens
     https://thecodebros.xyz/?utm_source=resolute&utm_medium=app&utm_campaign=<place>,
     +50 XP, "Insider" badge). XP has no money value.
-    (c) **Tips bubbles** the first time a native button appears (extensions,
-    wallet, tabs, Quick menu): one per session, using Chromium's in-product-help
-    bubbles with Resolute text (native patch, later).
+    (c) **Quick tips** (done 2026-11-23, web only): a 4-step sheet on Resolute Home
+    (wallet button, extensions, workspaces, Shield) with a drawn copy of the toolbar
+    where the button in question glows. Shown once on the first Resolute Home visit
+    after the tour (also once for people who toured before tips existed); replay with
+    the "Learn the buttons" quest (+20 XP). Native in-product-help bubbles pointing at
+    the real buttons stay an option for later.
     (d) **Made by The Code Bros** everywhere it is honest: Resolute Home tile
     ("Made by Resolute's founder"), Settings > About, level-up sheet ("Want an
     app like this? The Code Bros builds them"), Explore "Hire us".
@@ -954,6 +964,7 @@ Resolute Pro (one-time), grants, white-label builds. No injected ads.
 - 2026-11-23: **Freeze cause found.** Diagnostics: rc24 froze twice (45079888388, 45082054194), p10 passed (45081032023, 14/15). In the frozen runs the window manager shows the browser window `mDrawState=DRAW_PENDING` and the app's ViewRoot `mReportNextDraw=true`, `mLastPerformTraversalsFailedReason=predraw_...`: a pre-draw listener keeps cancelling every draw. The only draw-cancelling listener in the APK is Chromium's `ViewDrawBlocker` used by `AppLaunchDrawBlocker` (waits for the native NTP, or for the first frame after a rebuild). p10 shows `HAS_DRAWN`. Fix: patch **0032** (2 s limit, extension NTP counts as an override). Build **815401894**.
 - 2026-11-23: **Freeze fixed, 815401894 on alpha.** x64 45083508684 published as `test-x64-2026-11-23-rc25`; E2E 45164686251, 45166314623, 45169759216 all 15/15 with 0 ANR (45164466068 failed only on a flaky APK download). arm64 45083499332 published as `test-2026-11-23-p37` and uploaded to alpha by Sign Play release 45179144901 (current Play version 815401894). Next: store screenshots (E2E `store_shots=true` on rc25, then `screenshots_run` once the owner grants "Manage store presence").
 - 2026-11-23: Store shots run 45179675348: home, extensions, menu good; wallet covered by Uniswap's own banners, tab screen full of leftover test tabs. `store_shots.py` now keeps the flags file (DevTools) and waits for the flags message to go, closes old tabs, removes Uniswap's banners and opens its wallet list (Connect), and puts ethereum.org in a new workspace before the tab shot. Owner granted "Manage store presence" (2026-11-23).
+- 2026-11-23: Owner asked for scam protection + quick tips (build 815401895). **Resolute Shield**: Resolute Home got a background service worker (`shield.js`; manifest adds `webNavigation`, `tabs`, `alarms`, `unlimitedStorage`). On every main-frame `webNavigation.onBeforeNavigate` it checks the host and its parent domains against MetaMask's eth-phishing-detect list (blacklist ~120,800 domains, whitelist, fuzzylist look-alikes within edit distance `tolerance`) plus `config/shield.json`, and on a match replaces the tab with `warning.html` ("Take me back to safety"; "open it anyway" needs two taps and passes the site for the session). Lists refresh every 12 h (chrome.alarms) from raw.githubusercontent.com; `add_resolute_home.py` bundles a gzipped copy at build time (`shield-list.json.gz`) so it works before the first download. `scam-test.resolute.invalid` is always blocked (E2E test 16). Nothing about visited pages leaves the phone (privacy policy stays "collects nothing"). Matching tested in node against the real list (~0.02 ms per check). Resolute Home footer shows the list size, last update and how many sites were stopped. **Quick tips** sheet added (roadmap 31c). MetaMask's list is DBAD-licensed: credited in NOTICE and on the warning page.
 - 2026-11-23: Store shots run 45218022121 (hide banners instead of removing them, which crashed Uniswap in 45215134651) approved; Sign Play release 45221033967 replaced the en-US phone screenshots with its 5 framed shots.
 
 Add a line here after every build or release.

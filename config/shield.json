@@ -1,0 +1,5 @@
+{
+  "_about": "Resolute Shield: Resolute's own additions to MetaMask's phishing list. 'block' = scam sites to warn about, 'allow' = sites that were listed by mistake. Domain names only (example.com also covers its subdomains). Phones pick up changes within 12 hours, no app update needed.",
+  "block": [],
+  "allow": []
+}

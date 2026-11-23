@@ -82,6 +82,7 @@ const ICONS = {
   check: 'm5 12 5 5 9-10',
   play: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM10 8.5v7l6-3.5z',
   makers: 'M8 9 4 12l4 3M16 9l4 3-4 3M13.5 6l-3 12',
+  bulb: 'M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z',
 };
 // The Code Bros links carry UTM tags so thecodebros.xyz can count visits from Resolute.
 // Resolute itself tracks nothing (privacy policy).
@@ -91,6 +92,7 @@ const QUESTS = [
   { id: 'search', daily: true, xp: 10, icon: 'search', name: 'Search the web', desc: 'From here or the address bar' },
   { id: 'pick', daily: true, xp: 20, icon: 'compass', name: 'Visit a Resolute Pick', desc: 'Any partner below' },
   { id: 'tour', daily: false, xp: 20, icon: 'play', name: 'Take the tour', desc: 'Four quick cards, under 20 seconds', action: 'tour' },
+  { id: 'tips', daily: false, xp: 20, icon: 'bulb', name: 'Learn the buttons', desc: 'Four quick tips: wallet, extensions, workspaces, Shield', action: 'tips' },
   { id: 'extension', daily: false, xp: 100, icon: 'puzzle', name: 'Install your first extension', desc: 'From the Chrome Web Store' },
   { id: 'wallet', daily: false, xp: 150, icon: 'wallet', name: 'Add a wallet', desc: 'MetaMask, Phantom, Rabby and more' },
   { id: 'makers', daily: false, xp: 50, icon: 'makers', name: 'Meet the makers', desc: 'The Code Bros built Resolute', action: 'makers' },
@@ -174,7 +176,7 @@ function render() {
         });
       } else {
         hit.type = 'button';
-        hit.addEventListener('click', () => openTour(0, true));
+        hit.addEventListener('click', () => (q.action === 'tips' ? openTips(true) : openTour(0, true)));
       }
       hit.append(...parts);
       li.appendChild(hit);
@@ -413,6 +415,8 @@ async function closeTour(finished) {
   state.toured = true;
   await store.set(state);
   if (finished) await complete('tour');
+  // Quick tips come on the next visit, not straight after the tour (one thing at a time).
+  if (!state.tipsSeen && !state.tipsDue) { state.tipsDue = true; await store.set(state); }
   if (tour.opener && tour.opener.focus) tour.opener.focus();
 }
 $('tour-next').addEventListener('click', () => {
@@ -486,6 +490,97 @@ $('share-idea').addEventListener('click', async () => {
   location.href = 'https://x.com/intent/post?text=' + encodeURIComponent(text);
 });
 
+// ---------- quick tips ----------
+// Four tips about the toolbar buttons (the real toolbar sits right under this sheet). Shown once,
+// on the first visit after the welcome tour; replay with the "Learn the buttons" quest.
+const TIPS = [
+  { k: 'wallet', title: 'Your wallet, one tap away',
+    text: 'The red button opens your wallet on any site. Connect, sign and approve right here, without leaving the page.',
+    noWallet: 'Add a wallet like MetaMask and it appears here as the red button. Connect and approve on any site without leaving the page.' },
+  { k: 'ext', title: 'All your extensions',
+    text: 'Tap the puzzle to turn an extension on or off for the site you are on, or pin your favourite next to the wallet.' },
+  { k: 'tabs', title: 'Keep projects apart',
+    text: 'Tap your tabs, then the grid icon, to see your workspaces. In the menu, "Add tab to workspace" files the page you are on.' },
+  { k: 'url', title: 'Resolute Shield has your back',
+    text: 'Before a known crypto scam or look-alike site opens, Resolute stops and warns you. The list updates by itself.' },
+];
+const tips = { i: 0, opener: null, hasWallet: true };
+function showTip(i) {
+  tips.i = Math.max(0, Math.min(TIPS.length - 1, i));
+  const t = TIPS[tips.i];
+  $('tip-step').textContent = `Tip ${tips.i + 1} of ${TIPS.length}`;
+  $('tip-title').textContent = t.title;
+  $('tip-text').textContent = (t.k === 'wallet' && !tips.hasWallet) ? t.noWallet : t.text;
+  if (t.k === 'url') $('tip-text').textContent += shieldSentence();
+  for (const b of document.querySelectorAll('.mini .mb')) b.classList.toggle('on', b.dataset.k === t.k);
+  document.querySelector('.mini').classList.toggle('url-on', t.k === 'url');
+  const act = $('tip-action');
+  act.hidden = !(t.k === 'wallet' && !tips.hasWallet);
+  if (!act.hidden) {
+    act.textContent = 'Add MetaMask';
+    act.href = 'https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn';
+  }
+  const dots = $('tip-dots').children;
+  for (let k = 0; k < dots.length; k++) dots[k].className = k === tips.i ? 'on' : '';
+  $('tip-next').textContent = tips.i === TIPS.length - 1 ? 'Got it' : 'Next';
+}
+async function openTips(byUser) {
+  tips.opener = document.activeElement;
+  try {
+    const all = hasChrome && chrome.management ? await chrome.management.getAll() : [];
+    tips.hasWallet = all.some((x) => WALLET_IDS.has(x.id));
+  } catch (e) { tips.hasWallet = true; }
+  showTip(0);
+  $('tips').hidden = false;
+  document.body.classList.add('tipping');
+  if (byUser) $('tip-next').focus();
+}
+async function closeTips(finished) {
+  $('tips').hidden = true;
+  document.body.classList.remove('tipping');
+  state.tipsSeen = true;
+  state.tipsDue = false;
+  await store.set(state);
+  if (finished) await complete('tips');
+  if (tips.opener && tips.opener.focus) tips.opener.focus();
+}
+$('tip-next').addEventListener('click', () => {
+  if (tips.i === TIPS.length - 1) closeTips(true); else showTip(tips.i + 1);
+});
+$('tips-skip').addEventListener('click', () => closeTips(false));
+$('tips').addEventListener('click', (ev) => { if (ev.target === $('tips')) closeTips(false); });
+$('tips').addEventListener('keydown', (ev) => {
+  if (ev.key === 'Escape') closeTips(false);
+  if (ev.key === 'ArrowRight') showTip(tips.i + 1);
+  if (ev.key === 'ArrowLeft') showTip(tips.i - 1);
+});
+$('tip-action').addEventListener('click', (ev) => {
+  ev.preventDefault();
+  const url = $('tip-action').href;
+  closeTips(false).finally(() => { location.href = url; });
+});
+
+// ---------- Resolute Shield status (filled in by shield.js, the background worker) ----------
+let shieldInfo = null;
+function ago(ms) {
+  const h = Math.round((Date.now() - ms) / 3600000);
+  if (h < 1) return 'less than an hour ago';
+  if (h < 48) return `${h} hour${h === 1 ? '' : 's'} ago`;
+  return `${Math.round(h / 24)} days ago`;
+}
+function shieldSentence() {
+  if (!shieldInfo || !shieldInfo.sites) return '';
+  return ` It knows ${shieldInfo.sites.toLocaleString()} scam sites right now.`;
+}
+async function renderShield() {
+  if (!hasChrome || !chrome.storage) return;
+  try { shieldInfo = (await chrome.storage.local.get('shieldInfo')).shieldInfo || null; } catch (e) { return; }
+  if (!shieldInfo || !shieldInfo.sites) return;
+  let line = `It knows ${shieldInfo.sites.toLocaleString()} scam sites (updated ${ago(shieldInfo.updated)})`;
+  if (shieldInfo.stopped) line += ` and has stopped ${shieldInfo.stopped.toLocaleString()} so far`;
+  $('shield-line').textContent = line + '.';
+}
+
 // ---------- start ----------
 (async function start() {
   state = await store.get();
@@ -498,6 +593,8 @@ $('share-idea').addEventListener('click', async () => {
   render();
   await complete('open');
   if (!state.toured) openTour(0);
+  else if (!state.tipsSeen) openTips(false); // also shows once for people who toured before tips existed
+  renderShield();
   renderShortcuts();
   loadConfig();
   checkExtensions();

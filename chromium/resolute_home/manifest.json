@@ -3,7 +3,7 @@
   "manifest_version": 3,
   "name": "Resolute Home",
   "version": "1.0.0",
-  "description": "Resolute's home screen: your level, quests, shortcuts and Resolute Picks.",
+  "description": "Resolute's home screen (level, quests, shortcuts, Resolute Picks) and Resolute Shield (warns before known scam sites).",
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
@@ -18,9 +18,16 @@
     "search",
     "management",
     "favicon",
-    "history"
+    "history",
+    "webNavigation",
+    "tabs",
+    "alarms",
+    "unlimitedStorage"
   ],
   "host_permissions": [
     "https://raw.githubusercontent.com/*"
-  ]
+  ],
+  "background": {
+    "service_worker": "shield.js"
+  }
 }

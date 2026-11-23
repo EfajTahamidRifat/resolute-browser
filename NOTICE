@@ -20,6 +20,11 @@ covered by Resolute's LICENSE.
 - Space Grotesk font (used by Resolute Home): Copyright 2020 The Space Grotesk
   Project Authors. SIL Open Font License 1.1 (chromium/resolute_home/fonts/OFL.txt).
 
+- MetaMask eth-phishing-detect list (used by Resolute Shield, downloaded and
+  bundled as data, not code): https://github.com/MetaMask/eth-phishing-detect,
+  Copyright 2018 kumavis and contributors, DBAD Public License 1.2. Thank you to
+  MetaMask and everyone who reports scam sites to it.
+
 If code from Kiwi Browser (BSD 3-Clause) or Mises Browser (MPL 2.0) is reused,
 its notice is added here, and MPL 2.0 files stay under MPL 2.0.
 

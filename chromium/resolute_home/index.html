@@ -74,8 +74,8 @@
   </section>
 
   <footer class="foot rise" style="--d:360ms">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/></svg>
-    <span>Resolute never asks for your seed phrase and never DMs you first.</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+    <span><b>Resolute Shield is on.</b> <span id="shield-line">It warns you before known scam sites open.</span> Resolute never asks for your seed phrase and never DMs you first.</span>
   </footer>
 </main>
 
@@ -121,7 +121,7 @@
         <svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
       </div>
       <h2>Safety you can see</h2>
-      <p>Your keys stay in your wallet. Resolute never asks for your seed phrase and never DMs you first.</p>
+      <p>Resolute Shield warns you before known scam sites open. Your keys stay in your wallet, and Resolute never asks for your seed phrase.</p>
     </section>
     <section class="slide" aria-roledescription="slide" aria-label="4 of 4">
       <div class="art art-level" aria-hidden="true">
@@ -136,6 +136,34 @@
     <div class="dots" id="tour-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <button class="primary" id="tour-next" type="button">Next</button>
     <a class="makers" id="tour-makers" href="https://thecodebros.xyz/?utm_source=resolute&amp;utm_medium=app&amp;utm_campaign=tour">Made by <b>The Code Bros</b></a>
+  </div>
+</div>
+
+<!-- Quick tips: the toolbar buttons, shown once after the tour (next visit), replayable as a quest. -->
+<div class="tips" id="tips" role="dialog" aria-modal="true" aria-labelledby="tip-title" hidden>
+  <div class="tips-sheet">
+    <div class="tips-head">
+      <span class="eyebrow" id="tip-step">Tip 1 of 4</span>
+      <button class="link" id="tips-skip" type="button">Skip</button>
+    </div>
+    <div class="mini" aria-hidden="true">
+      <div class="mini-url"><span class="mini-lock"></span><i></i></div>
+      <div class="mini-row">
+        <span class="mb" data-k="home"><svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg></span>
+        <span class="mb" data-k="star"><svg viewBox="0 0 24 24"><path d="m12 4 2.4 5 5.4.6-4 3.7 1.1 5.3L12 16l-4.9 2.6 1.1-5.3-4-3.7 5.4-.6z"/></svg></span>
+        <span class="mb mb-wallet" data-k="wallet"><svg viewBox="0 0 24 24"><path d="M20 7H5a2 2 0 0 1 0-4h13v4M3 5v14a2 2 0 0 0 2 2h15V7M16 14h.01"/></svg></span>
+        <span class="mb" data-k="ext"><svg viewBox="0 0 24 24"><path d="M14 4h4v4h2v4h-2v6H6v-6H4V8h2V4h4v2h4z"/></svg></span>
+        <span class="mb" data-k="tabs"><b>3</b></span>
+        <span class="mb" data-k="menu"><svg viewBox="0 0 24 24"><path d="M12 5v.01M12 12v.01M12 19v.01"/></svg></span>
+      </div>
+    </div>
+    <h2 id="tip-title"></h2>
+    <p id="tip-text"></p>
+    <a class="ghost" id="tip-action" hidden></a>
+    <div class="tips-foot">
+      <div class="dots" id="tip-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <button class="primary" id="tip-next" type="button">Next</button>
+    </div>
   </div>
 </div>
 

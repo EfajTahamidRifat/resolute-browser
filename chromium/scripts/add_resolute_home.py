@@ -10,6 +10,7 @@ provides its files:
     src/chrome/browser/resources/resolute_home/
   * adds the current config/partners.json and config/icons/ (the page also
     refreshes them from GitHub, so new partners appear without an app update)
+  * bundles a gzipped copy of MetaMask's phishing list for Resolute Shield
   * lists every file in chrome/browser/resources/component_extension_resources.grd
     so it is packed into the app (manifest.json becomes IDR_RESOLUTE_HOME_MANIFEST)
 Plain Python only. Run after the patches, before building.
@@ -29,6 +30,21 @@ if dest.exists():
 shutil.copytree(repo / "chromium/resolute_home", dest)
 shutil.copyfile(repo / "config/partners.json", dest / "partners.json")
 shutil.copytree(repo / "config/icons", dest / "icons")
+
+# Resolute Shield's starting list (shield.js downloads fresh copies every 12 hours):
+# MetaMask's phishing list (DBAD licence, credited in NOTICE), gzipped. A failed download
+# only means Shield starts empty until its first refresh; the build goes on.
+SHIELD_LIST = "https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/main/src/config.json"
+try:
+    import gzip, json, urllib.request
+    with urllib.request.urlopen(SHIELD_LIST, timeout=60) as r:
+        meta = json.loads(r.read().decode())
+    keep = {k: meta[k] for k in ("version", "tolerance", "fuzzylist", "whitelist", "blacklist") if k in meta}
+    (dest / "shield-list.json.gz").write_bytes(
+        gzip.compress(json.dumps(keep, separators=(",", ":")).encode(), mtime=0))
+    print(f"shield list: {len(keep.get('blacklist', []))} sites bundled")
+except Exception as e:  # noqa: BLE001
+    print(f"shield list not bundled ({e}); Shield downloads it on the phone")
 
 files = sorted(p.relative_to(dest).as_posix() for p in dest.rglob("*") if p.is_file())
 lines = []

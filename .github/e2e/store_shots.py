@@ -98,6 +98,12 @@ try:
                                          " if (s && !document.getElementById('tour').hidden)"
                                          " { s.click(); return 'closed'; } return 'not shown'; })()"),
               flush=True)
+        time.sleep(2)  # closing the tour saves the page's state; mark tips after it
+        # Quick tips would cover Resolute Home in shot 1: mark them seen.
+        print("tips:", rt.cdp_eval(home, "chrome.storage.local.get('home').then(r => {"
+                                         " const h = r.home || {}; h.tipsSeen = true;"
+                                         " return chrome.storage.local.set({home: h}).then(() => 'seen'); })"),
+              flush=True)
     else:
         print("no Resolute Home tab for the tour", flush=True)
 except Exception as e:  # noqa: BLE001

@@ -4,7 +4,8 @@
 # the Resolute frame and Sign Play release (input screenshots_run) sends them to Play.
 # Usage: store_shots.py OUT_DIR
 #
-# Shots (names must match SHOTS in branding/play/frame_shots.py):
+# Shots (names must match SHOTS in branding/play/frame_shots.py). Old tabs are closed
+# first and the test flags file is kept (DevTools tidies the dapp page):
 #   1-home        Resolute Home (welcome tour closed)
 #   2-wallet      a dapp with the red MetaMask button in the toolbar
 #   3-extensions  the extensions menu on that dapp
@@ -102,31 +103,108 @@ try:
 except Exception as e:  # noqa: BLE001
     print("tour step failed:", e, flush=True)
 
-# Restart without the test flags file, so the "loading flags from a command-line
-# file" message does not show.
-adb("shell", "rm", "-f", "/data/local/tmp/chrome-command-line")
+# Close every tab the tests left behind (blank pages, example.com, foreign text), so
+# the tab screen only shows the tabs opened below. DevTools still works here.
+try:
+    pages = [t for t in rt.cdp_targets() if t.get("type") == "page"]
+    for t in pages[1:]:
+        rt.cdp_send(pages[0], [("Target.closeTarget", {"targetId": t["id"]})])
+    print("closed old tabs:", len(pages) - 1, flush=True)
+except Exception as e:  # noqa: BLE001
+    print("closing tabs failed:", e, flush=True)
+
+
+def flags_message_gone(seconds=60):
+    """The test flags file shows a "loading flags from a command-line file" message
+    after a start; wait until it has gone so it is not in a screenshot."""
+    end = time.time() + seconds
+    while time.time() < end:
+        if "command-line file" not in dump():
+            return True
+        time.sleep(3)
+    print("flags message still showing", flush=True)
+    return False
+
+
+def page(url_part):
+    for _ in range(10):
+        t = next((t for t in rt.cdp_targets() if t.get("type") == "page"
+                  and url_part in t.get("url", "")), None)
+        if t is not None:
+            return t
+        time.sleep(3)
+    return None
+
+
+# Restart (keeps the flags file so DevTools can tidy the dapp page below).
 adb("shell", "am", "force-stop", PKG)
 adb("shell", "monkey", "-p", PKG, "-c", "android.intent.category.LAUNCHER", "1")
-time.sleep(30)
+time.sleep(20)
+rt.cdp_forward()
+flags_message_gone()
 
 # 1. Resolute Home, opened with the toolbar's home button (a chrome:// link from
 # outside the app is not opened: run 45042205048 showed the phone's home screen).
 open_url("https://example.com/", 15)
 if tap_id("home_button"):
     time.sleep(12)
+    flags_message_gone()
     shot("1-home")
 
-# 2 and 3. A dapp with the wallet button, then the extensions menu.
+# 2 and 3. A dapp with the wallet button. Its own banners ("Get app", promos) are
+# closed first; then the extensions menu, then the dapp's wallet list with MetaMask.
 open_url("https://app.uniswap.org/", 40)
-shot("2-wallet")
+TIDY_JS = r"""(() => {
+  let n = 0;
+  for (const b of document.querySelectorAll('button,[role=button],[aria-label]')) {
+    const l = (b.getAttribute('aria-label') || '') + ' ' + (b.getAttribute('data-testid') || '');
+    if (/close|dismiss/i.test(l) && b.offsetParent !== null) { b.click(); n++; }
+  }
+  for (const e of document.querySelectorAll('div,section,aside')) {
+    const t = e.innerText || '';
+    if ((/Get the Uniswap Wallet app/.test(t) || /Trade stocks and bonds/.test(t))
+        && t.length < 400 && e.getBoundingClientRect().height < 700) { e.remove(); n++; }
+  }
+  return n;
+})()"""
+uni = page("uniswap")
+if uni is not None:
+    print("tidy:", rt.cdp_eval(uni, TIDY_JS), flush=True)
+    time.sleep(3)
+    print("tidy again:", rt.cdp_eval(uni, TIDY_JS), flush=True)
+    time.sleep(3)
 if tap_id("extensions_menu_button"):
     time.sleep(4)
     shot("3-extensions")
     back()
+    time.sleep(2)
+if uni is not None:
+    print("connect:", rt.cdp_eval(uni, r"""(() => {
+      const b = [...document.querySelectorAll('button,[role=button]')]
+        .find(b => /^\s*Connect/.test(b.innerText || '') && b.offsetParent !== null);
+      if (!b) return 'no connect button'; b.click(); return 'clicked';
+    })()"""), flush=True)
+    time.sleep(6)
+shot("2-wallet")
+back()
+time.sleep(2)
 
-# 4. The tab screen.
+# 4. Workspaces: a few clean tabs, one of them in its own workspace.
+open_url("https://ethereum.org/", 25)
+if tap_id("menu_button"):
+    time.sleep(3)
+    if tap_text(r"new workspace", tries=2):
+        time.sleep(3)
+        # Name it if a naming dialog shows, then confirm.
+        adb("shell", "input", "text", "Research")
+        time.sleep(1)
+        tap_text(r"^(Done|Save|Create|OK)$", tries=2)
+        time.sleep(3)
+    else:
+        back()
+open_url("https://en.wikipedia.org/wiki/Web3", 25)
 if tap_id("tab_switcher_button"):
-    time.sleep(5)
+    time.sleep(6)
     # Chromium's one-time "Your inactive items won't pile up" sheet covers the tabs.
     if tap_text(r"^Got it$"):
         time.sleep(3)

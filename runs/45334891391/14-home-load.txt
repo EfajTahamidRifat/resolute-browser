@@ -1,0 +1,2 @@
+11-24 05:42:01.082 I/cr_NewTabPage( 4354): Resolute Home load: start, retries left 8
+11-24 05:42:01.966 I/cr_NewTabPage( 4354): Resolute Home load: error 0, committed true, url chrome-extension://aaddcaaaojbkjailacplbnladfhcnabm/index.html, retries left 8
